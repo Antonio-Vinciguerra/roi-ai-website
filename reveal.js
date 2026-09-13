@@ -1,4 +1,4 @@
-import { approachOpacity, wordFormation } from './scene-math.mjs';
+import { approachOpacity, wordFormation, smooth } from './scene-math.mjs';
 import { readingLines, lineFormation, readingFloor } from './reveal-timing.mjs';
 
 export function installTextDissolve() {
@@ -8,7 +8,8 @@ export function installTextDissolve() {
   const records = [...document.querySelectorAll('main h1,main h2,main h3,main p,.hero>.eyebrow')]
     .filter(el => !el.closest('.detail-hero,details,[data-lens],.approach-workbench,footer,noscript,[aria-live]') &&
       !el.matches('.section-label,.lens-disclaimer') && !el.querySelector('button,a,input'))
-    .map(el => ({el, opacity:1, target:1, delay:0, seen:false, hero:!!el.closest('.hero'), headline:el.matches('.hero-title'), lines:null, words:[], original:[...el.childNodes].map(node => node.cloneNode(true))}));
+    .map(el => ({el, opacity:1, target:1, delay:0, seen:false, hero:!!el.closest('.hero'), note:!!el.closest('.hero-note'), followHeadline:false, headline:el.matches('.hero-title'), lines:null, words:[], original:[...el.childNodes].map(node => node.cloneNode(true))}));
+  const headline = records.find(record => record.headline);
   let frame = 0;
   let previousTime = 0;
   let firstRun = true;
@@ -59,11 +60,11 @@ export function installTextDissolve() {
     record.lastPaint = record.opacity;
     const blur = record.hero ? (record.el.matches('h1,h2,h3') ? 2.8 : 1.6) : (record.el.matches('h1,h2,h3') ? 1 : .45);
     record.words.forEach((word, index) => {
-      const opacity = record.headline && record.lines
+      const opacity = record.note ? smooth(record.opacity) : record.headline && record.lines
         ? lineFormation(record.opacity, record.lines.order[index], record.lines.count)
         : wordFormation(record.opacity, index, record.words.length);
       word.style.setProperty('--word-opacity', opacity.toFixed(4));
-      word.style.setProperty('--word-filter', opacity > .999 || opacity < .001 ? 'none' : 'blur(' + (blur * (1 - opacity) ** 2).toFixed(3) + 'px)');
+      word.style.setProperty('--word-filter', record.note || opacity > .999 || opacity < .001 ? 'none' : 'blur(' + (blur * (1 - opacity) ** 2).toFixed(3) + 'px)');
     });
   }
 
@@ -87,8 +88,16 @@ export function installTextDissolve() {
       }
       record.target = record.seen || focused ? 1 : 0;
       if (time < record.delay) record.target = 0;
+      // Let the last headline line become visually complete before the note.
+      // Scrolling/focus never makes a reader wait for the opening sequence.
+      if (record.followHeadline) {
+        if (!headline || lineFormation(headline.opacity, 1, 2) >= .99 || scrollY >= 40 || direction < 0 || focused) record.followHeadline = false;
+        else record.target = 0;
+      }
       // Preserve the welcome's exact clock; subsequent text settles 20% sooner.
-      record.opacity = focused || (direction < 0 && record.seen) ? 1 : approachOpacity(record.opacity, record.target, dt, record.hero ? 1320 : 620);
+      record.opacity = focused || (direction < 0 && record.seen) ? 1 : record.note
+        ? Math.min(record.target, record.opacity + dt / 900)
+        : approachOpacity(record.opacity, record.target, dt, record.hero ? 1320 : 620);
       if (!record.hero && record.seen) record.opacity = Math.max(record.opacity, readingFloor(rect.top, viewport));
       if (Math.abs(record.opacity - record.target) < .002) record.opacity = record.target;
       else settling = true;
@@ -113,7 +122,8 @@ export function installTextDissolve() {
       const rect = record.el.getBoundingClientRect();
       record.seen = record.seen || rect.top < viewport * .94;
       record.opacity = opening && record.hero ? 0 : record.seen ? 1 : 0;
-      record.delay = opening && record.hero ? now + (record.el.matches('h1') ? 100 : record.el.closest('.hero-note') ? 300 : 0) : 0;
+      record.followHeadline = opening && record.note && !reduced.matches;
+      record.delay = opening && record.hero && !record.note ? now + (record.el.matches('h1') ? 100 : 0) : 0;
       if (!reduced.matches) paint(record);
     }
     firstRun = false;
