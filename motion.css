@@ -1,4 +1,4 @@
-/* Continuous scenes. Native scrolling remains the source of movement. */
+/* Shared motion and photographic narrative. Native scrolling remains in control. */
 :root{--scene-ease:cubic-bezier(.22,.68,0,1)}
 html{scroll-padding-top:88px}
 body{overflow-x:clip}
@@ -27,7 +27,7 @@ body{overflow-x:clip}
 .step h3{margin-top:24px}
 .step,.step+.step{min-height:240px}
 
-/* One image-led scene replaces three small decorated cards. */
+/* Shared photographic surfaces. */
 .capability-gallery{display:block}
 .capability-stage{max-width:1600px;margin:auto}
 .capability-controls{gap:24px;border-bottom:1px solid var(--line);margin-bottom:24px}

@@ -11,9 +11,10 @@
     <link rel="stylesheet" href="advisor.css" />
     <link rel="stylesheet" href="experience.css" />
     <link rel="stylesheet" href="motion.css" />
+    <link rel="stylesheet" href="narrative.css" />
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
   </head>
-  <body>
+  <body class="narrative-home">
     <a class="skip-link" href="#top">Skip to content</a>
     <div class="grain" aria-hidden="true"></div>
     <header class="site-header">
@@ -21,7 +22,9 @@
       <button class="menu-toggle" aria-expanded="false" aria-controls="nav">Menu <i></i></button>
       <nav id="nav" aria-label="Primary navigation">
         <a href="#approach">Approach</a>
-        <a href="#capabilities">Capabilities</a>
+        <a href="#capability-operate">Operate</a>
+        <a href="#capability-grow">Grow</a>
+        <a href="#capability-invest">Invest</a>
         <a href="#sectors">Sectors</a>
         <a href="#contact">Contact <span>↗</span></a>
       </nav>
@@ -37,24 +40,29 @@
             <a class="text-link" href="#contact">Start a conversation <b>↓</b></a>
           </div>
         </div>
-        <a href="#challenge" class="scroll-cue" aria-label="Scroll to discover"><span>Scroll to discover</span><i>↓</i></a>
+        <a href="#capabilities" class="scroll-cue" aria-label="Scroll to discover"><span>Scroll to discover</span><i>↓</i></a>
         <div class="hero-index">Technology is the means. ROI is the standard.</div>
       </section>
 
+      <section id="capabilities" class="capabilities section panel-light">
+        <p class="section-label">Where we create value <span>01</span></p>
+        <h2 class="capability-title">Technology, focused<br />on the <em>outcome.</em></h2>
+        <!-- capability-cards -->
+      </section>
+
       <section id="challenge" class="challenge section panel-light">
-        <p class="section-label reveal">The challenge <span>01</span></p>
+        <p class="section-label reveal">The challenge <span>02</span></p>
         <div class="challenge-layout">
           <h2 class="statement reveal">AI investment<br />is accelerating.<br /><em>Measurable return isn’t.</em></h2>
           <div class="challenge-copy reveal">
             <p>Most technology conversations begin with what is possible. We begin with what is worth doing.</p>
-            <p>The difference is not a better tool. It is a clearer decision: where value can be created, how it will be realised, and what evidence will prove it.</p>
           </div>
         </div>
-        <!-- problem-lens -->
+        <details class="story-detail"><summary>What is worth doing?<span aria-hidden="true">+</span></summary><div class="story-detail-body"><p>The difference is not a better tool. It is a clearer decision: where value can be created, how it will be realised, and what evidence will prove it.</p><!-- problem-lens --></div></details>
       </section>
 
       <section id="approach" class="approach section">
-        <p class="section-label reveal">How we work <span>02</span></p>
+        <p class="section-label reveal">How we work <span>03</span></p>
         <div class="approach-intro">
           <p class="kicker reveal">A focused route from opportunity to outcome.</p>
           <p class="muted reveal">No theatre. No technology for its own sake. A practical, disciplined way to make progress.</p>
@@ -76,28 +84,28 @@
             <p>Make adoption, measurement and tangible commercial impact part of the work from the beginning.</p>
           </article>
         </div>
-        <!-- workbench -->
+        <details class="story-detail"><summary>What we put in your hands<span aria-hidden="true">+</span></summary><div class="story-detail-body"><!-- workbench --></div></details>
       </section>
 
       <section class="position section dark-panel">
-        <p class="section-label reveal">The standard <span>03</span></p>
+        <p class="section-label reveal">The standard <span>04</span></p>
         <div class="position-body">
           <div>
             <p class="eyebrow reveal">Vendor-independent by design</p>
-            <h2 class="display decision-choices" aria-label="Build. Buy. Integrate. Or don’t."><button data-decision="build" aria-pressed="true">Build.</button><button data-decision="buy" aria-pressed="false">Buy.</button><button data-decision="integrate" aria-pressed="false">Integrate.</button><button data-decision="wait" aria-pressed="false"><em>Or don’t.</em></button></h2>
+            <h2 class="display standard-title">Build. Buy.<br>Integrate.<br><em>Or don’t.</em></h2>
           </div>
-          <div class="decision-side"><p class="position-copy">The recommendation follows the return. We stay independent so the answer can be as direct as the problem demands.</p><!-- decision-lens --></div>
+          <div class="decision-side"><p class="position-copy">The recommendation follows the return. We stay independent so the answer can be as direct as the problem demands.</p><details class="story-detail"><summary>How we make the choice<span aria-hidden="true">+</span></summary><div class="story-detail-body"><div class="decision-options" role="group" aria-label="Explore technology choices"><button data-decision="build" aria-pressed="true">Build</button><button data-decision="buy" aria-pressed="false">Buy</button><button data-decision="integrate" aria-pressed="false">Integrate</button><button data-decision="wait" aria-pressed="false">Or don’t</button></div><!-- decision-lens --></div></details></div>
         </div>
 
       </section>
 
-      <section id="capabilities" class="capabilities section panel-light">
-        <p class="section-label reveal">Where we create value <span>04</span></p>
-        <h2 class="capability-title reveal">Technology, focused<br />on the <em>outcome.</em></h2>
-        <!-- capability-cards -->
-      </section>
-
-      <section id="sectors" class="sectors section"><p class="section-label">Where it applies <span>05</span></p><div class="section-heading"><h2>Different worlds.<br><em>One standard.</em></h2><p>Explore how a better signal becomes a clearer decision. Choose your sector, then a question that matters to you.</p></div><!-- sector-lens --></section>
+      <section id="sectors" class="sectors section"><p class="section-label">Where it applies <span>05</span></p><div class="sector-directory"><div class="sector-intro"><h2>Different worlds.<br><em>One standard.</em></h2><p>Business context changes. Our commitment to creating measurable value stays the same.</p></div><div class="sector-links">
+        <a href="agritech.html"><span class="sector-number">01</span><div><small>Our first focus</small><h3>Agrifood &amp; AgriTech</h3><p>Precision operations, drones and geospatial intelligence. From field to supply chain.</p></div><span aria-hidden="true">↗</span></a>
+        <a href="trade.html"><span class="sector-number">02</span><div><h3>Export &amp; Trade</h3><p>New markets. Better intelligence. More informed expansion.</p></div><span aria-hidden="true">↗</span></a>
+        <a href="investing.html"><span class="sector-number">03</span><div><h3>Finance &amp; Investment</h3><p>Clearer decisions about capital, risk and technology.</p></div><span aria-hidden="true">↗</span></a>
+        <a href="operations.html"><span class="sector-number">04</span><div><h3>Operations &amp; Supply Chains</h3><p>Connected information. Less friction. Better flow.</p></div><span aria-hidden="true">↗</span></a>
+        <a href="commercial.html"><span class="sector-number">05</span><div><h3>Growth &amp; Commercial</h3><p>Customer understanding that becomes commercial opportunity.</p></div><span aria-hidden="true">↗</span></a>
+      </div></div><details class="story-detail"><summary>Explore a real-world question<span aria-hidden="true">+</span></summary><div class="story-detail-body"><!-- sector-lens --></div></details></section>
 
       <section id="contact" class="contact section dark-panel">
         <p class="section-label reveal">The conversation <span>06</span></p>

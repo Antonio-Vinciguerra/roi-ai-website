@@ -39,8 +39,9 @@ const legacy = `${head('Explore ROI AI','Our capabilities and sectors.')}<main i
 await writeFile(resolve(out,'detail.html'),legacy);
 await writeFile(resolve(out,'legacy-route.js'),"const topic = new URLSearchParams(location.search).get('topic'); if ("+JSON.stringify(Object.keys(names))+".includes(topic)) location.replace(topic + '.html');");
 await writeFile(resolve(out,'404.html'), head('Page not found','Return to ROI AI.')+'<main id="main" class="section"><p class="eyebrow">404 / A different direction</p><h1>Let’s find your<br>starting point.</h1><p><a class="text-link" href="index.html">Return to ROI AI →</a></p></main>'+footer+scripts+'</body></html>');
-for (const file of ['motion.css','motion.js','experience.css','experience.js','experience-data.mjs','experience-render.mjs','style.css','script.js','advisor.css','advisor.js','advisor-demo.mjs','advisor-config.js']) await copyFile(resolve(root,file),resolve(out,file));
+for (const file of ['scene-math.mjs','motion.css','motion.js','experience.css','experience.js','experience-data.mjs','experience-render.mjs','style.css','script.js','advisor.css','advisor.js','advisor-demo.mjs','advisor-config.js']) await copyFile(resolve(root,file),resolve(out,file));
 await mkdir(resolve(out,'assets/fonts'),{recursive:true});
+await copyFile(resolve(root,'narrative.css'),resolve(out,'narrative.css'));
 for (const file of ['favicon.svg','agritech-aerial.webp','trade-port.webp','investment-table.webp']) await copyFile(resolve(root,'assets',file),resolve(out,'assets',file));
 for (const file of await readdir(resolve(root,'assets/fonts'))) await copyFile(resolve(root,'assets/fonts',file),resolve(out,'assets/fonts',file));
 console.log('Built homepage, 8 content pages, legacy routes and accessible advisor. No server secrets included.');

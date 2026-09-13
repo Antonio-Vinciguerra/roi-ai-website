@@ -28,7 +28,7 @@ All current scenarios are authored illustrations. There are no fabricated client
 - Mobile scenario/advisor interaction checked at 390px.
 - Real microphone conversations, physical-device assistive technology and live AI remain release gates.
 
-## Continuous scenes · September 13, 2026
+## Earlier scene prototype · September 13, 2026 (superseded)
 
 The mobile experience should feel composed for a phone. Reduce repeated vertical spacing, combine related process controls and deliverables, and keep the advisor clear of the reading area.
 
@@ -46,3 +46,13 @@ Research informing the implementation:
 - [Lenis](https://github.com/darkroomengineering/lenis): evaluated for scroll smoothing; preserve native touch and trackpad behaviour for this site.
 
 Validation for this revision: production build, existing automated suite, link/asset checks and script syntax checks. The supplied screenshots informed the redesign; the new motion has not yet been visually verified on a physical iPhone.
+
+## Continuous landscape revision
+
+The hero now leads directly into three full-width photographic chapters: Operate, Grow and Invest. Each is a real anchor in normal document flow, with its own service link. A sticky landscape blends continuously as successive chapters enter; scrolling backward reverses that same blend. There are no capability tabs, timed scene switches, input interception or screen-height eligibility tests.
+
+The first reading is lighter: problem exploration, engagement deliverables, vendor-choice reasoning and sector scenarios remain available in native disclosures. All five sectors also have direct, always-visible links. The approved headline, palette, final invitation and advisor are preserved. Service-page process controls remain unchanged.
+
+Reduced motion uses a stationary background and unpinned content. Text enlargement can increase chapter height naturally; no reading content is constrained to a fixed viewport height. A no-script visitor still has all capability text, service links, sector links and disclosures.
+
+Validation: 25 automated tests cover the existing site plus continuous blend boundaries, small/large viewport calculations, static chapter access, navigation targets and the absence of scroll interception. A production build and script syntax checks are required before publication. This revision has not had browser visual QA or physical-iPhone testing; those remain necessary before a final design sign-off.
