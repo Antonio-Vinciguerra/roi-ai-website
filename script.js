@@ -6,7 +6,8 @@ if (arrival) {
   document.body.classList.add('arrival-visible');
   document.querySelector('#arrival-enter').addEventListener('click', () => {
     arrival.classList.add('is-leaving');
-    window.setTimeout(() => { arrival.remove(); document.body.classList.remove('arrival-visible'); }, 850);
+    document.body.classList.remove('arrival-visible');
+    window.setTimeout(() => arrival.remove(), 700);
   });
 }
 
