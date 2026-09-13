@@ -1,5 +1,14 @@
 const toggle = document.querySelector('.menu-toggle');
 const nav = document.querySelector('#nav');
+const arrival = document.querySelector('#arrival');
+
+if (arrival) {
+  document.body.classList.add('arrival-visible');
+  document.querySelector('#arrival-enter').addEventListener('click', () => {
+    arrival.classList.add('is-leaving');
+    window.setTimeout(() => { arrival.remove(); document.body.classList.remove('arrival-visible'); }, 850);
+  });
+}
 
 toggle?.addEventListener('click', () => {
   const isOpen = nav.classList.toggle('open');
