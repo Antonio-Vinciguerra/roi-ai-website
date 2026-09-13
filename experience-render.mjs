@@ -15,9 +15,9 @@ export function renderLens(key='agritech',all=false) {
  return `<div class="intelligence-lens" id="${id}" data-lens data-key="${key}">
  ${sectorTabs}<div class="lens-topline"><span data-lens-label>${escape(e.label)}</span><span>Interactive perspective / <span data-lens-counter>01</span></span></div>
  <div class="lens-stage"><div class="lens-visual" data-kind="${e.kind}">
- <img data-lens-image src="assets/${e.image}.webp" alt="${escape(e.name)} editorial landscape with a conceptual decision overlay" width="1600" height="900" loading="lazy">
- <div data-lens-diagram>${diagram(e.kind)}</div><div class="lens-points" data-lens-points>${e.scenarios.map((s,i)=>'<button type="button" class="lens-point point-'+i+'" data-scenario="'+i+'" aria-pressed="'+(i===0)+'"><span>0'+(i+1)+'</span><b>'+escape(s.point)+'</b></button>').join('')}</div>
- <div class="lens-image-caption"><span data-lens-name>${escape(e.name)}</span><span>Conceptual overlay<br>Not live measurements</span></div></div>
+ <img data-lens-image src="assets/${e.image}.webp" alt="${escape(e.name)} editorial image" width="1600" height="900" loading="lazy">
+ <div class="lens-points" data-lens-points>${e.scenarios.map((s,i)=>'<button type="button" class="lens-point point-'+i+'" data-scenario="'+i+'" aria-pressed="'+(i===0)+'"><span>0'+(i+1)+'</span><b>'+escape(s.point)+'</b></button>').join('')}</div>
+ <div class="lens-image-caption"><span data-lens-name>${escape(e.name)}</span><span>Explore a perspective<br>Illustrative scenarios</span></div></div>
  <div class="lens-console"><p class="eyebrow">A question worth exploring</p><h3 data-lens-question>${escape(e.question)}</h3>
  <div class="scenario-selector" role="group" aria-label="Choose an example" data-scenario-selector>${e.scenarios.map((s,i)=>'<button type="button" data-scenario="'+i+'" aria-pressed="'+(i===0)+'">'+escape(s.label)+'</button>').join('')}</div>
  <div class="lens-reading" aria-live="polite" aria-atomic="true"><span class="reading-label">The signal</span><p data-lens-observe>${escape(s.observe)}</p><span class="reading-label">The distinction</span><p data-lens-interpret>${escape(s.interpret)}</p></div>
@@ -41,5 +41,10 @@ export function capabilityCards(){
  ['operate','01','Operate smarter','Reimagine how work moves through the organisation—reducing friction, improving decisions and making teams more effective.','From handoff to flow.'],
  ['grow','02','Grow further','Use intelligence to sharpen customer understanding, unlock new propositions and turn momentum into durable growth.','From signal to opportunity.'],
  ['invest','03','Invest better','Bring clarity to technology choices so capital, attention and ambition are placed where they can compound.','From assumption to evidence.']];
- return '<div class="capability-gallery">'+cards.map(([key,n,title,copy,tag])=>'<a class="capability-card" href="'+key+'.html"><div class="capability-art"><img src="assets/'+experiences[key].image+'.webp" alt="" width="1600" height="900" loading="lazy">'+diagram(experiences[key].kind)+'<span>'+n+' / '+tag+'</span></div><div class="capability-card-title"><h3>'+title+'</h3><span aria-hidden="true">↗</span></div><p>'+copy+'</p><span class="capability-explore">Explore the work</span></a>').join('')+'</div>';
+ return `<div class="capability-gallery" data-capability-story><div class="capability-stage">
+ <div class="capability-controls" role="group" aria-label="Explore capabilities" hidden>${cards.map(([key,n,title],i)=>`<button type="button" data-capability="${i}" aria-pressed="${i===0}" aria-controls="capability-${key}"><span>${n}</span>${title}</button>`).join('')}</div>
+ <div class="capability-panels">${cards.map(([key,n,title,copy,tag],i)=>`<article class="capability-panel" id="capability-${key}" data-capability-panel="${i}">
+ <a class="capability-art" href="${key}.html" aria-label="Explore ${title}" data-scene-link="${key}"><img src="assets/${experiences[key].image}.webp" alt="${escape(experiences[key].name)}" width="1600" height="900" loading="lazy" data-scene-image="${key}"><span>${n} / ${tag}</span><span class="image-explore" aria-hidden="true">↗</span></a>
+ <div class="capability-story-copy"><span class="reading-label">${n} / The capability</span><h3>${title}</h3><p>${copy}</p><a class="text-link" href="${key}.html" data-scene-link="${key}">Explore the work <span aria-hidden="true">↗</span></a></div></article>`).join('')}</div>
+ <div class="capability-story-foot"><span>Technology is the means. ROI is the standard.</span><span class="story-scroll-hint">Scroll to explore ↓</span></div></div></div>`;
 }

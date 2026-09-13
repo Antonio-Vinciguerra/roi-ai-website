@@ -1,5 +1,4 @@
 import { experiences } from './experience-data.mjs';
-import { diagram } from './experience-render.mjs';
 const reduced=matchMedia('(prefers-reduced-motion: reduce)');
 for(const lens of document.querySelectorAll('[data-lens]')){
  let key=lens.dataset.key, selection=0;
@@ -10,9 +9,8 @@ for(const lens of document.querySelectorAll('[data-lens]')){
   lens.querySelectorAll('[data-sector]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.sector===key)));
   for(const [name,value] of Object.entries({label:e.label,name:e.name,question:e.question,observe:s.observe,interpret:s.interpret,action:s.act,measure:s.measure,inputs:e.inputs,counter:String(index+1).padStart(2,'0')}))field(name,value);
   if(changed){
-   const img=lens.querySelector('[data-lens-image]');img.src='assets/'+e.image+'.webp';img.alt=e.name+' editorial image with a conceptual decision overlay';
+   const img=lens.querySelector('[data-lens-image]');img.src='assets/'+e.image+'.webp';img.alt=e.name+' editorial image';
    lens.querySelector('.lens-visual').dataset.kind=e.kind;
-   lens.querySelector('[data-lens-diagram]').innerHTML=diagram(e.kind);
    for(const [selector,points] of [['[data-lens-points]',true],['[data-scenario-selector]',false]]){
     const container=lens.querySelector(selector);container.replaceChildren();
     e.scenarios.forEach((scenario,i)=>{
@@ -71,6 +69,7 @@ for(const bench of document.querySelectorAll('.approach-workbench')){
   const items=bench.querySelector('[data-phase-items]');items.replaceChildren();
   phase.items.forEach((text,i)=>{const li=document.createElement('li'),n=document.createElement('span');n.textContent='0'+(i+1);li.append(n,document.createTextNode(text));items.append(li);});
   if(!reduced.matches)bench.querySelector('.workbench-document').animate([{opacity:.4,transform:'translateY(8px)'},{opacity:1,transform:'none'}],{duration:400,easing:'ease-out'});
+  bench.dispatchEvent(new CustomEvent('phasechange',{detail:Number(button.dataset.phase),bubbles:true}));
  });
 }
 const decisions={

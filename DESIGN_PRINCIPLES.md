@@ -21,9 +21,28 @@ The interface should demonstrate a way of thinking: from signal, through judgmen
 ## Be credible
 All current scenarios are authored illustrations. There are no fabricated clients, performance figures or live intelligence feeds. The advisor remains a guided demo until its verified knowledge and server-side AI/voice integrations are ready.
 
-## Verified in this iteration
+## Previous prototype verification (before the September 13 motion revision)
 - 21 automated tests covering the prior foundation plus scenarios, labels, context and primary text contrast.
 - Interactive sector and scenario selection, engagement deliverables, build/buy/integrate/stop choices, scenario continuity and advisor context checked in the browser.
 - All eight detail pages checked for horizontal overflow at 320px.
 - Mobile scenario/advisor interaction checked at 390px.
 - Real microphone conversations, physical-device assistive technology and live AI remain release gates.
+
+## Continuous scenes · September 13, 2026
+
+The mobile experience should feel composed for a phone. Reduce repeated vertical spacing, combine related process controls and deliverables, and keep the advisor clear of the reading area.
+
+Capabilities use one photographic scene with three perspectives. When the complete scene fits the viewport, native scrolling advances the selection inside a finite sticky stage. Buttons remain available. Short screens, enlarged layouts and reduced motion use an unpinned presentation. Without JavaScript, all three capability articles and their links remain visible.
+
+Use native CSS view timelines for gradual arrivals and image depth, with a readable default on unsupported browsers. Use cross-document View Transitions for a capability image to carry into its detail page. Avoid wheel interception, touch smoothing, page gates and artificial navigation delays. Reduced motion removes the spatial transitions.
+
+Existing photography is presented at a larger scale and with a lighter treatment. Decorative SVG diagrams have been removed from rendered capability and sector imagery. Scenario choices are clearly controls, not spatial measurements.
+
+Research informing the implementation:
+
+- [WebKit: Safari 26.4 threaded scroll animations](https://webkit.org/blog/17862/webkit-features-for-safari-26-4/): native view/scroll timelines can run on the compositor.
+- [Chrome: cross-document View Transitions](https://developer.chrome.com/docs/web-platform/view-transitions/cross-document): continuity between real document routes without replacing navigation.
+- [GSAP ScrollTrigger](https://gsap.com/docs/v3/Plugins/ScrollTrigger/): evaluated for elaborate timelines; this revision does not require that dependency.
+- [Lenis](https://github.com/darkroomengineering/lenis): evaluated for scroll smoothing; preserve native touch and trackpad behaviour for this site.
+
+Validation for this revision: production build, existing automated suite, link/asset checks and script syntax checks. The supplied screenshots informed the redesign; the new motion has not yet been visually verified on a physical iPhone.
