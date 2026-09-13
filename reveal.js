@@ -70,7 +70,8 @@ export function installTextDissolve() {
       }
       record.target = record.seen || focused ? 1 : 0;
       if (time < record.delay) record.target = 0;
-      record.opacity = focused || (direction < 0 && record.seen) ? 1 : approachOpacity(record.opacity, record.target, dt, record.hero ? 960 : 780);
+      // Only the welcome gets more breathing room; scroll chapters keep their approved pace.
+      record.opacity = focused || (direction < 0 && record.seen) ? 1 : approachOpacity(record.opacity, record.target, dt, record.hero ? 1320 : 780);
       if (Math.abs(record.opacity - record.target) < .002) record.opacity = record.target;
       else settling = true;
       if (time < record.delay) settling = true;
