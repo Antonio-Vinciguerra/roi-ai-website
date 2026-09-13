@@ -38,14 +38,15 @@ test('headline geometry refreshes for fonts and resizing; hero pace and upward r
  assert.match(js,/direction < 0 && record\.seen/);
  assert.doesNotMatch(js,/translate|scrollTo|preventDefault/);
 });
-test('supporting note follows the visible headline, fades together without blur, and allows scrolling ahead',async()=>{
+test('supporting note overlaps the headline with the same blurred word formation at a faster pace',async()=>{
  const js=await readFile(new URL('../reveal.js',import.meta.url),'utf8');
- assert.match(js,/record\.note \? smooth\(record\.opacity\)/);
- assert.match(js,/record\.note \|\| opacity > \.999/);
- assert.match(js,/lineFormation\(headline\.opacity, 1, 2\) >= \.99 \|\| scrollY >= 40 \|\| direction < 0 \|\| focused/);
- assert.match(js,/record\.opacity \+ dt \/ 900/);
- assert.match(js,/record\.followHeadline = opening && record\.note && !reduced\.matches/);
- let progress=0,elapsed=0;
- while(lineFormation(progress,1,2)<.99){progress=approachOpacity(progress,1,16,1320);elapsed+=16;}
- assert.ok(elapsed>3500 && elapsed<5000,'note follows the approved slow welcome, not its imperceptible exponential tail');
+ assert.match(js,/record\.note \? 780 : record\.hero \? 1320 : 620/);
+ assert.match(js,/record\.note \? 700 : record\.el\.matches\('h1'\) \? 100 : 0/);
+ assert.match(js,/wordFormation\(record\.opacity, index, record\.words\.length\)/);
+ assert.doesNotMatch(js,/followHeadline|record\.note \? smooth|record\.note \|\| opacity/);
+ const titleProgress=approachOpacity(0,1,1000-100,1320);
+ const noteProgress=approachOpacity(0,1,1000-700,780);
+ assert.ok(wordFormation(noteProgress,0,30)>0,'supporting words begin within the first second');
+ assert.ok(lineFormation(titleProgress,2,3)<.99,'the two reveals overlap rather than wait');
+ assert.ok(approachOpacity(0,1,1000,780)>approachOpacity(0,1,1000,1320));
 });

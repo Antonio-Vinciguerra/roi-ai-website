@@ -109,7 +109,7 @@ test('shared text motion is delivered to every service and sector page', async (
   for (const page of ['index','operate','grow','invest','agritech','trade','investing','operations','commercial']) {
     const html = await readFile(new URL('../dist/'+page+'.html', import.meta.url), 'utf8');
     assert.match(html,/href="reveal.css"/);
-    assert.match(html,/src="motion.js\?v=welcome-note-6"/);
+    assert.match(html,/src="motion.js\?v=welcome-flow-7"/);
   }
   const css=await readFile(new URL('../narrative.css',import.meta.url),'utf8');
   assert.match(css,/mask-image:none/);

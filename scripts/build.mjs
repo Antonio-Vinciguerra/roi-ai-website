@@ -51,7 +51,7 @@ for (const file of await readdir(out)) {
  if (!file.endsWith('.html')) continue;
  const path = resolve(out, file);
  await writeFile(path, (await readFile(path, 'utf8'))
-  .replaceAll('src="motion.js"', 'src="motion.js?v=welcome-note-6"')
+  .replaceAll('src="motion.js"', 'src="motion.js?v=welcome-flow-7"')
   .replace('</head>','<link rel="stylesheet" href="page-entry.css?v=continuity-4"><script src="page-entry.js?v=continuity-4"></script></head>'));
 }
 console.log('Built homepage, 8 content pages, legacy routes and accessible advisor. No server secrets included.');

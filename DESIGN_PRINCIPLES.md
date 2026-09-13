@@ -124,3 +124,7 @@ Subsequent scrolling text uses a 620 ms time constant instead of 780 ms, with su
 ## Supporting introduction follows the welcome
 
 The homepage headline retains its exact line formation, blur and 1320 ms clock. Its supporting paragraph now waits until the last headline line is visually complete (99% opacity), then fades as one clear paragraph over 900 ms, with no blur or word stagger. The sequence is shared across desktop and mobile. Scrolling ahead releases the wait; upward scrolling, focus and reduced motion retain their readability bypasses. Subsequent sections, page transitions, copy and layout are unchanged.
+
+## One overlapping welcome — supersedes the separate supporting fade
+
+The supporting paragraph returns to the same softly blurred, overlapping word groups. It begins at 700 ms, shortly after the headline's unchanged 100 ms start, instead of waiting for completion. Its 780 ms time constant makes it more responsive than the headline's unchanged 1320 ms. This restores a continuous entrance rather than a delayed paragraph-sized block. Desktop and mobile share these settings; subsequent text remains at 620 ms, with all existing focus, upward-scroll and reduced-motion bypasses retained.
