@@ -109,7 +109,7 @@ test('shared text motion is delivered to every service and sector page', async (
   for (const page of ['index','operate','grow','invest','agritech','trade','investing','operations','commercial']) {
     const html = await readFile(new URL('../dist/'+page+'.html', import.meta.url), 'utf8');
     assert.match(html,/href="reveal.css"/);
-    assert.match(html,/src="motion.js\?v=scene-3"/);
+    assert.match(html,/src="motion.js\?v=continuity-4"/);
   }
   const css=await readFile(new URL('../narrative.css',import.meta.url),'utf8');
   assert.match(css,/mask-image:none/);
@@ -123,18 +123,23 @@ test('shared text motion is delivered to every service and sector page', async (
   assert.doesNotMatch(reveal,/record\.seen = false|textDissolveFrame/);
 });
 
-test('dedicated pages share the slow welcome with a stationary, accessible scene arrival', async () => {
+test('dedicated pages dissolve as one scene without a second word entrance', async () => {
   const js=await readFile(new URL('../reveal.js',import.meta.url),'utf8');
-  assert.match(js,/closest\('\.hero,\.detail-hero'\)/);
-  assert.match(js,/record\.el\.matches\('\.lede'\)/);
+  assert.match(js,/!el\.closest\('\.detail-hero,details/);
+  assert.match(js,/hero:!!el\.closest\('\.hero'\)/);
   const css=await readFile(new URL('../page-entry.css',import.meta.url),'utf8');
   assert.match(css,/prefers-reduced-motion:no-preference/);
-  assert.match(css,/main:focus-within \{ animation:none \}/);
-  assert.doesNotMatch(css,/transform|translate|pointer-events|visibility:hidden/);
+  assert.match(css,/main:focus-within\{animation:none!important/);
+  assert.match(css,/view-transition-name:roi-header/);
+  assert.match(css,/scene-dissolve-in 720ms/);
+  assert.match(css,/scene-dissolve-out 720ms/);
+  assert.doesNotMatch(css,/translate|pointer-events|visibility:hidden/);
   for(const page of ['operate','grow','invest','agritech','trade','investing','operations','commercial']) {
     const html=await readFile(new URL('../dist/'+page+'.html',import.meta.url),'utf8');
-    assert.match(html,/href="page-entry.css"/);
+    assert.match(html,/href="page-entry.css\?v=continuity-4"/);
+    assert.match(html,/<script src="page-entry.js\?v=continuity-4"><\/script>[\s\S]*<\/head>/);
+    assert.match(html,/class="detail-scene"/);
     assert.match(html,/data-page-context=/);
   }
-  assert.doesNotMatch(await readFile(new URL('../dist/index.html',import.meta.url),'utf8'),/page-entry.css/);
+  assert.doesNotMatch(await readFile(new URL('../dist/index.html',import.meta.url),'utf8'),/class="detail-scene"/);
 });

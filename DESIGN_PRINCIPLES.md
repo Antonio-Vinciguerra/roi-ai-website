@@ -102,3 +102,9 @@ The homepage hero's formation time constant is now 1320 ms (previously 960 ms), 
 ## Dedicated-page scene arrival
 
 All eight service and sector openings now share the approved 1320 ms word-formation timing. The label begins first, heading follows by 100 ms and introduction by 300 ms. A 1200 ms opacity-only arrival softens the new page underneath, starting in CSS before modules load; navigation and advisor remain outside the fade. No click delay, scroll interception, moving text, layout change or new content. Keyboard focus and reduced motion bypass the page fade. Homepage pacing and subsequent 780 ms downward-only text reveals are preserved across desktop and mobile.
+
+## Continuity rather than entrance — supersedes dedicated-page scene arrival
+
+Dedicated-page introductions are no longer split into word groups. Native same-origin navigation blends outgoing and incoming scene snapshots together over 720 ms, with shared header and advisor landmarks held steady. The browser retains navigation, history and network handling; no click interception or waiting timer is introduced. The early page-reveal listener replaces the fallback before capture, avoiding layered or repeated entrances. Direct visits and unsupported browsers get one restrained 65%-to-100% opacity settle. Without JavaScript, content is fully visible. Hash jumps, history restoration, reduced motion and keyboard focus bypass the treatment. The approved homepage word formation and later downward-only scroll reveals are unchanged.
+
+Implementation follows [Chrome's cross-document view-transition guidance](https://developer.chrome.com/docs/web-platform/view-transitions/cross-document), including registering the page-reveal listener in a classic head script before the first rendering opportunity. Lifecycle checks are automated; visual timing on physical devices remains a user review step.
