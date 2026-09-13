@@ -1,16 +1,30 @@
-/* The paper and navigation remain steady while the next scene materialises.
-   CSS starts before module loading and also works without JavaScript. */
-@keyframes detail-scene-arrival {
- from { opacity:0 }
- to { opacity:1 }
+/* One scene change, not a page entrance followed by a second text animation. */
+.site-header{view-transition-name:roi-header}
+.advisor-launcher{view-transition-name:roi-advisor}
+.detail-lab .lens-visual{view-transition-name:none}
+.detail-hero .reveal{animation:none!important;transform:none!important;opacity:1}
+
+@keyframes scene-dissolve-out{from{opacity:1}to{opacity:0}}
+@keyframes scene-dissolve-in{from{opacity:0}to{opacity:1}}
+/* Direct visits and browsers without cross-document transitions get a brief
+   settling of the whole scene, never an empty screen or staggered words. */
+@keyframes scene-settle{from{opacity:.65}to{opacity:1}}
+@media(prefers-reduced-motion:no-preference){
+ html[data-page-arrival="soft"] main{animation:scene-settle 720ms ease-out both}
+ html[data-page-arrival="native"]::view-transition-old(root){animation:scene-dissolve-out 720ms cubic-bezier(.4,0,.2,1) both}
+ html[data-page-arrival="native"]::view-transition-new(root){animation:scene-dissolve-in 720ms cubic-bezier(.4,0,.2,1) both}
+ /* Keep shared landmarks solid while only the surrounding scene changes. */
+ html[data-page-arrival="native"]::view-transition-group(roi-header),
+ html[data-page-arrival="native"]::view-transition-group(roi-advisor){animation:none}
+ html[data-page-arrival="native"]::view-transition-old(roi-header),
+ html[data-page-arrival="native"]::view-transition-old(roi-advisor){animation:none;opacity:0}
+ html[data-page-arrival="native"]::view-transition-new(roi-header),
+ html[data-page-arrival="native"]::view-transition-new(roi-advisor){animation:none;opacity:1}
 }
-@media(prefers-reduced-motion:no-preference) {
- body[data-page-context] main {
-  animation:detail-scene-arrival 1200ms cubic-bezier(.22,.61,.36,1) both;
- }
- /* Focusing an early control must never leave it beneath a translucent page. */
- body[data-page-context] main:focus-within { animation:none }
+body[data-page-context] main:focus-within{animation:none!important;opacity:1!important}
+@media(prefers-reduced-motion:reduce){
+ body[data-page-context] main{animation:none!important;opacity:1!important}
 }
-@media print {
- body[data-page-context] main { animation:none!important;opacity:1!important }
+@media print{
+ body[data-page-context] main{animation:none!important;opacity:1!important}
 }
