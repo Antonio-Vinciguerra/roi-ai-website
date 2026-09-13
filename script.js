@@ -11,6 +11,23 @@ nav?.querySelectorAll('a').forEach(link => link.addEventListener('click', () => 
   toggle.setAttribute('aria-expanded', 'false');
 }));
 
+document.querySelectorAll('.sector-trigger').forEach((trigger) => {
+  trigger.addEventListener('click', () => {
+    const item = trigger.closest('.sector-item');
+    const wasActive = item.classList.contains('active');
+    document.querySelectorAll('.sector-item').forEach((other) => {
+      other.classList.remove('active');
+      other.querySelector('.sector-trigger').setAttribute('aria-expanded', 'false');
+      other.querySelector('.sector-trigger i').textContent = '+';
+    });
+    if (!wasActive) {
+      item.classList.add('active');
+      trigger.setAttribute('aria-expanded', 'true');
+      trigger.querySelector('i').textContent = '−';
+    }
+  });
+});
+
 const observer = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {
     if (entry.isIntersecting) {
