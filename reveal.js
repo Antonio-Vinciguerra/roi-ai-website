@@ -1,4 +1,4 @@
-import { textDissolveFrame, approachOpacity, wordFormation } from './scene-math.mjs';
+import { approachOpacity, wordFormation } from './scene-math.mjs';
 
 export function installTextDissolve() {
   // Utility/error pages without the motion stylesheet keep their original HTML.
@@ -7,10 +7,12 @@ export function installTextDissolve() {
   const records = [...document.querySelectorAll('main h1,main h2,main h3,main p,.hero>.eyebrow')]
     .filter(el => !el.closest('details,[data-lens],.approach-workbench,footer,noscript,[aria-live]') &&
       !el.matches('.section-label,.lens-disclaimer') && !el.querySelector('button,a,input'))
-    .map(el => ({el, opacity:1, target:1, delay:0, hero:!!el.closest('.hero'), words:[], original:[...el.childNodes].map(node => node.cloneNode(true))}));
+    .map(el => ({el, opacity:1, target:1, delay:0, seen:false, hero:!!el.closest('.hero'), words:[], original:[...el.childNodes].map(node => node.cloneNode(true))}));
   let frame = 0;
   let previousTime = 0;
   let firstRun = true;
+  let lastScroll = Math.max(0, scrollY);
+  let direction = 1;
   let headerHeight = document.querySelector('.site-header')?.offsetHeight || 78;
 
   function prepareWords(record) {
@@ -59,9 +61,16 @@ export function installTextDissolve() {
     for (const record of records) {
       const rect = record.el.getBoundingClientRect();
       const focused = record.el.contains(document.activeElement) || record.el.closest('a:focus');
-      record.target = focused ? 1 : textDissolveFrame(rect.top, rect.height, viewport, headerHeight, record.hero);
+      const reached = rect.top < viewport * .94;
+      if (!record.seen && reached) {
+        record.seen = true;
+        // Returning upward, jumping past content or focusing it exposes it
+        // immediately. Downward entry starts one complete, time-led reveal.
+        if (direction < 0 || rect.bottom < headerHeight || focused) record.opacity = 1;
+      }
+      record.target = record.seen || focused ? 1 : 0;
       if (time < record.delay) record.target = 0;
-      record.opacity = focused ? 1 : approachOpacity(record.opacity, record.target, dt, record.hero ? 720 : 620);
+      record.opacity = focused || (direction < 0 && record.seen) ? 1 : approachOpacity(record.opacity, record.target, dt, record.hero ? 960 : 780);
       if (Math.abs(record.opacity - record.target) < .002) record.opacity = record.target;
       else settling = true;
       if (time < record.delay) settling = true;
@@ -81,7 +90,8 @@ export function installTextDissolve() {
       prepareWords(record);
       record.el.classList.toggle('text-dissolve', !reduced.matches);
       const rect = record.el.getBoundingClientRect();
-      record.opacity = opening && record.hero ? 0 : textDissolveFrame(rect.top, rect.height, viewport, headerHeight, record.hero);
+      record.seen = record.seen || rect.top < viewport * .94;
+      record.opacity = opening && record.hero ? 0 : record.seen ? 1 : 0;
       record.delay = opening && record.hero ? now + (record.el.matches('h1') ? 100 : record.el.closest('.hero-note') ? 300 : 0) : 0;
       if (!reduced.matches) paint(record);
     }
@@ -89,7 +99,13 @@ export function installTextDissolve() {
     firstRun = false;
     if (!reduced.matches) schedule();
   }
-  addEventListener('scroll', schedule, {passive:true});
+  addEventListener('scroll', () => {
+    const position = Math.max(0, scrollY);
+    if (Math.abs(position - lastScroll) > .5) direction = position > lastScroll ? 1 : -1;
+    lastScroll = position;
+    if (direction < 0) records.forEach(record => { if (record.seen) record.delay = 0; });
+    schedule();
+  }, {passive:true});
   addEventListener('resize', () => {
     headerHeight = document.querySelector('.site-header')?.offsetHeight || 78;
     schedule();
