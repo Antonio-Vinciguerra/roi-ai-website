@@ -1,0 +1,16 @@
+/* The paper and navigation remain steady while the next scene materialises.
+   CSS starts before module loading and also works without JavaScript. */
+@keyframes detail-scene-arrival {
+ from { opacity:0 }
+ to { opacity:1 }
+}
+@media(prefers-reduced-motion:no-preference) {
+ body[data-page-context] main {
+  animation:detail-scene-arrival 1200ms cubic-bezier(.22,.61,.36,1) both;
+ }
+ /* Focusing an early control must never leave it beneath a translucent page. */
+ body[data-page-context] main:focus-within { animation:none }
+}
+@media print {
+ body[data-page-context] main { animation:none!important;opacity:1!important }
+}
