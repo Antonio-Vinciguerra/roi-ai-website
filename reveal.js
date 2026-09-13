@@ -1,4 +1,4 @@
-import { textDissolveFrame, approachOpacity } from './scene-math.mjs';
+import { textDissolveFrame, approachOpacity, wordFormation } from './scene-math.mjs';
 
 export function installTextDissolve() {
   // Utility/error pages without the motion stylesheet keep their original HTML.
@@ -7,11 +7,46 @@ export function installTextDissolve() {
   const records = [...document.querySelectorAll('main h1,main h2,main h3,main p,.hero>.eyebrow')]
     .filter(el => !el.closest('details,[data-lens],.approach-workbench,footer,noscript,[aria-live]') &&
       !el.matches('.section-label,.lens-disclaimer') && !el.querySelector('button,a,input'))
-    .map(el => ({el, opacity:1, target:1, delay:0, hero:!!el.closest('.hero')}));
+    .map(el => ({el, opacity:1, target:1, delay:0, hero:!!el.closest('.hero'), words:[], original:[...el.childNodes].map(node => node.cloneNode(true))}));
   let frame = 0;
   let previousTime = 0;
   let firstRun = true;
   let headerHeight = document.querySelector('.site-header')?.offsetHeight || 78;
+
+  function prepareWords(record) {
+    record.el.replaceChildren(...record.original.map(node => node.cloneNode(true)));
+    record.words = [];
+    record.lastPaint = null;
+    if (reduced.matches) return;
+    const walker = document.createTreeWalker(record.el, NodeFilter.SHOW_TEXT);
+    const nodes = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode);
+    for (const node of nodes) {
+      const fragment = document.createDocumentFragment();
+      for (const token of node.textContent.match(/\s+|\S+/g) || []) {
+        if (/^\s+$/.test(token)) fragment.append(document.createTextNode(token));
+        else {
+          const word = document.createElement('span');
+          word.className = 'formation-word';
+          word.textContent = token;
+          record.words.push(word);
+          fragment.append(word);
+        }
+      }
+      node.replaceWith(fragment);
+    }
+  }
+
+  function paint(record) {
+    if (record.lastPaint === record.opacity) return;
+    record.lastPaint = record.opacity;
+    const blur = record.el.matches('h1,h2,h3') ? 2.8 : 1.6;
+    record.words.forEach((word, index) => {
+      const opacity = wordFormation(record.opacity, index, record.words.length);
+      word.style.setProperty('--word-opacity', opacity.toFixed(4));
+      word.style.setProperty('--word-filter', opacity > .999 || opacity < .001 ? 'none' : 'blur(' + (blur * (1 - opacity) ** 2).toFixed(3) + 'px)');
+    });
+  }
 
   function update(time) {
     frame = 0;
@@ -20,18 +55,18 @@ export function installTextDissolve() {
     previousTime = time;
     const viewport = document.documentElement.clientHeight;
     let settling = false;
-    // Batch geometry reads before opacity writes. Text never moves or gets split.
+    // Batch geometry reads before writes; overlapping word groups stay in place.
     for (const record of records) {
       const rect = record.el.getBoundingClientRect();
       const focused = record.el.contains(document.activeElement) || record.el.closest('a:focus');
       record.target = focused ? 1 : textDissolveFrame(rect.top, rect.height, viewport, headerHeight, record.hero);
       if (time < record.delay) record.target = 0;
-      record.opacity = focused ? 1 : approachOpacity(record.opacity, record.target, dt, record.hero ? 680 : 520);
+      record.opacity = focused ? 1 : approachOpacity(record.opacity, record.target, dt, record.hero ? 720 : 620);
       if (Math.abs(record.opacity - record.target) < .002) record.opacity = record.target;
       else settling = true;
       if (time < record.delay) settling = true;
     }
-    for (const record of records) record.el.style.setProperty('--text-opacity', record.opacity.toFixed(4));
+    for (const record of records) paint(record);
     if (settling) frame = requestAnimationFrame(update);
     else previousTime = 0;
   }
@@ -43,12 +78,12 @@ export function installTextDissolve() {
     const now = performance.now();
     const viewport = document.documentElement.clientHeight;
     for (const record of records) {
-      record.el.style.removeProperty('--text-opacity');
+      prepareWords(record);
       record.el.classList.toggle('text-dissolve', !reduced.matches);
       const rect = record.el.getBoundingClientRect();
       record.opacity = opening && record.hero ? 0 : textDissolveFrame(rect.top, rect.height, viewport, headerHeight, record.hero);
       record.delay = opening && record.hero ? now + (record.el.matches('h1') ? 100 : record.el.closest('.hero-note') ? 300 : 0) : 0;
-      if (!reduced.matches) record.el.style.setProperty('--text-opacity', record.opacity);
+      if (!reduced.matches) paint(record);
     }
     document.body.classList.toggle('roi-dissolve', !reduced.matches);
     firstRun = false;
