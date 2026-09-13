@@ -20,7 +20,7 @@ document.querySelectorAll('.capability, .sector-trigger').forEach((link) => {
     transition.innerHTML = `<div class="route-lens"></div><p>ROI AI / EXPLORE</p><h2>${label}</h2>`;
     document.body.append(transition);
     requestAnimationFrame(() => transition.classList.add('is-active'));
-    window.setTimeout(() => { window.location.href = target; }, 520);
+    window.setTimeout(() => { window.location.href = target; }, 380);
   });
 });
 
