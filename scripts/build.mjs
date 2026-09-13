@@ -45,4 +45,10 @@ await copyFile(resolve(root,'narrative.css'),resolve(out,'narrative.css'));
 for (const file of ['reveal.css','reveal.js']) await copyFile(resolve(root,file),resolve(out,file));
 for (const file of ['favicon.svg','agritech-aerial.webp','trade-port.webp','investment-table.webp']) await copyFile(resolve(root,'assets',file),resolve(out,'assets',file));
 for (const file of await readdir(resolve(root,'assets/fonts'))) await copyFile(resolve(root,'assets/fonts',file),resolve(out,'assets/fonts',file));
+// Refresh the motion entry point on previously visited phones as well as desktop.
+for (const file of await readdir(out)) {
+ if (!file.endsWith('.html')) continue;
+ const path = resolve(out, file);
+ await writeFile(path, (await readFile(path, 'utf8')).replaceAll('src="motion.js"', 'src="motion.js?v=welcome-2"'));
+}
 console.log('Built homepage, 8 content pages, legacy routes and accessible advisor. No server secrets included.');

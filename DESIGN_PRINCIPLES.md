@@ -94,3 +94,7 @@ The opening time constant increases from 720 to 960 ms; subsequent text uses 780
 Photographs now use a time-led dissolve rather than a masked wipe, keyed to the actual chapter copy rather than the chapter's surrounding whitespace. First downward visits dissolve in; upward returns and revisits restore the matching image without an entrance replay. Reduced motion and no-script fallbacks remain readable. The shared logic applies at both mobile and desktop widths.
 
 Validation remains automated/source-level; physical-device visual timing has not been checked.
+
+## A calmer welcome only
+
+The homepage hero's formation time constant is now 1320 ms (previously 960 ms), extending its existing reveal by 37.5% without introducing a waiting screen. All subsequent text remains at 780 ms, and photography, upward-scroll behaviour, copy and layout are untouched. Desktop and mobile use the same timing; reduced-motion and focus bypasses remain intact. Versioned motion entry/import URLs refresh these scripts on returning devices after publication.

@@ -28,7 +28,7 @@ test('every local page resource and link resolves, including fragment targets',a
   const html=await readFile(resolve(root,file),'utf8');
   for(const match of html.matchAll(/(?:href|src)="([^"]+)"/g)){
    const url=match[1];if(/^(https?:|mailto:|data:)/.test(url))continue;
-   const [path,fragment]=url.split('#');const target=path||file;
+   const [path,fragment]=url.split('#');const target=path.split('?')[0]||file;
    await stat(resolve(root,target));
    if(fragment){const doc=await readFile(resolve(root,target),'utf8');assert.ok(doc.includes('id="'+fragment+'"'),file+': '+url);}
   }
