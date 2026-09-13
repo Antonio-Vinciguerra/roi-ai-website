@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { landscapeFrame, textDissolveFrame, approachOpacity } from '../scene-math.mjs';
+import { landscapeFrame, textDissolveFrame, approachOpacity, wordFormation } from '../scene-math.mjs';
 import { capabilityCards } from '../experience-render.mjs';
 
 test('landscape blending is continuous, reversible and bounded at phone and desktop sizes', () => {
@@ -62,15 +62,17 @@ test('full-width story explicitly replaces every inherited card-grid track and g
   }
 });
 
-test('opening and scrolling text dissolve in place without DOM wrapping or clipping', async () => {
+test('opening and scrolling words materialise in place with accessible original text', async () => {
   const css = await readFile(new URL('../reveal.css', import.meta.url), 'utf8');
   const js = await readFile(new URL('../reveal.js', import.meta.url), 'utf8');
-  assert.match(css,/opacity:var\(--text-opacity,1\)/);
+  assert.match(css,/opacity:var\(--word-opacity,1\)/);
   assert.match(css,/prefers-reduced-motion:reduce\)\{[\s\S]*opacity:1!important/);
   assert.match(js,/requestAnimationFrame/);
   assert.match(js,/approachOpacity/);
   assert.doesNotMatch(css,/perspective|rotate|translate3d|clip-path:inset/);
-  assert.doesNotMatch(js,/replaceChildren|cloneNode|innerHTML|aria-hidden|preventDefault|setInterval/);
+  assert.match(js,/createTextNode\(token\)/);
+  assert.match(js,/word\.textContent = token/);
+  assert.doesNotMatch(js,/innerHTML|aria-hidden|preventDefault|setInterval/);
 });
 
 test('stationary dissolves have a stable reading zone and gradually settle over time', () => {
@@ -93,6 +95,14 @@ test('stationary dissolves have a stable reading zone and gradually settle over 
   assert.ok(approachOpacity(1,0,16,520)>.96);
   const twoFrames=approachOpacity(approachOpacity(0,1,16),1,16);
   assert.ok(Math.abs(twoFrames-approachOpacity(0,1,32))<1e-10);
+  for (const count of [1,2,8,40,100]) {
+    for (let index=0; index<count; index++) {
+      assert.equal(wordFormation(0,index,count),0);
+      assert.equal(wordFormation(1,index,count),1);
+      assert.ok(wordFormation(.95,index,count)>.98);
+    }
+    assert.equal(wordFormation(.5,0,count),wordFormation(.5,Math.min(1,count-1),count));
+  }
 });
 
 test('shared text motion is delivered to every service and sector page', async () => {

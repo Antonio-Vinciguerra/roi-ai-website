@@ -80,3 +80,9 @@ Only presentational, non-interactive text is wrapped. Emphasis stays in the docu
 The user clarified that text should materialise in place, not arrive from below. The text-roll wrappers, clipping and perspective have been removed entirely. Original text nodes and natural line wrapping are now untouched. Opening text approaches full opacity over approximately two seconds with a small headline/supporting-copy stagger. Scroll-controlled opacity has time-based smoothing, so fast scrolling cannot abruptly switch text on; the central reading zone stays fully visible. Focus, reduced motion and print reveal text immediately. The photographic motion and all layout/copy decisions are unchanged.
 
 Existing tests now check stationary opacity, timing, no text-node mutation, and the maintained reading zone. Visual browser/device review remains outstanding.
+
+## Overlapping word formation
+
+The user approved trying words forming in overlapping groups, with timing as the main design concern. Text now materialises in pairs, with a bounded stagger across each sentence and a restrained soft-focus-to-sharp effect. Words never translate or rotate. The opening is slightly more gradual than scrolling; the same treatment reaches the later homepage sections and service pages. Long paragraphs do not incur increasing delays.
+
+Whitespace, emphasis and explicit line breaks are retained. Words are rendered once; reduced motion restores the original nodes, focus reveals linked headings immediately, and print remains fully readable. Filters are removed from settled words. Existing tests cover the formation endpoints and bounded timing for both short headlines and long paragraphs. Visual timing still requires desktop and physical-mobile review.

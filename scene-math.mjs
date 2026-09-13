@@ -9,6 +9,13 @@ export function textDissolveFrame(top, height, viewport, header = 78, hero = fal
 export function approachOpacity(current, target, elapsed, timeConstant = 520) {
   return current + (target - current) * (1 - Math.exp(-Math.max(0, elapsed) / timeConstant));
 }
+// Pairs emerge together; a bounded overlap keeps long paragraphs from becoming
+// a slow typewriter. No word changes position during the formation.
+export function wordFormation(progress, index, count) {
+  const groups = Math.max(1, Math.ceil(count / 2));
+  const delay = groups > 1 ? .24 * Math.floor(index / 2) / (groups - 1) : 0;
+  return smooth((progress - delay) / .76);
+}
 export function landscapeFrame(top, height, index) {
   const progress = clamp((height * .95 - top) / Math.max(1, height * .75));
   return {

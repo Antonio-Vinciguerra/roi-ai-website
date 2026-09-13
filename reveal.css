@@ -1,15 +1,16 @@
-/* Stationary text gently materialises. No wrapping, clipping or translation. */
+/* Overlapping word groups form in place, without clipping or translation. */
 .roi-dissolve .hero-content,
 .roi-dissolve .reveal,
 .roi-dissolve .scene-reveal,
 .roi-dissolve .steps .step,
 .roi-dissolve .sector-links>a{animation:none!important;translate:none;filter:none;opacity:1}
-.roi-dissolve .text-dissolve{animation:none!important;transform:none!important;translate:none!important;clip-path:none!important;filter:none!important;opacity:var(--text-opacity,1)}
-.roi-dissolve .text-dissolve:focus-within,
-.roi-dissolve a:focus-visible .text-dissolve{opacity:1!important}
+.roi-dissolve .text-dissolve{animation:none!important;transform:none!important;translate:none!important;clip-path:none!important;filter:none!important;opacity:1}
+.roi-dissolve .text-dissolve .formation-word{display:inline-block;width:auto;max-width:100%;height:auto;margin:0;padding:0;background:none;vertical-align:baseline;overflow-wrap:anywhere;transform:none;opacity:var(--word-opacity,1);filter:var(--word-filter,none)}
+.roi-dissolve .text-dissolve:focus-within .formation-word,
+.roi-dissolve a:focus-visible .formation-word{opacity:1!important;filter:none!important}
 @media(prefers-reduced-motion:reduce){
- .text-dissolve{opacity:1!important;animation:none!important}
+ .text-dissolve,.formation-word{opacity:1!important;animation:none!important;filter:none!important}
 }
 @media print{
- .text-dissolve{opacity:1!important;animation:none!important}
+ .text-dissolve,.formation-word{opacity:1!important;animation:none!important;filter:none!important}
 }
