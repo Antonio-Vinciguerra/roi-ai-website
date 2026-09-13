@@ -1,0 +1,1 @@
+const topic = new URLSearchParams(location.search).get('topic'); if (["agritech","trade","investing","operations","commercial","operate","grow","invest"].includes(topic)) location.replace(topic + '.html');
