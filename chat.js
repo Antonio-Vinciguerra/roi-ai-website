@@ -10,6 +10,7 @@ const form = advisor.querySelector('.advisor-compose');
 const input = form.querySelector('input');
 const feed = advisor.querySelector('.advisor-feed');
 const prompts = advisor.querySelectorAll('.advisor-prompts button');
+const history = [];
 const respond = (question) => {
   const q = question.toLowerCase();
   if (/how.*work|approach|process|engage/.test(q)) return 'We begin with the business problem, not a tool. Together, we find the highest-value opportunity, shape the right response, then define how return and adoption will be proven.';
@@ -21,7 +22,21 @@ const respond = (question) => {
   return 'That sounds like the kind of question worth exploring. In a live engagement, we would first clarify the decision, the people involved and the evidence of value—then decide whether AI has a meaningful role to play.';
 };
 const addMessage = (text, kind) => { const el = document.createElement('div'); el.className = `advisor-message ${kind}`; el.textContent = text; feed.append(el); feed.scrollTop = feed.scrollHeight; };
-const ask = (question) => { if (!question.trim()) return; addMessage(question, 'user'); input.value = ''; window.setTimeout(() => addMessage(respond(question), 'assistant'), 300); };
+const ask = async (question) => {
+  if (!question.trim()) return;
+  addMessage(question, 'user');
+  history.push({ role: 'user', content: question });
+  input.value = '';
+  const endpoint = window.ROI_ADVISOR_API_URL;
+  if (!endpoint) { window.setTimeout(() => { const reply = respond(question); history.push({ role: 'assistant', content: reply }); addMessage(reply, 'assistant'); }, 300); return; }
+  const thinking = document.createElement('div'); thinking.className = 'advisor-message assistant'; thinking.textContent = 'Considering the right place to begin…'; feed.append(thinking); feed.scrollTop = feed.scrollHeight;
+  try {
+    const result = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ messages: history.slice(-8) }) });
+    if (!result.ok) throw new Error('Advisor unavailable');
+    const { reply } = await result.json();
+    thinking.remove(); history.push({ role: 'assistant', content: reply }); addMessage(reply, 'assistant');
+  } catch (error) { thinking.remove(); const reply = respond(question); history.push({ role: 'assistant', content: reply }); addMessage(reply, 'assistant'); }
+};
 launch.addEventListener('click', () => { panel.classList.add('open'); launch.setAttribute('aria-expanded','true'); input.focus(); });
 close.addEventListener('click', () => { panel.classList.remove('open'); launch.setAttribute('aria-expanded','false'); });
 form.addEventListener('submit', (event) => { event.preventDefault(); ask(input.value); });
