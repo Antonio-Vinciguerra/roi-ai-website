@@ -1,15 +1,11 @@
 const toggle = document.querySelector('.menu-toggle');
 const nav = document.querySelector('#nav');
-const arrival = document.querySelector('#arrival');
-
-if (arrival) {
-  document.body.classList.add('arrival-visible');
-  document.querySelector('#arrival-enter').addEventListener('click', () => {
-    arrival.classList.add('is-leaving');
-    document.body.classList.remove('arrival-visible');
-    window.setTimeout(() => arrival.remove(), 700);
-  });
-}
+const updateHeroSignal = () => {
+  const progress = Math.min(window.scrollY / Math.max(window.innerHeight, 1), 1);
+  document.documentElement.style.setProperty('--hero-journey', progress);
+};
+window.addEventListener('scroll', updateHeroSignal, { passive: true });
+updateHeroSignal();
 
 toggle?.addEventListener('click', () => {
   const isOpen = nav.classList.toggle('open');
