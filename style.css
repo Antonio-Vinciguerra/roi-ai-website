@@ -119,6 +119,7 @@ em{font-family:Georgia,"Times New Roman",serif;font-weight:400}
 .sector-tags span{font-size:.75rem;padding:7px 10px;border:1px solid var(--line)}
 .contact{padding-bottom:36px}
 .contact-content{display:grid;grid-template-columns:1fr .45fr;gap:12%;align-items:end;padding:50px 0 110px}
+.contact .display{font-size:clamp(3.25rem,5.6vw,6.4rem);line-height:1.01;max-width:12ch}
 .contact-side p{color:#c3cec6}
 .button{display:flex;align-items:center;justify-content:space-between;gap:24px;width:100%;max-width:320px;padding:18px 22px;background:var(--accent-light);color:var(--ink);border:0;text-decoration:none;font-size:.875rem;transition:background .25s,transform .25s}
 .button:hover{background:#d1ddcb;transform:translateY(-2px)}
@@ -197,7 +198,7 @@ footer .wordmark span{color:var(--accent-light)}
  .sector-layout{display:block;padding-top:0}.sector-intro{position:static}.sector-intro h2{font-size:2.8rem}
  .sector-image{margin:35px 0 50px}.sector-image img{aspect-ratio:16/10}.sector-name{font-size:1.8rem}
  .sector-trigger{padding:26px 0}.sector-tags span{font-size:.75rem}
- .contact-content{display:block;padding:20px 0 75px}.contact .display{font-size:clamp(3.4rem,12vw,5rem)}
+ .contact-content{display:block;padding:20px 0 75px}.contact .display{font-size:clamp(2.75rem,10vw,4rem);max-width:11ch}
  .contact-side{max-width:360px;margin-top:40px}footer{flex-wrap:wrap;padding-bottom:80px}footer .wordmark{width:100%}
  .detail-hero{padding-top:25px}.detail-heading h1{font-size:clamp(2.8rem,10vw,4rem)}.detail-heading{margin-bottom:36px}
  .detail-heading .lede{font-size:1rem}.detail-art img{height:310px}.detail-art figcaption{font-size:.6rem}
