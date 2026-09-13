@@ -64,3 +64,13 @@ The legacy capability gallery declared three grid tracks. Setting the new story 
 Opening text resolves softly from slight blur and a small vertical offset, with a short stagger between the introduction, headline and supporting copy. Scroll text uses the same visual treatment through native view timelines, with an IntersectionObserver/Web Animations fallback. Old parent-level homepage entrances are disabled to avoid compounded motion. Reduced motion shows all text immediately. No text masking or clipping is introduced.
 
 Two regression checks cover the explicit full-width layout declarations and text-animation fallbacks (27 automated tests total). The user's desktop screenshot is the evidence for the reported defect; this fix has not been browser-visually tested.
+
+## Spatial reveal refinement
+
+The previous opacity/blur entrances are replaced by spatial text reveals: explicit headline lines rise through a clipping boundary with a slight perspective turn. Body paragraphs remain naturally wrapping units. Opening lines take approximately 1.9 seconds with a small stagger; scrolling immediately hands control back to the visitor. Later headings and copy, including the eight service/sector pages, use the same reversible entry/reading/exit rhythm. The central reading zone is fully revealed and stationary.
+
+Photography now reveals upward through a feathered image mask rather than only crossfading, with restrained vertical depth. There is a clipping fallback where image masks are unavailable. Native scrolling, the full-width grid fix, approved words, colours and advisor are preserved.
+
+Only presentational, non-interactive text is wrapped. Emphasis stays in the document; no duplicate screen-reader text or per-letter fragmentation is introduced. Reduced motion restores original nodes, focus exposes linked headings, and print styles show all text. Responsive process line breaks are rebuilt on breakpoint changes. All original content is readable if scripts fail or are disabled.
+
+29 automated checks cover bounded and reversible motion, the readable middle across short/tall viewports, delivery to all nine pages, retained navigation and the earlier width regression. No browser visual QA or physical-device validation was performed in this turn.

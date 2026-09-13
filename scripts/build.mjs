@@ -33,7 +33,7 @@ for (const [key, page] of Object.entries(content)) {
  <article class="step reveal"><span class="step-number">03</span><h3>Prove the<br><em>return.</em></h3><p>Make adoption and evidence of impact part of the plan from day one.</p></article></div>${workbench()}</section>
 <section class="contact section dark-panel" id="contact"><p class="section-label">A long-term partner <span>04</span></p><div class="contact-content"><h2 class="display">The way forward<br><em>starts here.</em></h2><div class="contact-side"><p>Bring us the ambition, decision or opportunity in front of you. Together, we’ll make what comes next clear—and define the value it should create.</p><button class="button" data-advisor-open>Start a conversation <span>↗</span></button><noscript><p>The interactive advisor requires JavaScript. You can still explore every service and sector above.</p></noscript></div></div></section>
  </main>${footer}${scripts}</body></html>`;
- await writeFile(resolve(out,key+'.html'),html.replace('</head>','<link rel="stylesheet" href="motion.css"></head>'));
+ await writeFile(resolve(out,key+'.html'),html.replace('</head>','<link rel="stylesheet" href="motion.css"><link rel="stylesheet" href="reveal.css"></head>'));
 }
 const legacy = `${head('Explore ROI AI','Our capabilities and sectors.')}<main id="main" class="section"><h1>Find your starting point.</h1><ul>${Object.entries(names).map(([key,name])=>`<li><a href="${key}.html">${escape(name)}</a></li>`).join('')}</ul></main>${footer}<script src="legacy-route.js"></script></body></html>`;
 await writeFile(resolve(out,'detail.html'),legacy);
@@ -42,6 +42,7 @@ await writeFile(resolve(out,'404.html'), head('Page not found','Return to ROI AI
 for (const file of ['scene-math.mjs','motion.css','motion.js','experience.css','experience.js','experience-data.mjs','experience-render.mjs','style.css','script.js','advisor.css','advisor.js','advisor-demo.mjs','advisor-config.js']) await copyFile(resolve(root,file),resolve(out,file));
 await mkdir(resolve(out,'assets/fonts'),{recursive:true});
 await copyFile(resolve(root,'narrative.css'),resolve(out,'narrative.css'));
+for (const file of ['reveal.css','reveal.js']) await copyFile(resolve(root,file),resolve(out,file));
 for (const file of ['favicon.svg','agritech-aerial.webp','trade-port.webp','investment-table.webp']) await copyFile(resolve(root,'assets',file),resolve(out,'assets',file));
 for (const file of await readdir(resolve(root,'assets/fonts'))) await copyFile(resolve(root,'assets/fonts',file),resolve(out,'assets/fonts',file));
 console.log('Built homepage, 8 content pages, legacy routes and accessible advisor. No server secrets included.');

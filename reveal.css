@@ -1,0 +1,21 @@
+/* A spatial reveal, not a fade. The original HTML is readable without JS. */
+.roi-motion .hero-content,
+.roi-motion .reveal,
+.roi-motion .scene-reveal,
+.roi-motion .steps .step,
+.roi-motion .sector-links>a,
+.roi-motion .roll-text{animation:none!important;translate:none;opacity:1;filter:none}
+.roll-line{display:block;clip-path:inset(-.16em -.3em);perspective:1000px}
+.roll-ink{display:block;transform-origin:center bottom}
+.roi-motion .roll-ink{transform:perspective(1000px) translate3d(0,var(--roll-y,0%),0) rotateX(var(--roll-tilt,0deg));backface-visibility:hidden}
+.roi-motion .roll-text:focus-within .roll-ink,
+.roi-motion a:focus-visible .roll-ink{transform:none!important}
+.roi-motion .eyebrow .roll-line,.roi-motion .eyebrow .roll-ink{display:block;width:auto;height:auto;background:none;margin:0;vertical-align:baseline}
+@media(prefers-reduced-motion:reduce){
+ .roll-line{clip-path:none}
+ .roll-ink{transform:none!important}
+}
+@media print{
+ .roll-line{clip-path:none!important}
+ .roll-ink{transform:none!important}
+}
