@@ -83,9 +83,9 @@
 .capabilities.section{padding-left:0;padding-right:0;padding-bottom:0;background:var(--paper)}
 .capabilities>.section-label,.capabilities>.capability-title{margin-left:var(--gutter);margin-right:var(--gutter)}
 .capability-title{margin-bottom:64px}
-.scroll-story{display:grid;position:relative;isolation:isolate;background:var(--ink);color:var(--paper);--story-height:calc(100svh - 78px)}
-.story-backdrop{grid-area:1/1;align-self:start;position:sticky;top:78px;height:var(--story-height);overflow:hidden;pointer-events:none}
-.story-chapters{grid-area:1/1;z-index:1;min-width:0}
+.capability-gallery.scroll-story{display:grid;grid-template-columns:minmax(0,1fr);gap:0;width:100%;position:relative;isolation:isolate;background:var(--ink);color:var(--paper);--story-height:calc(100svh - 78px)}
+.story-backdrop{grid-area:1/1;align-self:start;width:100%;min-width:0;position:sticky;top:78px;height:var(--story-height);overflow:hidden;pointer-events:none}
+.story-chapters{grid-area:1/1;z-index:1;width:100%;min-width:0}
 .story-landscape{position:absolute;inset:-2%;opacity:0;will-change:transform,opacity}
 .story-landscape:first-child{opacity:1}
 .story-landscape img{width:100%;height:100%;object-fit:cover;object-position:60% center;filter:saturate(.78)}
@@ -103,7 +103,7 @@
 .chapter-content a:focus-visible{outline-color:var(--paper)}
 .story-chapter:target .chapter-content,.story-chapter:focus-within .chapter-content{opacity:1!important;transform:none!important}
 @media(max-width:700px){
- .scroll-story{--story-height:calc(100svh - 66px)}
+ .capability-gallery.scroll-story{--story-height:calc(100svh - 66px)}
  .story-backdrop{top:66px}
  .story-running-label{top:24px;font-size:.75rem;letter-spacing:.025em}
  .story-shade{background:linear-gradient(180deg,#091412ad,#091412b8 35%,#091412d6 100%)}
@@ -121,4 +121,32 @@
  .story-chapter{min-height:0;padding-top:64px;padding-bottom:64px}
  .chapter-content{will-change:auto}
  .story-running-label,.story-progress{display:none}
+}
+
+/* Text resolves into focus in the same way at the opening and on the journey.
+   No masks: italic strokes and enlarged text keep their full bounds. */
+@media(prefers-reduced-motion:no-preference){
+ .narrative-home .hero>.eyebrow{animation:soft-text-enter 1.25s cubic-bezier(.2,.65,.2,1) both}
+ .narrative-home .hero .hero-title{animation:soft-text-enter 1.65s cubic-bezier(.2,.65,.2,1) .12s both}
+ .narrative-home .hero .hero-note{animation:soft-text-enter 1.55s cubic-bezier(.2,.65,.2,1) .35s both}
+}
+@keyframes soft-text-enter{
+ from{opacity:0;transform:translate3d(0,16px,0);filter:blur(3px)}
+ 65%{opacity:1;filter:blur(0)}
+ to{opacity:1;transform:translate3d(0,0,0);filter:blur(0)}
+}
+@supports(animation-timeline:view()){
+ @media(prefers-reduced-motion:no-preference){
+  .narrative-home .text-arrival{animation:soft-scroll-text linear both;animation-timeline:view();animation-range:entry 0% entry 100%}
+  .narrative-home .steps .step,.narrative-home .sector-links>a{animation:none;translate:none}
+ }
+}
+@keyframes soft-scroll-text{
+ from{opacity:.08;translate:0 18px;filter:blur(2px)}
+ 85%{opacity:1;filter:blur(0)}
+ to{opacity:1;translate:0 0;filter:blur(0)}
+}
+.narrative-home .text-arrival:focus-within{animation:none!important;opacity:1;translate:none;filter:none}
+@media(prefers-reduced-motion:reduce){
+ .narrative-home .hero>.eyebrow,.narrative-home .hero .hero-title,.narrative-home .hero .hero-note,.narrative-home .text-arrival{animation:none!important;opacity:1;transform:none;translate:none;filter:none}
 }

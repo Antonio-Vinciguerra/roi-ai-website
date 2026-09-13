@@ -58,9 +58,35 @@ for (const story of document.querySelectorAll('[data-scroll-story]')) {
 }
 
 for (const section of document.querySelectorAll('main > section')) {
+  if (document.body.classList.contains('narrative-home')) continue;
   for (const child of section.children) {
     if (!child.matches('.scroll-story,.intelligence-lens,.scroll-cue,.hero-index,.hero-content,details')) child.classList.add('scene-reveal');
   }
+}
+
+// One text treatment, without stacking entrance effects on parent containers.
+const textTargets = [...document.querySelectorAll('.narrative-home main h2,.narrative-home main h3,.narrative-home .chapter-content>p,.narrative-home .challenge-copy>p,.narrative-home .approach-intro>p,.narrative-home .step>p,.narrative-home .position-copy,.narrative-home .sector-intro>p,.narrative-home .contact-side>p')]
+  .filter(element => !element.closest('details'));
+textTargets.forEach(element => element.classList.add('text-arrival'));
+if (!CSS.supports('animation-timeline: view()') && 'IntersectionObserver' in window) {
+  const active = new Set();
+  const observer = new IntersectionObserver(entries => {
+    for (const entry of entries) {
+      if (!entry.isIntersecting) continue;
+      observer.unobserve(entry.target);
+      if (reduced.matches) continue;
+      const animation = entry.target.animate([
+        {opacity:.08, transform:'translateY(16px)', filter:'blur(2px)'},
+        {opacity:1, transform:'translateY(0)', filter:'blur(0)'}
+      ], {duration:1200, easing:'cubic-bezier(.2,.65,.2,1)'});
+      active.add(animation);
+      animation.finished.then(() => active.delete(animation)).catch(() => active.delete(animation));
+    }
+  }, {threshold:.12});
+  textTargets.forEach(element => observer.observe(element));
+  reduced.addEventListener('change', () => {
+    if (reduced.matches) { active.forEach(animation => animation.cancel()); active.clear(); }
+  });
 }
 
 // Preserve the compact, synchronized process controls on service pages.
