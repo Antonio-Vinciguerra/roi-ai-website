@@ -144,3 +144,4 @@ footer{align-items:end;flex-wrap:wrap;gap:20px}
 .reveal{opacity:1;transform:none;transition:none}
 .scroll-cue i{animation:none}
 }
+.capability,.sector-trigger{color:inherit;text-decoration:none}
