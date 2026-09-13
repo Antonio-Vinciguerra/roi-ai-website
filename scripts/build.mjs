@@ -1,5 +1,5 @@
 import { mkdir, readFile, writeFile, copyFile, readdir } from 'node:fs/promises';
-import { renderLens, heroInstrument, problemLens, workbench, decisionLens, capabilityCards } from '../experience-render.mjs';
+import { renderLens, problemLens, workbench, decisionLens, capabilityCards } from '../experience-render.mjs';
 import { content } from '../content.mjs';
 import { resolve } from 'node:path';
 
@@ -9,8 +9,7 @@ await mkdir(out, { recursive: true });
 const names = { agritech:'Agrifood & AgriTech', trade:'Export & Trade', investing:'Finance & Investment', operations:'Operations & Supply Chains', commercial:'Growth & Commercial', operate:'Operate smarter', grow:'Grow further', invest:'Invest better' };
 const escape = value => String(value).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('"','&quot;');
 let home = await readFile(resolve(root,'index.html'),'utf8');
-home = home.replace('<!-- hero-instrument -->',heroInstrument())
- .replace('<!-- problem-lens -->',problemLens())
+home = home.replace('<!-- problem-lens -->',problemLens())
  .replace('<!-- workbench -->',workbench())
  .replace('<!-- decision-lens -->',decisionLens())
  .replace('<!-- capability-cards -->',capabilityCards())

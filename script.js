@@ -25,7 +25,7 @@
     frame = null;
     document.documentElement.style.setProperty('--hero-journey', Math.min(scrollY / Math.max(innerHeight, 1), 1));
   };
-  if (document.querySelector('.hero-instrument') && !reduced.matches) {
+  if (document.querySelector('.hero-signal') && !reduced.matches) {
     addEventListener('scroll', () => { if (!frame) frame = requestAnimationFrame(updateSignal); }, { passive: true });
     updateSignal();
   }

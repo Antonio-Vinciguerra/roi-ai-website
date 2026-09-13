@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { experiences, sectors, getScenario } from '../experience-data.mjs';
-import { renderLens, heroInstrument, workbench, decisionLens, capabilityCards } from '../experience-render.mjs';
+import { renderLens, workbench, decisionLens, capabilityCards } from '../experience-render.mjs';
 import { content } from '../content.mjs';
 import { demoReply } from '../advisor-demo.mjs';
 const root=resolve(import.meta.dirname,'../dist');
@@ -43,9 +43,9 @@ test('all detail pages contain their live-in-browser example and company context
 });
 test('homepage keeps the opening direct and includes purposeful interactive modules',async()=>{
  const html=await readFile(resolve(root,'index.html'),'utf8');
- for(const marker of ['hero-instrument','problem-lens','approach-workbench','decision-verdict','capability-gallery','intelligence-lens'])assert.ok(html.includes(marker));
- assert.doesNotMatch(html,/<!-- (hero-instrument|problem-lens|workbench|sector-lens) -->/);
- assert.doesNotMatch(heroInstrument(),/<button|preloader|gate/);
+ for(const marker of ['problem-lens','approach-workbench','decision-verdict','capability-gallery','intelligence-lens'])assert.ok(html.includes(marker));
+ assert.doesNotMatch(html,/hero-instrument|signal-strands/);
+ assert.doesNotMatch(html,/<!-- (problem-lens|workbench|sector-lens) -->/);
  assert.match(workbench(),/Your decision brief/);
  assert.match(decisionLens(),/decision framework/);
  assert.match(capabilityCards(),/operate.html/);

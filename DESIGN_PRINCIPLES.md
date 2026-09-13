@@ -4,6 +4,7 @@ The interface should demonstrate a way of thinking: from signal, through judgmen
 
 ## Preserve
 - The approved hero: “Innovation built for measurable growth.”
+- A completely clean hero composition without decorative diagrams.
 - Warm paper, ink, mineral tones and quiet editorial imagery.
 - Direct access, readable content, natural scrolling and native navigation.
 - Technology as the means, ROI as the standard and growth as the outcome.

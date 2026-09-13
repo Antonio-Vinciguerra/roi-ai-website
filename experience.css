@@ -72,17 +72,6 @@
 }
 @media(prefers-reduced-motion:reduce){.lens-diagram .diagram-trace{animation:none;stroke-dasharray:none}}
 
-/* The opening expresses convergence; the headline remains the first message. */
-.hero-instrument{position:absolute;right:var(--gutter);top:25px;width:clamp(300px,34vw,520px);color:var(--accent);pointer-events:none}
-.hero-instrument svg{display:block;width:100%;height:auto;overflow:visible}
-.signal-strands path{stroke:#89998c;stroke-width:.75;opacity:.42}
-.signal-core{stroke:var(--copper);stroke-width:1.5;stroke-dasharray:1;animation:signal-arrive 1.6s var(--ease) both}
-.hero-instrument circle{fill:var(--paper);stroke:var(--copper);stroke-width:1.5}
-.hero-instrument .signal-halo{fill:none;stroke:#9c735950;stroke-width:.6}
-.hero-instrument>div{display:flex;justify-content:space-between;position:absolute;left:2%;right:3%;bottom:0;font:.75rem var(--mono);text-transform:uppercase;letter-spacing:.08em}
-.hero-instrument>div span:nth-child(2){padding-left:6%}
-@keyframes signal-arrive{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
-.hero>.eyebrow{position:relative;z-index:1;max-width:60%}
 .problem-lens{display:grid;grid-template-columns:.75fr 1fr 1fr;gap:6%;border-top:1px solid var(--line);padding-top:30px}
 .problem-options{display:flex;flex-direction:column;align-items:start;gap:5px}
 .problem-options button{border:0;border-left:2px solid transparent;background:transparent;color:var(--muted);min-height:44px;padding:8px 14px;text-align:left;font-size:.95rem}
@@ -149,14 +138,11 @@ body>footer .wordmark span{color:var(--accent)}
 .contact .button>span{transition:transform .3s}
 .contact .button:hover>span{transform:translate(3px,-3px)}
 @media(max-width:1100px){
- .hero-instrument{width:280px;top:30px}.hero>.eyebrow{max-width:65%}
  .workbench-document{gap:8%;padding:36px}.capability-gallery{gap:20px}
  .capability-card-title h3{font-size:1.8rem}
  .decision-schema{gap:8px}
 }
 @media(max-width:700px){
- .hero-instrument{position:relative;right:auto;top:auto;width:min(100%,380px);margin:36px 0 10px;order:3}
- .hero-instrument svg{height:100px}.hero-instrument>div{font-size:.75rem;bottom:-4px}
  .hero>.eyebrow{max-width:100%;font-size:.75rem;margin-bottom:40px}
  .hero{padding-bottom:84px}.hero-note{max-width:100%}
  .problem-lens{display:block}.problem-options{flex-direction:row;flex-wrap:wrap;gap:5px;margin-bottom:24px}
@@ -174,7 +160,6 @@ body>footer .wordmark span{color:var(--accent)}
  .capability-art{aspect-ratio:16/10}.capability-card-title h3{font-size:2rem}
  .sectors{padding-top:65px}.section-heading h2{font-size:2.8rem}
 }
-@media(prefers-reduced-motion:reduce){.signal-core,.capability-card:hover .diagram-trace{animation:none}.signal-core{stroke-dasharray:none}}
+@media(prefers-reduced-motion:reduce){.capability-card:hover .diagram-trace{animation:none}}
 .challenge,.approach,.position,.capabilities,.sectors,.opportunity,.focus,.working{padding-top:clamp(64px,7vw,112px);padding-bottom:clamp(64px,7vw,112px)}
 .detail-lab{padding-top:30px;padding-bottom:50px}
-.hero-instrument svg{transform-origin:center;transform:scaleY(calc(1 - var(--hero-journey,0)*.18))}

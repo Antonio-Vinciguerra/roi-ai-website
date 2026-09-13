@@ -27,9 +27,6 @@ export function renderLens(key='agritech',all=false) {
  ${all?'<noscript><p>Explore each sector: '+sectors.map(k=>'<a href="'+k+'.html">'+escape(experiences[k].name)+'</a>').join(' · ')+'</p></noscript>':''}</div>`;
 }
 
-export function heroInstrument(){
- return '<div class="hero-instrument" aria-hidden="true"><svg viewBox="0 0 520 220" fill="none"><g class="signal-strands">'+Array.from({length:13},(_,i)=>'<path d="M8 '+(20+i*13)+' C180 '+(20+i*13)+' 180 105 280 105 S375 '+(46+i*9)+' 505 '+(46+i*9)+'"/>').join('')+'</g><path class="signal-core" pathLength="1" d="M8 98 C160 98 190 105 280 105 S375 105 505 105"/><circle cx="280" cy="105" r="6"/><circle cx="280" cy="105" r="21" class="signal-halo"/></svg><div><span>Signal</span><span>Judgment</span><span>Value</span></div></div>';
-}
 export function problemLens(){
  return '<div class="problem-lens"><div class="problem-options" role="group" aria-label="Choose a business challenge"><button data-problem="time" aria-pressed="true">Time lost</button><button data-problem="growth" aria-pressed="false">Opportunity missed</button><button data-problem="capital" aria-pressed="false">Capital at risk</button></div><div aria-live="polite" aria-atomic="true"><span class="reading-label">A better first question</span><p data-problem-question>Which recurring decision or handoff consumes effort without creating value?</p></div><div><span class="reading-label">Begin with evidence</span><p data-problem-evidence>Map one workflow. Establish the time, rework and human judgment involved.</p></div></div>';
 }
