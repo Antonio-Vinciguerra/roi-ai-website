@@ -18,7 +18,10 @@
         entry.target.classList.add('is-visible'); observer.unobserve(entry.target);
       }
     }, { threshold: .08 });
-    document.querySelectorAll('.reveal').forEach(element => observer.observe(element));
+    // The narrative homepage has a coordinated text treatment in motion.js/CSS.
+    if (!document.body.classList.contains('narrative-home')) {
+      document.querySelectorAll('.reveal').forEach(element => observer.observe(element));
+    }
   }
   let frame;
   const updateSignal = () => {

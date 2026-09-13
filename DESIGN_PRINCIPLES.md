@@ -56,3 +56,11 @@ The first reading is lighter: problem exploration, engagement deliverables, vend
 Reduced motion uses a stationary background and unpinned content. Text enlargement can increase chapter height naturally; no reading content is constrained to a fixed viewport height. A no-script visitor still has all capability text, service links, sector links and disclosures.
 
 Validation: 25 automated tests cover the existing site plus continuous blend boundaries, small/large viewport calculations, static chapter access, navigation targets and the absence of scroll interception. A production build and script syntax checks are required before publication. This revision has not had browser visual QA or physical-iPhone testing; those remain necessary before a final design sign-off.
+
+## Desktop-width correction and text arrival
+
+The legacy capability gallery declared three grid tracks. Setting the new story to `display:grid` accidentally reactivated those tracks. The story now explicitly declares one full-width track, zero gap and full-width overlapping layers; the more specific selector also overrides mobile gallery defaults.
+
+Opening text resolves softly from slight blur and a small vertical offset, with a short stagger between the introduction, headline and supporting copy. Scroll text uses the same visual treatment through native view timelines, with an IntersectionObserver/Web Animations fallback. Old parent-level homepage entrances are disabled to avoid compounded motion. Reduced motion shows all text immediately. No text masking or clipping is introduced.
+
+Two regression checks cover the explicit full-width layout declarations and text-animation fallbacks (27 automated tests total). The user's desktop screenshot is the evidence for the reported defect; this fix has not been browser-visually tested.

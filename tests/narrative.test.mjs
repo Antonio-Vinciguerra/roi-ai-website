@@ -47,3 +47,29 @@ test('scroll narration has no input interception, panel hiding or timed advancem
   assert.match(css,/prefers-reduced-motion:reduce/);
   assert.doesNotMatch(css,/scroll-snap-type|height:100vh/);
 });
+
+test('full-width story explicitly replaces every inherited card-grid track and gap', async () => {
+  const css = await readFile(new URL('../narrative.css', import.meta.url), 'utf8');
+  const rule = css.match(/\.capability-gallery\.scroll-story\{([^}]+)\}/)[1];
+  assert.match(rule,/grid-template-columns:minmax\(0,1fr\)/);
+  assert.match(rule,/gap:0/);
+  assert.match(rule,/width:100%/);
+  for (const selector of ['story-backdrop','story-chapters']) {
+    const properties = css.match(new RegExp('\\.' + selector + '\\{([^}]+)\\}'))[1];
+    assert.match(properties,/grid-area:1\/1/);
+    assert.match(properties,/width:100%/);
+    assert.match(properties,/min-width:0/);
+  }
+});
+
+test('opening and scroll text share a soft reveal with reduced-motion and no-script readability', async () => {
+  const css = await readFile(new URL('../narrative.css', import.meta.url), 'utf8');
+  const js = await readFile(new URL('../motion.js', import.meta.url), 'utf8');
+  assert.match(css,/hero-title\{animation:soft-text-enter 1\.65s/);
+  assert.match(css,/hero-note\{animation:soft-text-enter/);
+  assert.match(css,/\.text-arrival\{animation:soft-scroll-text/);
+  assert.match(css,/prefers-reduced-motion:reduce\)\{[\s\S]*hero-title[\s\S]*opacity:1/);
+  assert.match(js,/IntersectionObserver/);
+  assert.match(js,/animation\.cancel\(\)/);
+  assert.doesNotMatch(css,/visibility:hidden|display:none[^}]*hero-title/);
+});
