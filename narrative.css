@@ -123,30 +123,4 @@
  .story-running-label,.story-progress{display:none}
 }
 
-/* Text resolves into focus in the same way at the opening and on the journey.
-   No masks: italic strokes and enlarged text keep their full bounds. */
-@media(prefers-reduced-motion:no-preference){
- .narrative-home .hero>.eyebrow{animation:soft-text-enter 1.25s cubic-bezier(.2,.65,.2,1) both}
- .narrative-home .hero .hero-title{animation:soft-text-enter 1.65s cubic-bezier(.2,.65,.2,1) .12s both}
- .narrative-home .hero .hero-note{animation:soft-text-enter 1.55s cubic-bezier(.2,.65,.2,1) .35s both}
-}
-@keyframes soft-text-enter{
- from{opacity:0;transform:translate3d(0,16px,0);filter:blur(3px)}
- 65%{opacity:1;filter:blur(0)}
- to{opacity:1;transform:translate3d(0,0,0);filter:blur(0)}
-}
-@supports(animation-timeline:view()){
- @media(prefers-reduced-motion:no-preference){
-  .narrative-home .text-arrival{animation:soft-scroll-text linear both;animation-timeline:view();animation-range:entry 0% entry 100%}
-  .narrative-home .steps .step,.narrative-home .sector-links>a{animation:none;translate:none}
- }
-}
-@keyframes soft-scroll-text{
- from{opacity:.08;translate:0 18px;filter:blur(2px)}
- 85%{opacity:1;filter:blur(0)}
- to{opacity:1;translate:0 0;filter:blur(0)}
-}
-.narrative-home .text-arrival:focus-within{animation:none!important;opacity:1;translate:none;filter:none}
-@media(prefers-reduced-motion:reduce){
- .narrative-home .hero>.eyebrow,.narrative-home .hero .hero-title,.narrative-home .hero .hero-note,.narrative-home .text-arrival{animation:none!important;opacity:1;transform:none;translate:none;filter:none}
-}
+.story-landscape:not(:first-child){mask-image:linear-gradient(to bottom,transparent calc(var(--image-veil,108%) - 8%),#000 calc(var(--image-veil,108%) + 8%));-webkit-mask-image:linear-gradient(to bottom,transparent calc(var(--image-veil,108%) - 8%),#000 calc(var(--image-veil,108%) + 8%))}
