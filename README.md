@@ -21,6 +21,11 @@ Open http://127.0.0.1:4173. Preview the built site over HTTP, not the source HTM
 - advisor.js / advisor.css: shared accessible conversation panel
 - advisor-demo.mjs: clearly labelled scripted replies
 - advisor-persona.js and api/advisor.js: future server-only integration
+- experience-data.mjs: 21 illustrative business scenarios, with no live or client data
+- experience-render.mjs: shared interactive experience markup and homepage modules
+- experience.js / experience.css: signal-to-decision interaction system
+
+The homepage uses explicit template markers for its shared modules. The build fills them; the generated pages retain a readable default example without JavaScript. Sector selection updates the example, and the chosen scenario travels in the link to its detail page. Advisor handoff carries the selected example only after the visitor opens the conversation.
 
 Build output goes into dist; it is deliberately excluded from Git. Only public assets are copied there. Original image files are retained; deployed pages use optimised WebP versions.
 

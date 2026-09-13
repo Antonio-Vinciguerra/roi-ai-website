@@ -16,6 +16,7 @@
  const chatTab=$('#chat-tab'), voiceTab=$('#voice-tab');
  const voiceButton=$('.voice-action'), voiceLabel=$('.voice-label'), interim=$('.voice-interim');
  const messages=[];
+ let selectedContext='',pendingContext='';
  let mode='chat', active=false, recognition=null, busy=false, speaking=false, returnFocus=null, controller=null;
  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
  const supported=Boolean(SpeechRecognition && window.speechSynthesis);
@@ -41,8 +42,19 @@
  $('.advisor-tabs').addEventListener('keydown',event=>{
   if(['ArrowLeft','ArrowRight','Home','End'].includes(event.key)){event.preventDefault();setMode(event.key==='Home'?'chat':event.key==='End'?'voice':mode==='chat'?'voice':'chat');(mode==='chat'?chatTab:voiceTab).focus();}
  });
- const open=event=>{returnFocus=event.currentTarget;dialog.showModal();(mode==='chat'?input:voiceButton).focus();};
- launcher.addEventListener('click',open);document.querySelectorAll('[data-advisor-open]').forEach(button=>button.addEventListener('click',open));
+ const open=button=>{
+  returnFocus=button;
+  const context=(button.dataset.advisorContext||document.body.dataset.pageContext||'').slice(0,180);
+  if(context&&context!==selectedContext){
+   selectedContext=context;pendingContext=context;
+   addMessage('assistant','You’ve been exploring '+context+'. That example is illustrative, not an assessment of your business. What is similar—or different—in your situation?');
+   if(!input.value)input.value='I’d like to explore '+context.toLowerCase()+' for my business.';
+   $('.advisor-prompts').hidden=true;
+  }
+  dialog.showModal();(mode==='chat'?input:voiceButton).focus();
+ };
+ launcher.addEventListener('click',()=>open(launcher));
+ document.addEventListener('click',event=>{const button=event.target.closest('[data-advisor-open]');if(button)open(button);});
  $('.advisor-close').addEventListener('click',()=>dialog.close());
  dialog.addEventListener('click',event=>{if(event.target===dialog){const r=dialog.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)dialog.close();}});
  dialog.addEventListener('close',()=>{stopVoice();controller?.abort();status.textContent='';returnFocus?.focus();});
@@ -82,7 +94,9 @@
   const text=raw.trim().slice(0,2000);if(!text||busy)return;
   busy=true;$('.advisor-send').disabled=true;$('.advisor-prompts').hidden=true;
   recognition?.abort();recognition=null;
-  addMessage('user',text);messages.push({role:'user',content:text});input.value='';status.textContent=live?'Thinking…':'Preparing a guided answer…';
+  addMessage('user',text);
+  if(pendingContext)messages.push({role:'user',content:'Website example selected (illustrative, not business data): '+pendingContext});
+  messages.push({role:'user',content:text});pendingContext='';input.value='';status.textContent=live?'Thinking…':'Preparing a guided answer…';
   try {
    let reply;
    if(live){
@@ -94,7 +108,7 @@
      if(!response.ok)throw new Error('Advisor unavailable');
      const body=await response.json();if(typeof body.reply!=='string'||!body.reply.trim())throw new Error('Empty response');reply=body.reply;
     } finally {clearTimeout(timeout);controller=null;}
-   } else reply=demoReply(text);
+   } else reply=demoReply(text,selectedContext);
    messages.push({role:'assistant',content:reply});addMessage('assistant',reply);status.textContent='';
    busy=false;if(mode==='voice'&&active)speak(reply);
   } catch(error) {
