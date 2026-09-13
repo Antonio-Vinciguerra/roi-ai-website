@@ -123,4 +123,4 @@
  .story-running-label,.story-progress{display:none}
 }
 
-.story-landscape:not(:first-child){mask-image:linear-gradient(to bottom,transparent calc(var(--image-veil,108%) - 8%),#000 calc(var(--image-veil,108%) + 8%));-webkit-mask-image:linear-gradient(to bottom,transparent calc(var(--image-veil,108%) - 8%),#000 calc(var(--image-veil,108%) + 8%))}
+.story-landscape{mask-image:none;-webkit-mask-image:none;clip-path:none;transform:none}

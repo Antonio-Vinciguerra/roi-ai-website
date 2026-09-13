@@ -112,6 +112,13 @@ test('shared text motion is delivered to every service and sector page', async (
     assert.match(html,/src="motion.js"/);
   }
   const css=await readFile(new URL('../narrative.css',import.meta.url),'utf8');
-  assert.match(css,/mask-image:linear-gradient/);
-  assert.match(css,/--image-veil/);
+  assert.match(css,/mask-image:none/);
+  assert.doesNotMatch(css,/--image-veil/);
+  const motion=await readFile(new URL('../motion.js',import.meta.url),'utf8');
+  assert.match(motion,/querySelector\('\.chapter-content'\)/);
+  assert.match(motion,/direction < 0 \|\| revisit/);
+  const reveal=await readFile(new URL('../reveal.js',import.meta.url),'utf8');
+  assert.match(reveal,/record\.target = record\.seen \|\| focused \? 1 : 0/);
+  assert.match(reveal,/record\.hero \? 960 : 780/);
+  assert.doesNotMatch(reveal,/record\.seen = false|textDissolveFrame/);
 });

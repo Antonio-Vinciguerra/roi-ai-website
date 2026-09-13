@@ -86,3 +86,11 @@ Existing tests now check stationary opacity, timing, no text-node mutation, and 
 The user approved trying words forming in overlapping groups, with timing as the main design concern. Text now materialises in pairs, with a bounded stagger across each sentence and a restrained soft-focus-to-sharp effect. Words never translate or rotate. The opening is slightly more gradual than scrolling; the same treatment reaches the later homepage sections and service pages. Long paragraphs do not incur increasing delays.
 
 Whitespace, emphasis and explicit line breaks are retained. Words are rendered once; reduced motion restores the original nodes, focus reveals linked headings immediately, and print remains fully readable. Filters are removed from settled words. Existing tests cover the formation endpoints and bounded timing for both short headlines and long paragraphs. Visual timing still requires desktop and physical-mobile review.
+
+## Downward-only pacing and image continuity
+
+The opening time constant increases from 720 to 960 ms; subsequent text uses 780 ms. Each text block begins a complete reveal on entering the reading area, then remains visible for the rest of that page visit. Pausing no longer leaves a partly revealed block. Upward scrolling completes visible text immediately and does not replay the reveal.
+
+Photographs now use a time-led dissolve rather than a masked wipe, keyed to the actual chapter copy rather than the chapter's surrounding whitespace. First downward visits dissolve in; upward returns and revisits restore the matching image without an entrance replay. Reduced motion and no-script fallbacks remain readable. The shared logic applies at both mobile and desktop widths.
+
+Validation remains automated/source-level; physical-device visual timing has not been checked.

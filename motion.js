@@ -1,57 +1,75 @@
-import { landscapeFrame } from './scene-math.mjs';
+import { approachOpacity } from './scene-math.mjs';
 import { installTextDissolve } from './reveal.js';
 const reduced = matchMedia('(prefers-reduced-motion: reduce)');
 
-// Every chapter stays in normal document flow. No scroll interception, hidden
-// links, timed scene switches or minimum screen-height requirement.
+// Image chapters use the same time-led dissolve as the text. On an upward
+// return the correct photograph is restored without replaying its entrance.
 for (const story of document.querySelectorAll('[data-scroll-story]')) {
   const chapters = [...story.querySelectorAll('[data-chapter]')];
   const landscapes = [...story.querySelectorAll('[data-landscape]')];
   const backdrop = story.querySelector('.story-backdrop');
   const count = story.querySelector('[data-story-count]');
   const progress = story.querySelector('.story-progress i');
-  let queued = 0;
+  const seen = new Set();
+  const opacity = landscapes.map(() => 0);
+  let queued = 0, previousTime = 0, selected = -1;
+  let lastScroll = Math.max(0, scrollY), direction = 1;
   let inView = true;
-  function update() {
+  let firstEntry = true;
+  function update(time) {
     queued = 0;
-    if (reduced.matches || !inView || document.hidden) return;
+    if (reduced.matches || !inView || document.hidden) { previousTime = 0; return; }
     const height = backdrop.clientHeight;
     const inset = parseFloat(getComputedStyle(backdrop).top) || 0;
+    const bounds = story.getBoundingClientRect();
+    if (bounds.top > innerHeight * .94 || bounds.bottom < inset) return;
+    const dt = previousTime ? Math.min(64, time - previousTime) : 16;
+    previousTime = time;
     let active = 0;
     chapters.forEach((chapter, index) => {
-      const rect = chapter.getBoundingClientRect();
-      const state = landscapeFrame(rect.top - inset, height, index);
-      landscapes[index].style.opacity = 1;
-      landscapes[index].style.setProperty('--image-veil', `${(1 - state.opacity) * 116 - 8}%`);
-      if (!CSS.supports('mask-image', 'linear-gradient(black, transparent)')) {
-        landscapes[index].style.clipPath = index ? `inset(${(1 - state.opacity) * 100}% 0 0 0)` : 'none';
-      }
-      landscapes[index].style.transform = `translate3d(0,${state.shift * 1.6}px,0) scale(1.09)`;
-      if (state.opacity >= .5) active = index;
+      // Follow the actual text, not the large empty spacing around its chapter.
+      const top = chapter.querySelector('.chapter-content').getBoundingClientRect().top;
+      if (top < inset + height * .82) active = index;
     });
-    count.textContent = `0${active + 1} — 03`;
-    const rect = story.getBoundingClientRect();
-    progress.style.transform = `scaleX(${Math.max(0, Math.min(1, (height - rect.top + inset) / rect.height))})`;
+    const revisit = active !== selected && seen.has(active);
+    const restore = direction < 0 || revisit || (firstEntry && bounds.top < -height * .5);
+    if (active !== selected) { selected = active; seen.add(active); }
+    firstEntry = false;
+    let settling = false;
+    landscapes.forEach((landscape, index) => {
+      const target = index <= active ? 1 : 0;
+      opacity[index] = restore ? target : approachOpacity(opacity[index], target, dt, 700);
+      if (Math.abs(opacity[index] - target) < .002) opacity[index] = target;
+      else settling = true;
+      landscape.style.opacity = opacity[index].toFixed(4);
+    });
+    count.textContent = '0' + (active + 1) + ' — 03';
+    progress.style.transform = 'scaleX(' + Math.max(0, Math.min(1, (height - bounds.top + inset) / bounds.height)) + ')';
+    if (settling) queued = requestAnimationFrame(update);
+    else previousTime = 0;
   }
   const schedule = () => { if (!queued) queued = requestAnimationFrame(update); };
   const configure = () => {
     story.classList.toggle('has-motion', !reduced.matches);
-    if (reduced.matches) {
-      [...landscapes, ...story.querySelectorAll('.chapter-content')].forEach(el => {
-        el.style.removeProperty('opacity'); el.style.removeProperty('transform');
-        el.style.removeProperty('clip-path'); el.style.removeProperty('--image-veil');
-      });
-    }
+    landscapes.forEach((el, i) => {
+      el.style.removeProperty('transform');
+      if (reduced.matches) el.style.removeProperty('opacity');
+      else el.style.opacity = opacity[i];
+    });
     schedule();
   };
   if ('IntersectionObserver' in window) {
     new IntersectionObserver(entries => { inView = entries[0].isIntersecting; if (inView) schedule(); }, {rootMargin:'100px'}).observe(story);
   }
-  addEventListener('scroll', schedule, {passive:true});
+  addEventListener('scroll', () => {
+    const position = Math.max(0, scrollY);
+    if (Math.abs(position - lastScroll) > .5) direction = position > lastScroll ? 1 : -1;
+    lastScroll = position;
+    schedule();
+  }, {passive:true});
   addEventListener('resize', schedule, {passive:true});
-  addEventListener('pageshow', configure);
+  addEventListener('pageshow', schedule);
   document.addEventListener('visibilitychange', schedule);
-  story.addEventListener('focusin', schedule);
   reduced.addEventListener('change', configure);
   if ('ResizeObserver' in window) new ResizeObserver(schedule).observe(story);
   document.fonts.ready.then(schedule);
