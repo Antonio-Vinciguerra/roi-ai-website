@@ -98,3 +98,7 @@ Validation remains automated/source-level; physical-device visual timing has not
 ## A calmer welcome only
 
 The homepage hero's formation time constant is now 1320 ms (previously 960 ms), extending its existing reveal by 37.5% without introducing a waiting screen. All subsequent text remains at 780 ms, and photography, upward-scroll behaviour, copy and layout are untouched. Desktop and mobile use the same timing; reduced-motion and focus bypasses remain intact. Versioned motion entry/import URLs refresh these scripts on returning devices after publication.
+
+## Dedicated-page scene arrival
+
+All eight service and sector openings now share the approved 1320 ms word-formation timing. The label begins first, heading follows by 100 ms and introduction by 300 ms. A 1200 ms opacity-only arrival softens the new page underneath, starting in CSS before modules load; navigation and advisor remain outside the fade. No click delay, scroll interception, moving text, layout change or new content. Keyboard focus and reduced motion bypass the page fade. Homepage pacing and subsequent 780 ms downward-only text reveals are preserved across desktop and mobile.

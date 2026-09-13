@@ -7,7 +7,7 @@ export function installTextDissolve() {
   const records = [...document.querySelectorAll('main h1,main h2,main h3,main p,.hero>.eyebrow')]
     .filter(el => !el.closest('details,[data-lens],.approach-workbench,footer,noscript,[aria-live]') &&
       !el.matches('.section-label,.lens-disclaimer') && !el.querySelector('button,a,input'))
-    .map(el => ({el, opacity:1, target:1, delay:0, seen:false, hero:!!el.closest('.hero'), words:[], original:[...el.childNodes].map(node => node.cloneNode(true))}));
+    .map(el => ({el, opacity:1, target:1, delay:0, seen:false, hero:!!el.closest('.hero,.detail-hero'), words:[], original:[...el.childNodes].map(node => node.cloneNode(true))}));
   let frame = 0;
   let previousTime = 0;
   let firstRun = true;
@@ -93,7 +93,7 @@ export function installTextDissolve() {
       const rect = record.el.getBoundingClientRect();
       record.seen = record.seen || rect.top < viewport * .94;
       record.opacity = opening && record.hero ? 0 : record.seen ? 1 : 0;
-      record.delay = opening && record.hero ? now + (record.el.matches('h1') ? 100 : record.el.closest('.hero-note') ? 300 : 0) : 0;
+      record.delay = opening && record.hero ? now + (record.el.matches('h1') ? 100 : record.el.closest('.hero-note') || record.el.matches('.lede') ? 300 : 0) : 0;
       if (!reduced.matches) paint(record);
     }
     document.body.classList.toggle('roi-dissolve', !reduced.matches);
