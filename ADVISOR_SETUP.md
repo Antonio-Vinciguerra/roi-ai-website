@@ -1,20 +1,29 @@
-# ROI AI Advisor — deployment handoff
+# Advisor integration
 
-The current advisor is a polished local demo. It uses prepared responses until a secure endpoint is connected.
+The delivered website runs in clearly labelled guided-demo mode. Both typing and browser voice preview are available. There is no live model or knowledge base connected.
 
-## Persona
+## Never put a key in the website or GitHub
+Set OPENAI_API_KEY, OPENAI_MODEL and ADVISOR_ENABLED in a server host's secret/environment settings. Do not paste a secret into advisor-config.js, client JavaScript, a Git remote, or a committed .env file.
 
-The live persona is in `advisor-persona.js`. It is designed to behave as a senior B2B AI consultant: curious, commercially literate, precise and useful without pressure. Change this file as the ROI AI point of view and knowledge base develop.
+## Text integration
+api/advisor.js exports handleAdvisor(Request, env, fetcher). It is a standards-based Request/Response handler, not an Express/Vercel handler; adapt it explicitly to your chosen server host.
+The static Sites build deliberately excludes this file and does not create an API route.
 
-## Secure OpenAI connection
+1. Mount the handler at a same-origin /api/advisor route.
+2. Supply a real shared rate limiter as env.allowRequest(request), with IP/session controls, overall budget caps and bot protection. The handler fails closed without it. Origin validation alone is not authentication.
+3. Configure the server secrets and choose a currently supported model after checking its cost/latency tradeoff.
+4. Add verified knowledge retrieval on the server and evaluate answers before release. The current persona has no company knowledge beyond the approved positioning.
+5. Change window.ROI_ADVISOR_API_URL to '/api/advisor' only after the server is deployed and tested.
+6. Verify unhappy paths, timeouts, provider limits, prompt injection, privacy and handoff. Live failures never fall back silently to demo replies.
 
-1. Deploy the site to a host with serverless functions (for example, Vercel, Netlify or Cloudflare Workers). GitHub Pages alone is static and cannot safely store an OpenAI API key.
-2. Add `OPENAI_API_KEY` and `OPENAI_MODEL` from `.env.example` in that host’s server-side environment settings.
-3. Adapt `api/advisor.js` to the host’s function format if necessary and deploy it as `/api/advisor`.
-4. Set `window.ROI_ADVISOR_API_URL = '/api/advisor';` in `advisor-config.js`.
+The handler accepts at most eight short user/assistant messages, bounds request bytes, rejects browser-provided system instructions, keeps the persona server-side, limits output and disables response storage. Conversation text is still sent to the provider when live mode is enabled; publish an appropriate privacy notice.
 
-Never enter an OpenAI key into `advisor-config.js`, `chat.js`, or any other browser-facing file.
+## Future Realtime voice
+Keep voice as a parallel mode of the same advisor. Use a user-initiated WebRTC connection with a server-side session setup route; never send a standard OpenAI API key to the browser. The server should apply the same persona, verified knowledge tools, origin checks, durable rate limits and budget policy.
+Follow the current OpenAI Realtime calls documentation for server-mediated SDP exchange or short-lived client credentials. Track every microphone stream and peer connection, stop tracks and close the connection on End/close/page exit, expose mute and interruption controls, and retain a visible text transcript. Add a deliberate consent step before connecting audio.
 
-## Knowledge base next
+Current browser voice preview is not equivalent to Realtime. Browser and OS support varies and recognition can use a browser-vendor service. It must not be marketed as guaranteed accessible real-time voice.
 
-Add only approved ROI AI content: service definitions, sector material, decision frameworks, FAQs, policies and verified case evidence. The advisor should cite or link to the source material when it answers factual questions.
+## References
+- [OpenAI Responses API](https://developers.openai.com/api/reference/typescript/resources/beta/subresources/responses/methods/create)
+- [OpenAI Realtime calls](https://developers.openai.com/api/reference/typescript/resources/realtime/subresources/calls/methods/create)

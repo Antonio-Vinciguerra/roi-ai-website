@@ -6,14 +6,13 @@
     <meta name="theme-color" content="#f2f0eb" />
     <title>ROI AI — Innovation built for measurable growth.</title>
     <meta name="description" content="ROI AI helps organisations turn technology into measurable growth." />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="preload" href="assets/fonts/manrope-medium.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="chat.css" />
-    <link rel="stylesheet" href="voice.css" />
+    <link rel="stylesheet" href="advisor.css" />
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
   </head>
   <body>
+    <a class="skip-link" href="#top">Skip to content</a>
     <div class="grain" aria-hidden="true"></div>
     <header class="site-header">
       <a class="wordmark" href="#top" aria-label="ROI AI home">ROI<span>AI</span></a>
@@ -21,11 +20,12 @@
       <nav id="nav" aria-label="Primary navigation">
         <a href="#approach">Approach</a>
         <a href="#capabilities">Capabilities</a>
+        <a href="#sectors">Sectors</a>
         <a href="#contact">Contact <span>↗</span></a>
       </nav>
     </header>
 
-    <main id="top">
+    <main id="top" tabindex="-1">
       <section class="hero section">
         <div class="eyebrow reveal">ROI AI <span></span> AI strategy, systems and measurable growth</div>
         <div class="hero-content">
@@ -37,7 +37,7 @@
         </div>
         <div class="hero-signal" aria-hidden="true"><span></span><i>01 / BEGIN WITH INTENT</i></div>
         <a href="#challenge" class="scroll-cue" aria-label="Scroll to discover"><span>Scroll to discover</span><i>↓</i></a>
-        <div class="hero-index">01 <span>/</span> 06</div>
+        <div class="hero-index">Technology is the means. ROI is the standard.</div>
       </section>
 
       <section id="challenge" class="challenge section panel-light">
@@ -99,13 +99,17 @@
         </div>
       </section>
 
-      <section class="sectors section panel-light">
+      <section id="sectors" class="sectors section panel-light">
         <p class="section-label reveal">Where it applies <span>05</span></p>
         <div class="sector-layout">
           <div class="sector-intro">
             <p class="eyebrow reveal">One standard. Different arenas.</p>
             <h2 class="reveal">The context<br />changes. <em>The<br />standard doesn’t.</em></h2>
             <p class="reveal">Where complexity, data and consequential decisions meet, technology can create a material advantage.</p>
+            <figure class="sector-image">
+              <img src="assets/agritech-aerial.webp" width="1600" height="900" alt="Agricultural fields at sunrise with a surveying drone above the landscape" loading="lazy" decoding="async" />
+              <figcaption>Agrifood &amp; AgriTech <span>Our first focus</span></figcaption>
+            </figure>
           </div>
           <div class="sector-list reveal">
             <article class="sector-item active"><a class="sector-trigger" href="detail.html?topic=agritech"><span class="sector-number">01</span><span class="sector-name">Agrifood &amp; AgriTech</span><span class="sector-priority">First focus</span><i>↗</i></a><div class="sector-detail"><p>From field to supply chain, better intelligence can improve the decisions that shape resilience, productivity and growth.</p><div class="sector-tags"><span>Precision operations</span><span>Drone &amp; geospatial intelligence</span><span>Supply-chain insight</span></div></div></article>
@@ -121,14 +125,13 @@
         <p class="section-label reveal">The conversation <span>06</span></p>
         <div class="contact-content">
           <h2 class="display reveal">Start with<br /><em>the problem.</em></h2>
-          <div class="contact-side reveal"><p>There is always a better first question than “what technology should we use?”</p><a class="button" href="mailto:hello@roiai.example">Start a conversation <span>↗</span></a></div>
+          <div class="contact-side reveal"><p>There is always a better first question than “what technology should we use?”</p><button class="button" data-advisor-open>Start a conversation <span>↗</span></button></div>
         </div>
         <footer><a class="wordmark" href="#top">ROI<span>AI</span></a><span>© 2026 ROI AI</span><a href="#top">Back to top ↑</a></footer>
       </section>
     </main>
     <script src="script.js"></script>
     <script src="advisor-config.js"></script>
-    <script src="chat.js"></script>
-    <script src="voice.js"></script>
+    <script src="advisor.js" defer></script>
   </body>
 </html>

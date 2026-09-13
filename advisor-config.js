@@ -1,3 +1,3 @@
-// Leave blank for the built-in demo. After deploying a secure server endpoint,
-// set this to its public URL, for example: "https://your-domain.com/api/advisor".
+// Public configuration only. Never put a secret here.
+// Leave blank for the demo; set '/api/advisor' after deploying a same-origin server.
 window.ROI_ADVISOR_API_URL = '';
