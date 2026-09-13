@@ -43,7 +43,7 @@ await writeFile(resolve(out,'404.html'), head('Page not found','Return to ROI AI
 for (const file of ['scene-math.mjs','motion.css','motion.js','experience.css','experience.js','experience-data.mjs','experience-render.mjs','style.css','script.js','advisor.css','advisor.js','advisor-demo.mjs','advisor-config.js']) await copyFile(resolve(root,file),resolve(out,file));
 await mkdir(resolve(out,'assets/fonts'),{recursive:true});
 await copyFile(resolve(root,'narrative.css'),resolve(out,'narrative.css'));
-for (const file of ['reveal.css','reveal.js','page-entry.css','page-entry.js','detail-hero.css','detail-hero.js']) await copyFile(resolve(root,file),resolve(out,file));
+for (const file of ['reveal.css','reveal.js','reveal-timing.mjs','page-entry.css','page-entry.js','detail-hero.css','detail-hero.js']) await copyFile(resolve(root,file),resolve(out,file));
 for (const file of ['favicon.svg','agritech-aerial.webp','trade-port.webp','investment-table.webp']) await copyFile(resolve(root,'assets',file),resolve(out,'assets',file));
 for (const file of await readdir(resolve(root,'assets/fonts'))) await copyFile(resolve(root,'assets/fonts',file),resolve(out,'assets/fonts',file));
 // Refresh the motion entry point on previously visited phones as well as desktop.
@@ -51,7 +51,7 @@ for (const file of await readdir(out)) {
  if (!file.endsWith('.html')) continue;
  const path = resolve(out, file);
  await writeFile(path, (await readFile(path, 'utf8'))
-  .replaceAll('src="motion.js"', 'src="motion.js?v=continuity-4"')
+  .replaceAll('src="motion.js"', 'src="motion.js?v=reading-5"')
   .replace('</head>','<link rel="stylesheet" href="page-entry.css?v=continuity-4"><script src="page-entry.js?v=continuity-4"></script></head>'));
 }
 console.log('Built homepage, 8 content pages, legacy routes and accessible advisor. No server secrets included.');

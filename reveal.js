@@ -1,4 +1,5 @@
 import { approachOpacity, wordFormation } from './scene-math.mjs';
+import { readingLines, lineFormation, readingFloor } from './reveal-timing.mjs';
 
 export function installTextDissolve() {
   // Utility/error pages without the motion stylesheet keep their original HTML.
@@ -7,7 +8,7 @@ export function installTextDissolve() {
   const records = [...document.querySelectorAll('main h1,main h2,main h3,main p,.hero>.eyebrow')]
     .filter(el => !el.closest('.detail-hero,details,[data-lens],.approach-workbench,footer,noscript,[aria-live]') &&
       !el.matches('.section-label,.lens-disclaimer') && !el.querySelector('button,a,input'))
-    .map(el => ({el, opacity:1, target:1, delay:0, seen:false, hero:!!el.closest('.hero'), words:[], original:[...el.childNodes].map(node => node.cloneNode(true))}));
+    .map(el => ({el, opacity:1, target:1, delay:0, seen:false, hero:!!el.closest('.hero'), headline:el.matches('.hero-title'), lines:null, words:[], original:[...el.childNodes].map(node => node.cloneNode(true))}));
   let frame = 0;
   let previousTime = 0;
   let firstRun = true;
@@ -39,12 +40,28 @@ export function installTextDissolve() {
     }
   }
 
+  function measureHeadline(record) {
+    if (!record.headline || !record.words.length) return;
+    record.lines = readingLines(record.words.map(word => word.getBoundingClientRect()));
+    record.lastPaint = null;
+  }
+  function refreshLines() {
+    for (const record of records) {
+      if (!record.headline) continue;
+      measureHeadline(record);
+      paint(record);
+    }
+    schedule();
+  }
+
   function paint(record) {
     if (record.lastPaint === record.opacity) return;
     record.lastPaint = record.opacity;
-    const blur = record.el.matches('h1,h2,h3') ? 2.8 : 1.6;
+    const blur = record.hero ? (record.el.matches('h1,h2,h3') ? 2.8 : 1.6) : (record.el.matches('h1,h2,h3') ? 1 : .45);
     record.words.forEach((word, index) => {
-      const opacity = wordFormation(record.opacity, index, record.words.length);
+      const opacity = record.headline && record.lines
+        ? lineFormation(record.opacity, record.lines.order[index], record.lines.count)
+        : wordFormation(record.opacity, index, record.words.length);
       word.style.setProperty('--word-opacity', opacity.toFixed(4));
       word.style.setProperty('--word-filter', opacity > .999 || opacity < .001 ? 'none' : 'blur(' + (blur * (1 - opacity) ** 2).toFixed(3) + 'px)');
     });
@@ -61,7 +78,7 @@ export function installTextDissolve() {
     for (const record of records) {
       const rect = record.el.getBoundingClientRect();
       const focused = record.el.contains(document.activeElement) || record.el.closest('a:focus');
-      const reached = rect.top < viewport * .94;
+      const reached = rect.top < viewport * (record.hero ? .94 : .98);
       if (!record.seen && reached) {
         record.seen = true;
         // Returning upward, jumping past content or focusing it exposes it
@@ -70,8 +87,9 @@ export function installTextDissolve() {
       }
       record.target = record.seen || focused ? 1 : 0;
       if (time < record.delay) record.target = 0;
-      // Only the welcome gets more breathing room; scroll chapters keep their approved pace.
-      record.opacity = focused || (direction < 0 && record.seen) ? 1 : approachOpacity(record.opacity, record.target, dt, record.hero ? 1320 : 780);
+      // Preserve the welcome's exact clock; subsequent text settles 20% sooner.
+      record.opacity = focused || (direction < 0 && record.seen) ? 1 : approachOpacity(record.opacity, record.target, dt, record.hero ? 1320 : 620);
+      if (!record.hero && record.seen) record.opacity = Math.max(record.opacity, readingFloor(rect.top, viewport));
       if (Math.abs(record.opacity - record.target) < .002) record.opacity = record.target;
       else settling = true;
       if (time < record.delay) settling = true;
@@ -87,16 +105,17 @@ export function installTextDissolve() {
     const opening = firstRun && scrollY < 40 && !location.hash;
     const now = performance.now();
     const viewport = document.documentElement.clientHeight;
+    document.body.classList.toggle('roi-dissolve', !reduced.matches);
     for (const record of records) {
       prepareWords(record);
       record.el.classList.toggle('text-dissolve', !reduced.matches);
+      measureHeadline(record);
       const rect = record.el.getBoundingClientRect();
       record.seen = record.seen || rect.top < viewport * .94;
       record.opacity = opening && record.hero ? 0 : record.seen ? 1 : 0;
       record.delay = opening && record.hero ? now + (record.el.matches('h1') ? 100 : record.el.closest('.hero-note') ? 300 : 0) : 0;
       if (!reduced.matches) paint(record);
     }
-    document.body.classList.toggle('roi-dissolve', !reduced.matches);
     firstRun = false;
     if (!reduced.matches) schedule();
   }
@@ -109,7 +128,7 @@ export function installTextDissolve() {
   }, {passive:true});
   addEventListener('resize', () => {
     headerHeight = document.querySelector('.site-header')?.offsetHeight || 78;
-    schedule();
+    refreshLines();
   }, {passive:true});
   document.addEventListener('focusin', () => {
     for (const record of records) {
@@ -125,6 +144,6 @@ export function installTextDissolve() {
   });
   addEventListener('pageshow', schedule);
   reduced.addEventListener('change', configure);
-  document.fonts.ready.then(schedule);
+  document.fonts.ready.then(refreshLines);
   configure();
 }

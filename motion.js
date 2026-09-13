@@ -1,5 +1,5 @@
 import { approachOpacity } from './scene-math.mjs';
-import { installTextDissolve } from './reveal.js?v=continuity-4';
+import { installTextDissolve } from './reveal.js?v=reading-5';
 const reduced = matchMedia('(prefers-reduced-motion: reduce)');
 
 // Image chapters use the same time-led dissolve as the text. On an upward
