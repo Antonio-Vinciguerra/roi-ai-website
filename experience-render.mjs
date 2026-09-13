@@ -41,10 +41,8 @@ export function capabilityCards(){
  ['operate','01','Operate smarter','Reimagine how work moves through the organisation—reducing friction, improving decisions and making teams more effective.','From handoff to flow.'],
  ['grow','02','Grow further','Use intelligence to sharpen customer understanding, unlock new propositions and turn momentum into durable growth.','From signal to opportunity.'],
  ['invest','03','Invest better','Bring clarity to technology choices so capital, attention and ambition are placed where they can compound.','From assumption to evidence.']];
- return `<div class="capability-gallery" data-capability-story><div class="capability-stage">
- <div class="capability-controls" role="group" aria-label="Explore capabilities" hidden>${cards.map(([key,n,title],i)=>`<button type="button" data-capability="${i}" aria-pressed="${i===0}" aria-controls="capability-${key}"><span>${n}</span>${title}</button>`).join('')}</div>
- <div class="capability-panels">${cards.map(([key,n,title,copy,tag],i)=>`<article class="capability-panel" id="capability-${key}" data-capability-panel="${i}">
- <a class="capability-art" href="${key}.html" aria-label="Explore ${title}" data-scene-link="${key}"><img src="assets/${experiences[key].image}.webp" alt="${escape(experiences[key].name)}" width="1600" height="900" loading="lazy" data-scene-image="${key}"><span>${n} / ${tag}</span><span class="image-explore" aria-hidden="true">↗</span></a>
- <div class="capability-story-copy"><span class="reading-label">${n} / The capability</span><h3>${title}</h3><p>${copy}</p><a class="text-link" href="${key}.html" data-scene-link="${key}">Explore the work <span aria-hidden="true">↗</span></a></div></article>`).join('')}</div>
- <div class="capability-story-foot"><span>Technology is the means. ROI is the standard.</span><span class="story-scroll-hint">Scroll to explore ↓</span></div></div></div>`;
+ return `<div class="capability-gallery scroll-story" data-scroll-story>
+ <div class="story-backdrop" aria-hidden="true">${cards.map(([key],i)=>`<div class="story-landscape" data-landscape="${i}"><img src="assets/${experiences[key].image}.webp" alt="" width="1600" height="900" loading="lazy"></div>`).join('')}<div class="story-shade"></div><div class="story-running-label"><span>ROI AI / In your world</span><span data-story-count>01 — 03</span></div><div class="story-progress"><i></i></div></div>
+ <div class="story-chapters">${cards.map(([key,n,title,copy,tag],i)=>`<article class="story-chapter" id="capability-${key}" data-chapter="${i}" aria-labelledby="title-${key}">
+ <div class="chapter-content"><p class="eyebrow">${n} / ${tag}</p><h3 id="title-${key}">${title.split(' ')[0]}<br><em>${title.split(' ').slice(1).join(' ')}.</em></h3><p class="chapter-description">${copy}</p><a class="text-link" href="${key}.html">Explore ${title.toLowerCase()} <span aria-hidden="true">↗</span></a></div></article>`).join('')}</div></div>`;
 }
