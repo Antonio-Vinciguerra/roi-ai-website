@@ -20,7 +20,7 @@ test('all eight pages have real HTML, a title, navigation and descriptive imager
 test('locked hero and all sectors are present',async()=>{
  const html=await readFile(resolve(root,'index.html'),'utf8');
  assert.match(html,/Innovation<br \/>built for<br \/><em>measurable growth\.<\/em>/);
- for(const key of Object.keys(content))assert.ok(html.includes(key+'.html'));
+ for(const key of Object.keys(content))assert.ok(html.includes(key+'.en.html'));
  assert.doesNotMatch(html,/route-transition|arrival-gate|mailto:.*example/);
 });
 test('every local page resource and link resolves, including fragment targets',async()=>{

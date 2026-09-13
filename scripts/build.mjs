@@ -3,6 +3,7 @@ import { renderLens, problemLens, workbench, decisionLens, capabilityCards } fro
 import { content } from '../content.mjs';
 import { detailHero, detailScenes } from '../detail-scenes.mjs';
 import { resolve } from 'node:path';
+import {buildLocales,pages} from './build-locales.mjs';
 
 const root = resolve(import.meta.dirname, '..');
 const out = resolve(root, 'dist');
@@ -47,11 +48,11 @@ for (const file of ['reveal.css','reveal.js','reveal-timing.mjs','page-entry.css
 for (const file of ['favicon.svg','agritech-aerial.webp','trade-port.webp','investment-table.webp']) await copyFile(resolve(root,'assets',file),resolve(out,'assets',file));
 for (const file of await readdir(resolve(root,'assets/fonts'))) await copyFile(resolve(root,'assets/fonts',file),resolve(out,'assets/fonts',file));
 // Refresh the motion entry point on previously visited phones as well as desktop.
-for (const file of await readdir(out)) {
- if (!file.endsWith('.html')) continue;
+for (const file of pages.map(page=>page+'.html')) {
  const path = resolve(out, file);
  await writeFile(path, (await readFile(path, 'utf8'))
   .replaceAll('src="motion.js"', 'src="motion.js?v=welcome-flow-7"')
   .replace('</head>','<link rel="stylesheet" href="page-entry.css?v=continuity-4"><script src="page-entry.js?v=continuity-4"></script></head>'));
 }
-console.log('Built homepage, 8 content pages, legacy routes and accessible advisor. No server secrets included.');
+await buildLocales(root,out);
+console.log('Built five language editions, all routes and accessible advisor. No server secrets included.');

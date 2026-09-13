@@ -37,7 +37,7 @@ test('all detail pages contain their live-in-browser example and company context
   const html=await readFile(resolve(root,key+'.html'),'utf8');
   assert.ok(html.includes('data-key="'+key+'"'));
   assert.match(html,/data-page-context=/);
-  assert.match(html,/experience.js/);
+  assert.match(html,/experience\.en\.js/);
   assert.match(html,/data-phase="2"/);
  }
 });

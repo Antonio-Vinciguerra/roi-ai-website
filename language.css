@@ -1,0 +1,28 @@
+/* A quiet utility, separate from the main navigation and available on phones. */
+html[data-language-resolving] body{visibility:hidden}
+.site-header nav{margin-left:auto}
+.language-menu{position:relative;flex:0 0 auto;font:400 .8rem var(--sans);letter-spacing:.025em}
+.language-menu summary{display:flex;align-items:center;gap:7px;cursor:pointer;list-style:none;min-height:44px;padding:0 4px}
+.language-menu summary::-webkit-details-marker{display:none}
+.language-menu summary::after{content:'⌄';font-size:.8em;opacity:.6}
+.language-options{position:absolute;right:0;top:calc(100% + 8px);min-width:210px;padding:10px;background:var(--paper);color:var(--ink);border:1px solid var(--line);box-shadow:0 12px 30px #18232112;z-index:30}
+.language-options a,.language-options button{display:block;width:100%;min-height:44px;padding:11px 13px;text-align:left;background:none;border:0;color:inherit;text-decoration:none;font:400 .9rem var(--sans);letter-spacing:0}
+.language-options a[aria-current=true]{background:var(--mineral)}
+.language-options a:hover,.language-options button:hover{background:var(--mineral)}
+.language-options button{border-top:1px solid var(--line);margin-top:6px;color:var(--muted)}
+.language-options :focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+html:not([lang=en]) .hero-title em{max-width:100%;overflow-wrap:normal}
+html:not([lang=en]) .hero-content{min-width:0}
+html:not([lang=en]) .chapter-content h3,html:not([lang=en]) .detail-heading h1{overflow-wrap:break-word;hyphens:auto}
+@media(max-width:1100px){.site-header{gap:16px}.site-header nav{gap:16px}.site-header nav a:last-child{margin-left:0}}
+@media(max-width:900px){
+ .site-header .wordmark{margin-right:auto}
+ .site-header .menu-toggle{display:block;margin-left:auto;border:0;background:none;color:var(--ink);font:inherit;min-height:44px;padding:0 4px}
+ .site-header nav{display:none;position:absolute;top:100%;left:0;right:0;background:var(--paper);padding:20px var(--gutter);flex-direction:column;align-items:flex-start;gap:12px;border-bottom:1px solid var(--line)}
+ .site-header nav.open{display:flex}
+ .site-header nav a{font-size:1rem;min-height:44px}
+ .language-menu{font-size:.8rem}.language-options{max-width:calc(100vw - 48px)}
+ html:not([lang=en]) .hero-title{font-size:clamp(2.6rem,8.8vw,5rem)}
+ html:not([lang=en]) .standard-title{font-size:clamp(2.7rem,9.2vw,6rem)}
+}
+@media print{.language-menu{display:none}}

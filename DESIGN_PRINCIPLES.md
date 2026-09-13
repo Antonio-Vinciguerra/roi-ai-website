@@ -128,3 +128,7 @@ The homepage headline retains its exact line formation, blur and 1320 ms clock. 
 ## One overlapping welcome — supersedes the separate supporting fade
 
 The supporting paragraph returns to the same softly blurred, overlapping word groups. It begins at 700 ms, shortly after the headline's unchanged 100 ms start, instead of waiting for completion. Its 780 ms time constant makes it more responsive than the headline's unchanged 1320 ms. This restores a continuous entrance rather than a delayed paragraph-sized block. Desktop and mobile share these settings; subsequent text remains at 620 ms, with all existing focus, upward-scroll and reduced-motion bypasses retained.
+
+## Five language editions, one experience
+
+English, Italian, French, Spanish and Brazilian Portuguese are pre-rendered editions, selected from browser preferences rather than location. A restrained, text-only header selector uses native language names, remembers explicit choices and offers a return to browser preference. Edition links preserve the reader's page and position anchor. The same photographs, fonts and approved animation engine are shared by all languages; translated text is present before motion starts. All Portuguese preferences currently select `pt-BR`, with the variant labelled explicitly. Editorial approval status and the review checklist are recorded in TRANSLATION_REVIEW.md.
