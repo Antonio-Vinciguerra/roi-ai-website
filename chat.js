@@ -21,6 +21,7 @@ const respond = (question) => {
   if (/start|help|hello|hi/.test(q)) return 'Start with the decision that currently feels expensive, slow, uncertain or full of untapped potential. Tell me what it is, and I’ll help frame a useful first conversation.';
   return 'That sounds like the kind of question worth exploring. In a live engagement, we would first clarify the decision, the people involved and the evidence of value—then decide whether AI has a meaningful role to play.';
 };
+window.roiAdvisorReply = respond;
 const addMessage = (text, kind) => { const el = document.createElement('div'); el.className = `advisor-message ${kind}`; el.textContent = text; feed.append(el); feed.scrollTop = feed.scrollHeight; };
 const ask = async (question) => {
   if (!question.trim()) return;
