@@ -1,0 +1,1 @@
+const topic=new URLSearchParams(location.search).get('topic');if(["index","operate","grow","invest","agritech","trade","investing","operations","commercial","detail","404"].includes(topic)){const url=new URL(location.href);url.pathname=url.pathname.replace(/[^/]*$/,topic+".en.html");url.searchParams.delete('topic');location.replace(url.href);}

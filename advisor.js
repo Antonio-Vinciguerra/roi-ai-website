@@ -81,7 +81,7 @@
   if(!active||!dialog.open)return;
   recognition?.abort();recognition=null;speaking=true;
   voiceLabel.textContent='Speaking · End voice';status.textContent='Speaking…';
-  const utterance=new SpeechSynthesisUtterance(text);utterance.lang='en-GB';utterance.rate=1;
+  const utterance=new SpeechSynthesisUtterance(text);utterance.lang=document.documentElement.lang==='en'?'en-GB':document.documentElement.lang;utterance.rate=1;
   utterance.onend=()=>{speaking=false;if(active)listen();};
   utterance.onerror=()=>{stopVoice();status.textContent='Audio playback was unavailable. The answer is in the conversation above.';};
   window.speechSynthesis.speak(utterance);
