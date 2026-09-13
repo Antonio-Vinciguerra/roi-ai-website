@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { landscapeFrame, textRollFrame } from '../scene-math.mjs';
+import { landscapeFrame, textDissolveFrame, approachOpacity } from '../scene-math.mjs';
 import { capabilityCards } from '../experience-render.mjs';
 
 test('landscape blending is continuous, reversible and bounded at phone and desktop sizes', () => {
@@ -62,42 +62,40 @@ test('full-width story explicitly replaces every inherited card-grid track and g
   }
 });
 
-test('opening and scroll use spatial reveals with reduced-motion and no-script readability', async () => {
+test('opening and scrolling text dissolve in place without DOM wrapping or clipping', async () => {
   const css = await readFile(new URL('../reveal.css', import.meta.url), 'utf8');
   const js = await readFile(new URL('../reveal.js', import.meta.url), 'utf8');
-  assert.match(css,/clip-path:inset\(-\.16em -\.3em\)/);
-  assert.match(css,/var\(--roll-y,0%\)/);
-  assert.match(css,/prefers-reduced-motion:reduce\)\{[\s\S]*clip-path:none/);
-  assert.match(js,/IntersectionObserver/);
-  assert.match(js,/animation\.cancel\(\)/);
-  assert.match(js,/duration:1900/);
-  assert.match(js,/restore\(record\)/);
-  assert.doesNotMatch(css,/(?:\{|;)\s*(?:opacity:0|visibility:hidden)/);
-  assert.doesNotMatch(js,/innerHTML|aria-hidden|preventDefault|setInterval/);
+  assert.match(css,/opacity:var\(--text-opacity,1\)/);
+  assert.match(css,/prefers-reduced-motion:reduce\)\{[\s\S]*opacity:1!important/);
+  assert.match(js,/requestAnimationFrame/);
+  assert.match(js,/approachOpacity/);
+  assert.doesNotMatch(css,/perspective|rotate|translate3d|clip-path:inset/);
+  assert.doesNotMatch(js,/replaceChildren|cloneNode|innerHTML|aria-hidden|preventDefault|setInterval/);
 });
 
-test('text rolls in and out with a stable reading zone at every tested viewport', () => {
+test('stationary dissolves have a stable reading zone and gradually settle over time', () => {
   for (const viewport of [320,480,700,900,1400]) {
     for (const height of [24,64,140,300]) {
-      const centre = textRollFrame(viewport * .48, height, viewport, 66);
-      assert.equal(centre.y, 0);
-      assert.equal(centre.tilt, 0);
-      assert.equal(textRollFrame(viewport + 20,height,viewport,66).y,130);
-      assert.equal(textRollFrame(-height - 200,height,viewport,66).y,-130);
-      let previous = 130;
+      assert.equal(textDissolveFrame(viewport * .48,height,viewport,66),1);
+      assert.equal(textDissolveFrame(viewport + 20,height,viewport,66),0);
+      assert.equal(textDissolveFrame(-height - 200,height,viewport,66),0);
       for(let top=viewport+20;top>=-height-200;top-=2){
-        const state=textRollFrame(top,height,viewport,66);
-        assert.ok(state.y<=previous+1e-8);
-        assert.ok(state.y>=-130 && state.y<=130);
-        assert.ok(Math.abs(state.y-previous)<8);
-        assert.deepEqual(state,textRollFrame(top,height,viewport,66));
-        previous=state.y;
+        const opacity=textDissolveFrame(top,height,viewport,66);
+        assert.ok(opacity>=0 && opacity<=1);
+        assert.equal(opacity,textDissolveFrame(top,height,viewport,66));
       }
     }
   }
+  assert.ok(approachOpacity(0,1,16,680)<.03);
+  assert.ok(approachOpacity(0,1,680,680)>.6);
+  assert.ok(approachOpacity(0,1,680,680)<.7);
+  assert.ok(approachOpacity(0,1,2100,680)>.95);
+  assert.ok(approachOpacity(1,0,16,520)>.96);
+  const twoFrames=approachOpacity(approachOpacity(0,1,16),1,16);
+  assert.ok(Math.abs(twoFrames-approachOpacity(0,1,32))<1e-10);
 });
 
-test('spatial motion is delivered to every service and sector page', async () => {
+test('shared text motion is delivered to every service and sector page', async () => {
   for (const page of ['index','operate','grow','invest','agritech','trade','investing','operations','commercial']) {
     const html = await readFile(new URL('../dist/'+page+'.html', import.meta.url), 'utf8');
     assert.match(html,/href="reveal.css"/);

@@ -1,5 +1,5 @@
 import { landscapeFrame } from './scene-math.mjs';
-import { installTextRoll } from './reveal.js';
+import { installTextDissolve } from './reveal.js';
 const reduced = matchMedia('(prefers-reduced-motion: reduce)');
 
 // Every chapter stays in normal document flow. No scroll interception, hidden
@@ -82,4 +82,4 @@ for (const [groupIndex, group] of [...document.querySelectorAll('.working')].ent
   setPhase(0);
 }
 
-installTextRoll();
+installTextDissolve();

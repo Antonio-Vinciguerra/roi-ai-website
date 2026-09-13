@@ -74,3 +74,9 @@ Photography now reveals upward through a feathered image mask rather than only c
 Only presentational, non-interactive text is wrapped. Emphasis stays in the document; no duplicate screen-reader text or per-letter fragmentation is introduced. Reduced motion restores original nodes, focus exposes linked headings, and print styles show all text. Responsive process line breaks are rebuilt on breakpoint changes. All original content is readable if scripts fail or are disabled.
 
 29 automated checks cover bounded and reversible motion, the readable middle across short/tall viewports, delivery to all nine pages, retained navigation and the earlier width regression. No browser visual QA or physical-device validation was performed in this turn.
+
+## Stationary dissolve — supersedes the text roll
+
+The user clarified that text should materialise in place, not arrive from below. The text-roll wrappers, clipping and perspective have been removed entirely. Original text nodes and natural line wrapping are now untouched. Opening text approaches full opacity over approximately two seconds with a small headline/supporting-copy stagger. Scroll-controlled opacity has time-based smoothing, so fast scrolling cannot abruptly switch text on; the central reading zone stays fully visible. Focus, reduced motion and print reveal text immediately. The photographic motion and all layout/copy decisions are unchanged.
+
+Existing tests now check stationary opacity, timing, no text-node mutation, and the maintained reading zone. Visual browser/device review remains outstanding.
