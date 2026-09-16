@@ -8,6 +8,8 @@ export function dictionary(locale) {
  if(locale==='en')return Object.fromEntries(messages.map(s=>[s,s]));
  if(col<0)throw new Error('Unsupported locale: '+locale);
  const map=Object.fromEntries(messages.flatMap((s,i)=>translations[i]?[[s,translations[i][col]]]:[]));
+ map.Heading='Heading';
+ map.South='South';
  // Keep elided articles with their noun across the designed heading line break.
  if(locale==='it'){map['Find the']='Trova';map['opportunity.']='l’opportunità.';}
  if(locale==='fr'){map['Find the']='Trouvez';map['opportunity.']='l’opportunité.';}
@@ -17,7 +19,7 @@ export function dictionary(locale) {
  const example=['Esplora un esempio: ','Explorez un exemple : ','Explora un ejemplo: ','Explore um exemplo: '][col];
  for(const id of names){
   const name=messages[id],translated=map[name];
-  map[name+' — ROI AI']=translated+' — ROI AI';
+  map[name+' — Heading South']=translated+' — Heading South';
   map['Capability / '+name]=capability+' / '+translated;
   map['Sector / '+name]=sector+' / '+translated;
   map['Sector / '+name+' · First focus']=sector+' / '+translated+' · '+first;

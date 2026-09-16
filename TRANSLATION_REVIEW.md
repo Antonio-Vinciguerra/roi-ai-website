@@ -1,4 +1,4 @@
-# ROI AI — language editions
+# Heading South — language editions
 
 ## Release scope
 
@@ -32,7 +32,7 @@ Review in particular: the hero promise; the distinction between evidence and gua
 | Team | Team | Équipe | Equipo | Equipe |
 | Supply chain | Filiera / supply chain, according to context | Chaîne d’approvisionnement | Cadena de suministro | Cadeia de suprimentos |
 
-ROI AI is a brand name and is never translated. Headline line breaks and emphasis are retained; Italian and French elided articles stay with the following noun. The established hero and scroll animation clocks are unchanged. Shared images and fonts are reused, not downloaded once per language.
+Heading South is a brand name and is never translated. Headline line breaks and emphasis are retained; Italian and French elided articles stay with the following noun. The established hero and scroll animation clocks are unchanged. Shared images and fonts are reused, not downloaded once per language.
 
 ## Verification completed
 

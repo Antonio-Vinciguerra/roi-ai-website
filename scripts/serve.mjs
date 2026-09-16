@@ -14,4 +14,4 @@ const server = createServer(async (req,res) => {
   res.end(body);
  } catch { res.writeHead(404,{'Content-Type':'text/html'}); res.end(await readFile(resolve(root,'404.html'))); }
 });
-server.listen(4173,'127.0.0.1',()=>console.log('ROI AI preview: http://127.0.0.1:4173'));
+server.listen(4173,'127.0.0.1',()=>console.log('Heading South preview: http://127.0.0.1:4173'));

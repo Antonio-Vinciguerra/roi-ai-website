@@ -1,4 +1,4 @@
-# ROI AI · the experience standard
+# Heading South · the experience standard
 
 The interface should demonstrate a way of thinking: from signal, through judgment, to a useful decision and a test of value.
 

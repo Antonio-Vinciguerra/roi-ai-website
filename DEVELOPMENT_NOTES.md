@@ -1,4 +1,4 @@
-# ROI AI · flagship refinement
+# Heading South · flagship refinement
 
 ## What changed
 - Preserved the approved headline, brand thesis, homepage story, all three capabilities and all five sectors.

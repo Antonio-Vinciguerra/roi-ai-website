@@ -68,7 +68,7 @@ test('raw Responses output is parsed and secrets never enter the response',async
   return Response.json({output:[{type:'reasoning'},{type:'message',content:[{type:'output_text',text:'Hello from the advisor.'}]}]});
  });
  assert.equal(response.status,200);assert.deepEqual(await response.json(),{reply:'Hello from the advisor.'});
- assert.equal(sent.store,false);assert.ok(sent.instructions.includes('ROI AI'));
+ assert.equal(sent.store,false);assert.ok(sent.instructions.includes('Heading South'));
 });
 test('provider failures are masked and do not silently return a canned answer',async()=>{
  const response=await handleAdvisor(request(),env,async()=>Response.json({secret:'never expose'},{status:401}));
