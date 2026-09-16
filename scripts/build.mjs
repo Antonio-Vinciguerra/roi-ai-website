@@ -20,7 +20,7 @@ const routeLinks = html => html.replace(/detail\.html\?topic=([a-z]+)/g, '$1.htm
 const header = home.match(/<header class="site-header">[\s\S]*?<\/header>/)[0].replaceAll('href="#','href="index.html#');
 const head = (title, description) => `<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f2f0eb"><meta name="robots" content="noindex,nofollow"><title>${escape(title)} — Heading South</title><meta name="description" content="${escape(description)}"><link rel="icon" href="assets/favicon.svg" type="image/svg+xml"><link rel="preload" href="assets/fonts/manrope-medium.ttf" as="font" type="font/ttf" crossorigin><link rel="stylesheet" href="style.css"><link rel="stylesheet" href="advisor.css"><link rel="stylesheet" href="experience.css"></head><body${Object.values(names).includes(title) ? ' data-page-context="'+escape(title)+'"' : ''}><a class="skip-link" href="#main">Skip to content</a>${header}`;
 const scripts = '<script type="module" src="experience.js"></script><script type="module" src="motion.js"></script><script src="script.js" defer></script><script src="advisor-config.js"></script><script src="advisor.js" defer></script>';
-const footer = '<footer class="section"><a class="wordmark" href="index.html" aria-label="Heading South home"><svg class="wordmark-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2.5a13.5 13.5 0 1 0 13.5 13.5"/><path d="M16 7v17m-5-5 5 5 5-5"/></svg><span class="wordmark-type">Heading <strong>South</strong></span></a><p>Technology is the means. ROI is the standard. Growth is the outcome.</p><a href="index.html#sectors">Explore the possibilities ↗</a></footer>';
+const footer = '<footer class="section"><a class="wordmark" href="index.html" aria-label="Heading South home"><span class="wordmark-logo" aria-hidden="true"></span></a><p>Technology is the means. ROI is the standard. Growth is the outcome.</p><a href="index.html#sectors">Explore the possibilities ↗</a></footer>';
 await writeFile(resolve(out,'index.html'),routeLinks(home).replace('</head>','<meta name="robots" content="noindex,nofollow"></head>'));
 for (const [key, page] of Object.entries(content)) {
  const group = ['operate','grow','invest'].includes(key) ? 'capabilities' : 'sectors';
@@ -45,7 +45,7 @@ for (const file of ['scene-math.mjs','motion.css','motion.js','experience.css','
 await mkdir(resolve(out,'assets/fonts'),{recursive:true});
 await copyFile(resolve(root,'narrative.css'),resolve(out,'narrative.css'));
 for (const file of ['reveal.css','reveal.js','reveal-timing.mjs','page-entry.css','page-entry.js','detail-hero.css','detail-hero.js']) await copyFile(resolve(root,file),resolve(out,file));
-for (const file of ['favicon.svg','agritech-aerial.webp','trade-port.webp','investment-table.webp']) await copyFile(resolve(root,'assets',file),resolve(out,'assets',file));
+for (const file of ['favicon.svg','heading-south-logo.png','agritech-aerial.webp','trade-port.webp','investment-table.webp']) await copyFile(resolve(root,'assets',file),resolve(out,'assets',file));
 for (const file of await readdir(resolve(root,'assets/fonts'))) await copyFile(resolve(root,'assets/fonts',file),resolve(out,'assets/fonts',file));
 // Refresh the motion entry point on previously visited phones as well as desktop.
 for (const file of pages.map(page=>page+'.html')) {
