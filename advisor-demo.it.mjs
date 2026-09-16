@@ -4,7 +4,7 @@ export function demoReply(message, context = '') {
  if(context && /i’d like to explore|i'd like to explore|vorrei esplorare|je voudrais explorer|me gustaria explorar|gostaria de explorar/.test(text))
    return "Usiamo l’esempio "+context+" come punto di partenza, non come conclusione. Un primo passo utile è capire la decisione che il tuo team prende oggi, le informazioni disponibili e il valore di un risultato migliore. Quale parte rispecchia di più la tua situazione? Questa anteprima può orientare la conversazione, ma non può ancora analizzare la tua impresa.";
  if (/^(hi|hey|hello|good morning|good afternoon|ciao|salve|buongiorno|bonjour|salut|bonsoir|hola|buenos dias|buenas tardes|ola|oi|bom dia|boa tarde)\b/.test(text) || /how are you|come stai|comment allez|como estas|como vai/.test(text))
-   return "Ciao, piacere di conoscerti. Sono qui per aiutarti a esplorare ciò che ROI AI potrebbe portare alla tua impresa. Per ora è una demo guidata. Cosa ti ha portato qui oggi?";
+   return "Ciao, piacere di conoscerti. Sono qui per aiutarti a esplorare ciò che Heading South potrebbe portare alla tua impresa. Per ora è una demo guidata. Cosa ti ha portato qui oggi?";
  if (/cost|price|pricing|budget|fee|prezz|prix|tarif|precio|preco|orcamento/.test(text))
    return "Non c’è un prezzo pubblicato che possa indicarti. Il perimetro dipende dalla decisione, dai sistemi coinvolti e dal supporto necessario al team. Un punto di partenza utile è il costo di lasciare il problema irrisolto. Cosa assorbe più tempo o frena i progressi?";
  if (/drone|agri|farm|crop|food|geospatial|agro|campo|lavoura|geospaz|geoespa/.test(text) && !/export|trade|customs|international|esport|dogan|douan|aduan|alfand|internaz|commercio|commerce|comercio/.test(text))

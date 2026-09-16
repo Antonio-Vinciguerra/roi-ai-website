@@ -4,7 +4,7 @@ export function demoReply(message, context = '') {
  if(context && /i’d like to explore|i'd like to explore|vorrei esplorare|je voudrais explorer|me gustaria explorar|gostaria de explorar/.test(text))
    return 'Let’s use the '+context+' example as a starting point, not a conclusion. A useful first step is to understand the decision your team makes today, the information available and what a better outcome would be worth. Which part most closely matches your situation? This preview can frame the conversation; it cannot yet analyse your business.';
  if (/^(hi|hey|hello|good morning|good afternoon|ciao|salve|buongiorno|bonjour|salut|bonsoir|hola|buenos dias|buenas tardes|ola|oi|bom dia|boa tarde)\b/.test(text) || /how are you|come stai|comment allez|como estas|como vai/.test(text))
-   return 'Hello—good to meet you. I’m here to help you explore what ROI AI could bring to your business. This is a guided demo for now. What brought you here today?';
+   return 'Hello—good to meet you. I’m here to help you explore what Heading South could bring to your business. This is a guided demo for now. What brought you here today?';
  if (/cost|price|pricing|budget|fee|prezz|prix|tarif|precio|preco|orcamento/.test(text))
    return 'There isn’t a published price I can quote. The scope depends on the decision, the systems involved and the support your team needs. A useful starting point is the cost of leaving the problem unsolved. What is taking the most time or holding back progress?';
  if (/drone|agri|farm|crop|food|geospatial|agro|campo|lavoura|geospaz|geoespa/.test(text) && !/export|trade|customs|international|esport|dogan|douan|aduan|alfand|internaz|commercio|commerce|comercio/.test(text))

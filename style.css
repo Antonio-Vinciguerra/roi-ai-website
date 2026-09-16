@@ -26,8 +26,10 @@ em{font-family:Georgia,"Times New Roman",serif;font-weight:400}
 .skip-link:focus{transform:none}
 .grain{display:none}
 .site-header{position:relative;z-index:5;display:flex;align-items:center;justify-content:space-between;padding:28px var(--gutter);max-width:1800px;margin:auto;gap:24px}
-.wordmark{font:500 1.45rem/1 var(--display);letter-spacing:-.08em;text-decoration:none;white-space:nowrap}
-.wordmark span{color:var(--accent);margin-left:.14em}
+.wordmark{display:inline-flex;align-items:center;gap:.62rem;font:500 1.06rem/1 var(--display);letter-spacing:-.055em;text-decoration:none;white-space:nowrap}
+.wordmark-mark{width:1.9rem;height:1.9rem;flex:none;fill:none;stroke:var(--accent);stroke-width:1.35;stroke-linecap:round;stroke-linejoin:round}
+.wordmark-type{display:inline-block;color:var(--ink)}
+.wordmark-type strong{color:var(--accent);font-weight:500}
 .site-header nav{display:flex;align-items:center;gap:clamp(20px,2.5vw,42px)}
 .site-header nav a{font-size:.875rem;text-decoration:none;position:relative;padding:8px 0}
 .site-header nav a::after{content:"";position:absolute;left:0;bottom:3px;width:100%;height:1px;background:currentColor;transform:scaleX(0);transform-origin:left;transition:transform .25s var(--ease)}
@@ -125,7 +127,8 @@ em{font-family:Georgia,"Times New Roman",serif;font-weight:400}
 .button:hover{background:#d1ddcb;transform:translateY(-2px)}
 footer{border-top:1px solid #b4c4ae35;padding-top:28px;display:flex;align-items:center;justify-content:space-between;gap:20px;font-size:.75rem;color:#c3cec6}
 footer a{text-decoration:none}
-footer .wordmark span{color:var(--accent-light)}
+footer .wordmark-type{color:var(--paper)}
+footer .wordmark-mark,footer .wordmark-type strong{color:var(--accent-light);stroke:var(--accent-light)}
 
 /* Content is readable before JavaScript and when reduced motion is requested. */
 .reveal{opacity:1}

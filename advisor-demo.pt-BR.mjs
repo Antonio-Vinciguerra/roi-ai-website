@@ -4,7 +4,7 @@ export function demoReply(message, context = '') {
  if(context && /i’d like to explore|i'd like to explore|vorrei esplorare|je voudrais explorer|me gustaria explorar|gostaria de explorar/.test(text))
    return "Vamos usar o exemplo "+context+" como ponto de partida, não como conclusão. Um primeiro passo útil é entender a decisão que sua equipe toma hoje, as informações disponíveis e o valor de um resultado melhor. Qual parte mais se parece com sua situação? Esta prévia pode orientar a conversa, mas ainda não analisar seu negócio.";
  if (/^(hi|hey|hello|good morning|good afternoon|ciao|salve|buongiorno|bonjour|salut|bonsoir|hola|buenos dias|buenas tardes|ola|oi|bom dia|boa tarde)\b/.test(text) || /how are you|come stai|comment allez|como estas|como vai/.test(text))
-   return "Olá, prazer em conhecer você. Estou aqui para ajudar a explorar o que a ROI AI pode trazer ao seu negócio. Por enquanto, esta é uma demonstração guiada. O que trouxe você aqui hoje?";
+   return "Olá, prazer em conhecer você. Estou aqui para ajudar a explorar o que a Heading South pode trazer ao seu negócio. Por enquanto, esta é uma demonstração guiada. O que trouxe você aqui hoje?";
  if (/cost|price|pricing|budget|fee|prezz|prix|tarif|precio|preco|orcamento/.test(text))
    return "Não há um preço publicado que eu possa informar. O escopo depende da decisão, dos sistemas envolvidos e do apoio necessário à equipe. Um bom ponto de partida é o custo de deixar o problema sem solução. O que consome mais tempo ou impede o avanço?";
  if (/drone|agri|farm|crop|food|geospatial|agro|campo|lavoura|geospaz|geoespa/.test(text) && !/export|trade|customs|international|esport|dogan|douan|aduan|alfand|internaz|commercio|commerce|comercio/.test(text))
