@@ -126,6 +126,10 @@ em{font-family:Georgia,"Times New Roman",serif;font-weight:400}
 .contact-side p{color:#c3cec6}
 .button{display:flex;align-items:center;justify-content:space-between;gap:24px;width:100%;max-width:320px;padding:18px 22px;background:var(--accent-light);color:var(--ink);border:0;text-decoration:none;font-size:.875rem;transition:background .25s,transform .25s}
 .button:hover{background:#d1ddcb;transform:translateY(-2px)}
+.contact-email{display:inline-flex;align-items:center;gap:9px;margin-top:20px;color:var(--paper);font-size:.875rem;text-decoration:none;border-bottom:1px solid #b4c4ae70;padding-bottom:7px;transition:color .25s,border-color .25s}
+.contact-email span[aria-hidden="true"]{transition:transform .25s}
+.contact-email:hover,.contact-email:focus-visible{color:var(--accent-light);border-color:var(--accent-light)}
+.contact-email:hover span[aria-hidden="true"],.contact-email:focus-visible span[aria-hidden="true"]{transform:translate(3px,-3px)}
 footer{border-top:1px solid #b4c4ae35;padding-top:28px;display:flex;align-items:center;justify-content:space-between;gap:20px;font-size:.75rem;color:#c3cec6}
 footer a{text-decoration:none}
 footer .wordmark-logo{width:200px;color:var(--paper)}
