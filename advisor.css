@@ -130,6 +130,28 @@
   min-height:36px}
 .advisor-prompts button:hover {
   background:var(--mineral)}
+.advisor-routes {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  padding:0 24px 14px}
+.advisor-routes p {
+  grid-column:1/-1;
+  margin:0 0 1px;
+  color:var(--muted);
+  font:400 .68rem var(--mono);
+  letter-spacing:.08em;
+  text-transform:uppercase}
+.advisor-routes a {
+  color:var(--ink);
+  border-bottom:1px solid #bdc6bd;
+  padding:8px 0;
+  font-size:.78rem;
+  line-height:1.35;
+  text-decoration:none}
+.advisor-routes a:hover,.advisor-routes a:focus-visible {
+  color:#486651;
+  border-color:#486651}
 .advisor-compose {
   padding:14px 16px;
   display:flex;
@@ -238,6 +260,8 @@
 .advisor-foot {
   padding:0 20px 12px}
 .advisor-prompts {
+  padding:0 20px 12px}
+.advisor-routes {
   padding:0 20px 12px}
 }
 @media(prefers-reduced-motion:reduce) {

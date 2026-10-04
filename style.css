@@ -126,6 +126,10 @@ em{font-family:Georgia,"Times New Roman",serif;font-weight:400}
 .contact-side p{color:#c3cec6}
 .button{display:flex;align-items:center;justify-content:space-between;gap:24px;width:100%;max-width:320px;padding:18px 22px;background:var(--accent-light);color:var(--ink);border:0;text-decoration:none;font-size:.875rem;transition:background .25s,transform .25s}
 .button:hover{background:#d1ddcb;transform:translateY(-2px)}
+.contact-routes{margin-top:26px;border-top:1px solid #b4c4ae35;padding-top:17px;display:grid;gap:10px}
+.contact-routes p{margin:0 0 2px;color:#b9c6bd;font:400 .7rem var(--mono);letter-spacing:.08em;text-transform:uppercase}
+.contact-routes a{color:var(--paper);font-size:.875rem;text-decoration:none;display:inline-flex;align-items:center;gap:9px;width:max-content;border-bottom:1px solid #b4c4ae70;padding-bottom:5px;transition:color .25s,border-color .25s}
+.contact-routes a:hover,.contact-routes a:focus-visible{color:var(--accent-light);border-color:var(--accent-light)}
 .contact-email{display:inline-flex;align-items:center;gap:9px;margin-top:20px;color:var(--paper);font-size:.875rem;text-decoration:none;border-bottom:1px solid #b4c4ae70;padding-bottom:7px;transition:color .25s,border-color .25s}
 .contact-email span[aria-hidden="true"]{transition:transform .25s}
 .contact-email:hover,.contact-email:focus-visible{color:var(--accent-light);border-color:var(--accent-light)}

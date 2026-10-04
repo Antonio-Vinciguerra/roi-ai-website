@@ -1,4 +1,5 @@
 import persona from '../advisor-persona.js';
+import knowledgeBase from '../advisor-knowledge-base.js';
 
 // Standards-based Request/Response handler. Mount behind same-origin, server-side
 // rate limiting before enabling. This file is NOT shipped in the static build.
@@ -29,7 +30,7 @@ export async function handleAdvisor(request, env = {}, fetcher = fetch) {
  try {
   const result=await fetcher('https://api.openai.com/v1/responses',{
    method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+env.OPENAI_API_KEY},
-   body:JSON.stringify({model:env.OPENAI_MODEL,instructions:persona,input:messages.map(({role,content})=>({role,content})),store:false,max_output_tokens:600}),
+   body:JSON.stringify({model:env.OPENAI_MODEL,instructions:`${persona}\n\nAuthoritative Heading South knowledge base:\n${knowledgeBase}`,input:messages.map(({role,content})=>({role,content})),store:false,max_output_tokens:600}),
    signal:AbortSignal.timeout(20000)
   });
   if(!result.ok)return json({error:'The advisor is temporarily unavailable.'},502);
