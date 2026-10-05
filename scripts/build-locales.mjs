@@ -7,6 +7,7 @@ const tallyForms={
  en:'https://tally.so/r/J9Nd1X',
  it:'https://tally.so/r/rjxopR',
  fr:'https://tally.so/r/810xvY',
+ es:'https://tally.so/r/9qzDkV',
 };
 export async function buildLocales(root,out) {
  const originals=Object.fromEntries(await Promise.all(pages.map(async name=>[name,await readFile(resolve(out,name+'.html'),'utf8')])));
