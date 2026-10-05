@@ -3,6 +3,7 @@ import {resolve} from 'node:path';
 import {dictionary,locales,nativeNames} from '../i18n/catalogue.mjs';
 import {transformHTML,transformJS,encode} from './i18n-utils.mjs';
 export const pages=['index','operate','grow','invest','agritech','trade','investing','operations','commercial','detail','404'];
+const tallyFormByLocale={it:'https://tally.so/r/rjxopR'};
 export async function buildLocales(root,out) {
  const originals=Object.fromEntries(await Promise.all(pages.map(async name=>[name,await readFile(resolve(out,name+'.html'),'utf8')])));
  const scripts=['experience.js','experience-data.mjs','advisor.js','advisor-demo.mjs'];
@@ -14,12 +15,14 @@ export async function buildLocales(root,out) {
    const source=await readFile(resolve(root,file),'utf8');
    let translated=locale==='en'?source:transformJS(source,t);
    translated=translated.replaceAll('./advisor-demo.mjs','./advisor-demo'+suffix+'.mjs').replaceAll('./experience-data.mjs','./experience-data'+suffix+'.mjs');
+   if(tallyFormByLocale[locale])translated=translated.replaceAll('https://tally.so/r/J9Nd1X',tallyFormByLocale[locale]);
    if(file==='experience.js')translated=translated.replaceAll("'.html?scenario='",JSON.stringify(suffix+'.html?scenario='));
    await writeFile(resolve(out,file.replace(/\.(js|mjs)$/,suffix+'.$1')),translated);
   }
   await writeFile(resolve(out,'legacy-route'+suffix+'.js'),`const topic=new URLSearchParams(location.search).get('topic');if(${JSON.stringify(pages)}.includes(topic)){const url=new URL(location.href);url.pathname=url.pathname.replace(/[^/]*$/,topic+${JSON.stringify(suffix+'.html')});url.searchParams.delete('topic');location.replace(url.href);}`);
   for(const name of pages){
    let html=locale==='en'?originals[name]:transformHTML(originals[name],t);
+   if(tallyFormByLocale[locale])html=html.replaceAll('https://tally.so/r/J9Nd1X',tallyFormByLocale[locale]);
    html=html.replace(/href="([a-z]+)\.html([?#][^"]*)?"/g,(whole,page,tail='')=>pages.includes(page)?`href="${page}${suffix}.html${tail}"`:whole);
    for(const script of ['experience.js','advisor.js','legacy-route.js'])html=html.replaceAll('src="'+script+'"','src="'+script.replace('.js',suffix+'.js')+'"');
    html=html.replace('<html lang="en"','<html lang="'+locale+'" data-language-edition');
