@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://headingsouth.ai/sitemap.xml
