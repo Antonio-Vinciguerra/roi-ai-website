@@ -7,6 +7,8 @@
   en: { nextSteps: 'Conversation next steps', ready: 'When you are ready', placeholder: 'What would you like to make clearer?' },
   it: { nextSteps: 'Prossimi passi della conversazione', ready: 'Quando sei pronto', placeholder: 'Cosa vorresti rendere più chiaro?' },
   fr: { nextSteps: 'Prochaines étapes de la conversation', ready: 'Lorsque vous serez prêt', placeholder: 'Que souhaitez-vous clarifier ?' },
+  es: { nextSteps: 'Próximos pasos de la conversación', ready: 'Cuando estés listo', placeholder: '¿Qué te gustaría aclarar?' },
+  'pt-BR': { nextSteps: 'Próximos passos da conversa', ready: 'Quando estiver pronto', placeholder: 'O que você gostaria de esclarecer?' },
  }[language] || { nextSteps: 'Conversation next steps', ready: 'When you are ready', placeholder: 'What would you like to make clearer?' };
  const launcher = document.createElement('button');
  launcher.className = 'advisor-launcher';
