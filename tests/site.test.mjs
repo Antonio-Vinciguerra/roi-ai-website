@@ -70,6 +70,17 @@ test('raw Responses output is parsed and secrets never enter the response',async
  assert.equal(response.status,200);assert.deepEqual(await response.json(),{reply:'Hello from the advisor.'});
  assert.equal(sent.store,false);assert.ok(sent.instructions.includes('Heading South'));
 });
+test('live advisor receives the approved page language and ignores unknown locale values',async()=>{
+ for(const [locale,expected] of [['fr','French'],['pt-BR','Brazilian Portuguese'],['unknown','English (UK)']]){
+  let sent;
+  const response=await handleAdvisor(request({messages:[{role:'user',content:'Hello'}],locale}),env,async(_url,init)=>{
+   sent=JSON.parse(init.body);
+   return Response.json({output:[{type:'message',content:[{type:'output_text',text:'Hello from the advisor.'}]}]});
+  });
+  assert.equal(response.status,200);
+  assert.match(sent.instructions,new RegExp('Reply in '+expected.replace(/[()]/g,'\\$&')));
+ }
+});
 test('provider failures are masked and do not silently return a canned answer',async()=>{
  const response=await handleAdvisor(request(),env,async()=>Response.json({secret:'never expose'},{status:401}));
  assert.equal(response.status,502);assert.doesNotMatch(JSON.stringify(await response.json()),/secret|demo|key/);

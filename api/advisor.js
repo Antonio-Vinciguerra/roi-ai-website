@@ -1,6 +1,14 @@
 import persona from '../advisor-persona.js';
 import knowledgeBase from '../advisor-knowledge-base.js';
 
+const supportedLocales={
+ en:'English (UK)',
+ it:'Italian',
+ fr:'French',
+ es:'Spanish',
+ 'pt-BR':'Brazilian Portuguese',
+};
+
 // Standards-based Request/Response handler. Mount behind same-origin, server-side
 // rate limiting before enabling. This file is NOT shipped in the static build.
 export async function handleAdvisor(request, env = {}, fetcher = fetch) {
@@ -24,13 +32,14 @@ export async function handleAdvisor(request, env = {}, fetcher = fetch) {
   body=JSON.parse(new TextDecoder().decode(joined));
  } catch {return json({error:'Invalid JSON'},400);}
  const messages=body?.messages;
+ const locale=Object.hasOwn(supportedLocales,body?.locale)?body.locale:'en';
  if(!Array.isArray(messages)||!messages.length||messages.length>8||
   messages.some(m=>!m||!['user','assistant'].includes(m.role)||typeof m.content!=='string'||!m.content.trim()||m.content.length>2000)||
   messages.at(-1).role!=='user') return json({error:'Invalid conversation'},400);
  try {
   const result=await fetcher('https://api.openai.com/v1/responses',{
    method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+env.OPENAI_API_KEY},
-   body:JSON.stringify({model:env.OPENAI_MODEL,instructions:`${persona}\n\nAuthoritative Heading South knowledge base:\n${knowledgeBase}`,input:messages.map(({role,content})=>({role,content})),store:false,max_output_tokens:600}),
+   body:JSON.stringify({model:env.OPENAI_MODEL,instructions:`${persona}\n\nAuthoritative Heading South knowledge base:\n${knowledgeBase}\n\nConversation language: Reply in ${supportedLocales[locale]}. Continue in that language unless the visitor explicitly asks you to change language. Keep the response professional, natural and concise.`,input:messages.map(({role,content})=>({role,content})),store:false,max_output_tokens:600}),
    signal:AbortSignal.timeout(20000)
   });
   if(!result.ok)return json({error:'The advisor is temporarily unavailable.'},502);

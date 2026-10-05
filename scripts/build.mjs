@@ -44,7 +44,7 @@ const legacy = `${head('Explore Heading South','Our capabilities and sectors.')}
 await writeFile(resolve(out,'detail.html'),legacy);
 await writeFile(resolve(out,'legacy-route.js'),"const topic = new URLSearchParams(location.search).get('topic'); if ("+JSON.stringify(Object.keys(names))+".includes(topic)) location.replace(topic + '.html');");
 await writeFile(resolve(out,'404.html'), head('Page not found','Return to Heading South.')+'<main id="main" class="section"><p class="eyebrow">404 / A different direction</p><h1>Let’s find your<br>starting point.</h1><p><a class="text-link" href="index.html">Return to Heading South →</a></p></main>'+footer+scripts+'</body></html>');
-for (const file of ['scene-math.mjs','motion.css','motion.js','experience.css','experience.js','experience-data.mjs','experience-render.mjs','style.css','measurement.js','script.js','advisor.css','advisor.js','advisor-demo.mjs','advisor-config.js']) await copyFile(resolve(root,file),resolve(out,file));
+for (const file of ['scene-math.mjs','motion.css','motion.js','experience.css','experience.js','experience-data.mjs','experience-render.mjs','style.css','measurement.js','script.js','advisor.css','advisor.js','advisor-demo.mjs','advisor-language.mjs','advisor-config.js']) await copyFile(resolve(root,file),resolve(out,file));
 await mkdir(resolve(out,'assets/fonts'),{recursive:true});
 await copyFile(resolve(root,'narrative.css'),resolve(out,'narrative.css'));
 for (const file of ['reveal.css','reveal.js','reveal-timing.mjs','page-entry.css','page-entry.js','detail-hero.css','detail-hero.js']) await copyFile(resolve(root,file),resolve(out,file));

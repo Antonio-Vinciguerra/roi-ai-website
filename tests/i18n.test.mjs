@@ -6,6 +6,7 @@ import {execFileSync} from 'node:child_process';
 import {dictionary,locales,messages} from '../i18n/catalogue.mjs';
 import {pages} from '../scripts/build-locales.mjs';
 import {transformHTML,transformJS} from '../scripts/i18n-utils.mjs';
+import {advisorLocale,advisorSpeechLocale,requestedAdvisorLocale} from '../advisor-language.mjs';
 const dist=new URL('../dist/',import.meta.url);
 test('all five editions have complete catalogue coverage and pre-rendered content',async()=>{
  for(const locale of locales){
@@ -38,8 +39,18 @@ test('all generated scripts parse and all demo language responses are localized'
   assert.equal(experiences.trade.scenarios[1].observe,map[messages[396]]);
   const advisor=await readFile(new URL(`advisor.${locale}.js`,dist),'utf8');
   assert.ok(advisor.includes(map[messages[522]]));
-  assert.match(advisor,/utterance\.lang=document\.documentElement\.lang/);
+  assert.match(advisor,/utterance\.lang=advisorSpeechLocale\(conversationLocale\)/);
  }
+});
+test('advisor starts from the page locale and honours explicit conversation-language requests',()=>{
+ assert.equal(advisorLocale('fr-FR'),'fr');
+ assert.equal(advisorLocale('pt-BR'),'pt-BR');
+ assert.equal(advisorSpeechLocale('en'),'en-GB');
+ assert.equal(requestedAdvisorLocale('Could we continue in Italian, please?'),'it');
+ assert.equal(requestedAdvisorLocale('Parlez-vous français ?'),'fr');
+ assert.equal(requestedAdvisorLocale('Podemos seguir en español?'),'es');
+ assert.equal(requestedAdvisorLocale('Vamos falar em português do Brasil?'),'pt-BR');
+ assert.equal(requestedAdvisorLocale('We are considering the French market and its buyer journey.'),null);
 });
 async function languageHarness({url='https://example.com/roi-ai-website/',languages=['en'],saved=null,explicit=false,blocked=false}={}){
  const listeners={},storage=new Map(saved?[['roi-language',saved]]:[]),navigation=[];
