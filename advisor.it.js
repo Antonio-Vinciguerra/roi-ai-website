@@ -74,16 +74,25 @@
   recognition.interimResults=true;recognition.continuous=false;
   voiceLabel.textContent="In ascolto · Termina voce";status.textContent="In ascolto…";
   let heard=false;
+  let capturedTranscript='';
   recognition.onresult=event=>{
-   let transcript='';
-   for(let i=event.resultIndex;i<event.results.length;i++){
-    transcript+=event.results[i][0].transcript;
-    if(event.results[i].isFinal&&!heard){heard=true;void send(transcript);}
-   }
-   interim.textContent=transcript;
+   // Safari may give us a useful interim transcript, then end recognition
+   // without emitting a final result. Keep the complete phrase so onend can
+   // submit it instead of silently losing the visitor's message.
+   capturedTranscript=Array.from(event.results, result=>result[0]?.transcript||'').join('');
+   if(Array.from(event.results).some(result=>result.isFinal)&&!heard){heard=true;void send(capturedTranscript);}
+   interim.textContent=capturedTranscript;
   };
   recognition.onerror=event=>{if(event.error!=='aborted'){stopVoice();status.textContent=event.error==='not-allowed'?"L’accesso al microfono non è stato autorizzato. Puoi continuare a scrivere.":"Non siamo riusciti a sentirti. Prova a riavviare o usa la chat testuale.";}};
-  recognition.onend=()=>{recognition=null;if(active&&!heard&&!busy&&!speaking){stopVoice();status.textContent="Non ho capito. Riavvia la voce quando sei pronto.";}};
+  recognition.onend=()=>{
+   recognition=null;
+   if(active&&!heard&&!busy&&!speaking&&capturedTranscript.trim()){
+    heard=true;
+    void send(capturedTranscript);
+    return;
+   }
+   if(active&&!heard&&!busy&&!speaking){stopVoice();status.textContent="Non ho capito. Riavvia la voce quando sei pronto.";}
+  };
   try{recognition.start();}catch{stopVoice();status.textContent="La voce non è disponibile qui. Usa la chat testuale.";}
  }
  function speak(text) {
