@@ -1,8 +1,8 @@
 (async () => {
- const { demoReply } = await import('./advisor-demo.pt-BR.mjs');
+ const { advisorLocale, advisorSpeechLocale, advisorLanguageChangedMessage, requestedAdvisorLocale } = await import('./advisor-language.mjs');
  const endpoint = window.ROI_ADVISOR_API_URL || '';
  const live = Boolean(endpoint);
- const language = document.documentElement.lang || 'en';
+ const language = advisorLocale(document.documentElement.lang);
  const routeText = {
   en: { nextSteps: 'Conversation next steps', ready: 'When you are ready', placeholder: 'What would you like to make clearer?' },
   it: { nextSteps: 'Prossimi passi della conversazione', ready: 'Quando sei pronto', placeholder: 'Cosa vorresti rendere più chiaro?' },
@@ -24,6 +24,7 @@
  const chatTab=$('#chat-tab'), voiceTab=$('#voice-tab');
  const voiceButton=$('.voice-action'), voiceLabel=$('.voice-label'), interim=$('.voice-interim');
  const messages=[];
+ let conversationLocale=language;
  let selectedContext='',pendingContext='';
  let mode='chat', active=false, recognition=null, busy=false, speaking=false, returnFocus=null, controller=null;
  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -69,7 +70,7 @@
  addEventListener('pagehide',()=>{stopVoice();controller?.abort();});
  function listen() {
   if(!active||!dialog.open||busy||speaking)return;
-  recognition=new SpeechRecognition();recognition.lang=document.documentElement.lang==='en'?'en-GB':document.documentElement.lang;
+  recognition=new SpeechRecognition();recognition.lang=advisorSpeechLocale(conversationLocale);
   recognition.interimResults=true;recognition.continuous=false;
   voiceLabel.textContent="Ouvindo · Encerrar voz";status.textContent="Ouvindo…";
   let heard=false;
@@ -89,7 +90,7 @@
   if(!active||!dialog.open)return;
   recognition?.abort();recognition=null;speaking=true;
   voiceLabel.textContent="Falando · Encerrar voz";status.textContent="Falando…";
-  const utterance=new SpeechSynthesisUtterance(text);utterance.lang=document.documentElement.lang==='en'?'en-GB':document.documentElement.lang;utterance.rate=1;
+  const utterance=new SpeechSynthesisUtterance(text);utterance.lang=advisorSpeechLocale(conversationLocale);utterance.rate=1;
   utterance.onend=()=>{speaking=false;if(active)listen();};
   utterance.onerror=()=>{stopVoice();status.textContent="O áudio não estava disponível. A resposta está na conversa acima.";};
   window.speechSynthesis.speak(utterance);
@@ -103,6 +104,8 @@
   busy=true;$('.advisor-send').disabled=true;$('.advisor-prompts').hidden=true;
   recognition?.abort();recognition=null;
   addMessage('user',text);
+  const requestedLocale=requestedAdvisorLocale(text);
+  if(requestedLocale)conversationLocale=requestedLocale;
   if(pendingContext)messages.push({role:'user',content:"Exemplo do site selecionado (ilustrativo, não são dados do negócio): "+pendingContext});
   messages.push({role:'user',content:text});pendingContext='';input.value='';status.textContent=live?"Pensando…":"Preparando uma resposta guiada…";
   try {
@@ -112,11 +115,15 @@
     if(url.origin!==location.origin)throw new Error("O ponto de conexão do consultor deve estar neste site.");
     controller=new AbortController();const timeout=setTimeout(()=>controller.abort(),25000);
     try {
-     const response=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:messages.slice(-8)}),signal:controller.signal});
+     const response=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:messages.slice(-8),locale:conversationLocale}),signal:controller.signal});
      if(!response.ok)throw new Error("Consultor indisponível");
      const body=await response.json();if(typeof body.reply!=='string'||!body.reply.trim())throw new Error("Resposta vazia");reply=body.reply;
     } finally {clearTimeout(timeout);controller=null;}
-   } else reply=demoReply(text,selectedContext);
+   } else if(requestedLocale)reply=advisorLanguageChangedMessage(conversationLocale);
+   else {
+    const demo=await import('./advisor-demo.'+conversationLocale+'.mjs');
+    reply=demo.demoReply(text,selectedContext);
+   }
    messages.push({role:'assistant',content:reply});addMessage('assistant',reply);status.textContent='';
    busy=false;if(mode==='voice'&&active)speak(reply);
   } catch(error) {
