@@ -20,6 +20,7 @@ const urlFor = route => `${site}/${route}.es`;
 const englishUrlFor = route => route === 'index' ? `${site}/` : `${site}/${route}`;
 const italianUrlFor = route => `${site}/${route}.it`;
 const frenchUrlFor = route => `${site}/${route}.fr`;
+const brazilianPortugueseUrlFor = route => `${site}/${route}.pt-BR`;
 
 function metadata(route, page) {
   const url = urlFor(route);
@@ -38,6 +39,7 @@ function metadata(route, page) {
     `<link rel="alternate" hreflang="it" href="${italianUrlFor(route)}">`,
     `<link rel="alternate" hreflang="fr" href="${frenchUrlFor(route)}">`,
     `<link rel="alternate" hreflang="es" href="${url}">`,
+    `<link rel="alternate" hreflang="pt-BR" href="${brazilianPortugueseUrlFor(route)}">`,
     `<link rel="alternate" hreflang="x-default" href="${englishUrlFor(route)}">`,
     '<meta property="og:locale" content="es_ES">',
     '<meta property="og:type" content="website">',

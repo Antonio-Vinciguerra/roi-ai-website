@@ -45,6 +45,7 @@ const escape = value => String(value).replaceAll('&', '&amp;').replaceAll('<', '
 const json = value => JSON.stringify(value).replaceAll('<', '\\u003c');
 const frenchUrlFor = route => `${site}/${route}.fr`;
 const spanishUrlFor = route => `${site}/${route}.es`;
+const brazilianPortugueseUrlFor = route => `${site}/${route}.pt-BR`;
 
 function metadata(route, page) {
   const url = `${site}/${route}.it`;
@@ -72,6 +73,7 @@ function metadata(route, page) {
     `<link rel="alternate" hreflang="it" href="${url}">`,
     `<link rel="alternate" hreflang="fr" href="${frenchUrlFor(route)}">`,
     `<link rel="alternate" hreflang="es" href="${spanishUrlFor(route)}">`,
+    `<link rel="alternate" hreflang="pt-BR" href="${brazilianPortugueseUrlFor(route)}">`,
     `<link rel="alternate" hreflang="x-default" href="${englishUrl}">`,
     '<meta property="og:locale" content="it_IT">',
     '<meta property="og:type" content="website">',

@@ -8,6 +8,7 @@ import {applyItalianSeo} from './italian-seo.mjs';
 import {applyEnglishSeo} from './english-seo.mjs';
 import {applyFrenchSeo} from './french-seo.mjs';
 import {applySpanishSeo} from './spanish-seo.mjs';
+import {applyBrazilianPortugueseSeo} from './brazilian-portuguese-seo.mjs';
 
 const root = resolve(import.meta.dirname, '..');
 const out = resolve(root, 'dist');
@@ -60,7 +61,8 @@ for (const file of pages.map(page=>page+'.html')) {
 }
 await buildLocales(root,out);
 await applySpanishSeo(out);
+await applyBrazilianPortugueseSeo(out);
 await applyItalianSeo(out);
 await applyFrenchSeo(out);
 await applyEnglishSeo(out);
-console.log('Built five language editions, indexable English, Italian, French and Spanish routes, and accessible advisor. No server secrets included.');
+console.log('Built five language editions, indexable English, Italian, French, Spanish and Brazilian Portuguese routes, and accessible advisor. No server secrets included.');
