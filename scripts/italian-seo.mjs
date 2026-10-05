@@ -46,6 +46,7 @@ const json = value => JSON.stringify(value).replaceAll('<', '\\u003c');
 
 function metadata(route, page) {
   const url = `${site}/${route}.it`;
+  const englishUrl = route === 'index' ? `${site}/` : `${site}/${route}`;
   const pageSchema = {
     '@context': 'https://schema.org',
     '@type': 'WebPage',
@@ -65,6 +66,9 @@ function metadata(route, page) {
   return [
     '<meta name="robots" content="index,follow,max-image-preview:large">',
     `<link rel="canonical" href="${url}">`,
+    `<link rel="alternate" hreflang="en" href="${englishUrl}">`,
+    `<link rel="alternate" hreflang="it" href="${url}">`,
+    `<link rel="alternate" hreflang="x-default" href="${englishUrl}">`,
     '<meta property="og:locale" content="it_IT">',
     '<meta property="og:type" content="website">',
     '<meta property="og:site_name" content="Heading South">',
@@ -90,5 +94,4 @@ export async function applyItalianSeo(out) {
     urls.push(`${site}/${route}.it`);
   }
   await writeFile(resolve(out, 'sitemap-it.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map(url => `  <url><loc>${url}</loc></url>`).join('\n')}\n</urlset>\n`);
-  await writeFile(resolve(out, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${site}/sitemap-it.xml\n`);
 }
