@@ -4,6 +4,7 @@ import { content } from '../content.mjs';
 import { detailHero, detailScenes } from '../detail-scenes.mjs';
 import { resolve } from 'node:path';
 import {buildLocales,pages} from './build-locales.mjs';
+import {applyItalianSeo} from './italian-seo.mjs';
 
 const root = resolve(import.meta.dirname, '..');
 const out = resolve(root, 'dist');
@@ -55,4 +56,5 @@ for (const file of pages.map(page=>page+'.html')) {
   .replace('</head>','<link rel="stylesheet" href="page-entry.css?v=continuity-4"><script src="page-entry.js?v=continuity-4"></script></head>'));
 }
 await buildLocales(root,out);
+await applyItalianSeo(out);
 console.log('Built five language editions, all routes and accessible advisor. No server secrets included.');
