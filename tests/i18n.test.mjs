@@ -52,6 +52,16 @@ test('advisor starts from the page locale and honours explicit conversation-lang
  assert.equal(requestedAdvisorLocale('Vamos falar em português do Brasil?'),'pt-BR');
  assert.equal(requestedAdvisorLocale('We are considering the French market and its buyer journey.'),null);
 });
+test('Spanish public routes are indexable and belong to the complete language cluster',async()=>{
+ for(const page of ['index','operate','grow','invest','agritech','trade','investing','operations','commercial']){
+  const html=await readFile(new URL(`${page}.es.html`,dist),'utf8');
+  assert.match(html,/<meta name="robots" content="index,follow,max-image-preview:large">/);
+  assert.match(html,new RegExp(`<link rel="canonical" href="https://headingsouth\\.ai/${page}\\.es">`));
+  for(const locale of ['en','it','fr','es'])assert.match(html,new RegExp(`hreflang="${locale}"`));
+ }
+ const sitemap=await readFile(new URL('sitemap.xml',dist),'utf8');
+ assert.match(sitemap,/sitemap-es\.xml/);
+});
 async function languageHarness({url='https://example.com/roi-ai-website/',languages=['en'],saved=null,explicit=false,blocked=false}={}){
  const listeners={},storage=new Map(saved?[['roi-language',saved]]:[]),navigation=[];
  const location=new URL(url);location.replace=href=>navigation.push(href);location.assign=href=>navigation.push(href);

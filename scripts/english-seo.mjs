@@ -46,6 +46,7 @@ const json = value => JSON.stringify(value).replaceAll('<', '\\u003c');
 const urlFor = route => route === 'index' ? `${site}/` : `${site}/${route}`;
 const italianUrlFor = route => `${site}/${route}.it`;
 const frenchUrlFor = route => `${site}/${route}.fr`;
+const spanishUrlFor = route => `${site}/${route}.es`;
 
 function metadata(route, page) {
   const url = urlFor(route);
@@ -72,6 +73,7 @@ function metadata(route, page) {
     `<link rel="alternate" hreflang="en" href="${url}">`,
     `<link rel="alternate" hreflang="it" href="${italianUrl}">`,
     `<link rel="alternate" hreflang="fr" href="${frenchUrlFor(route)}">`,
+    `<link rel="alternate" hreflang="es" href="${spanishUrlFor(route)}">`,
     `<link rel="alternate" hreflang="x-default" href="${url}">`,
     '<meta property="og:locale" content="en_GB">',
     '<meta property="og:type" content="website">',
@@ -98,6 +100,6 @@ export async function applyEnglishSeo(out) {
     urls.push(urlFor(route));
   }
   await writeFile(resolve(out, 'sitemap-en.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map(url => `  <url><loc>${url}</loc></url>`).join('\n')}\n</urlset>\n`);
-  await writeFile(resolve(out, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <sitemap><loc>${site}/sitemap-en.xml</loc></sitemap>\n  <sitemap><loc>${site}/sitemap-it.xml</loc></sitemap>\n  <sitemap><loc>${site}/sitemap-fr.xml</loc></sitemap>\n</sitemapindex>\n`);
+  await writeFile(resolve(out, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <sitemap><loc>${site}/sitemap-en.xml</loc></sitemap>\n  <sitemap><loc>${site}/sitemap-it.xml</loc></sitemap>\n  <sitemap><loc>${site}/sitemap-fr.xml</loc></sitemap>\n  <sitemap><loc>${site}/sitemap-es.xml</loc></sitemap>\n</sitemapindex>\n`);
   await writeFile(resolve(out, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${site}/sitemap.xml\n`);
 }

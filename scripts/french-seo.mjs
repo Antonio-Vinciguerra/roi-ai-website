@@ -22,6 +22,7 @@ const json = value => JSON.stringify(value).replaceAll('<', '\\u003c');
 const urlFor = route => `${site}/${route}.fr`;
 const englishUrlFor = route => route === 'index' ? `${site}/` : `${site}/${route}`;
 const italianUrlFor = route => `${site}/${route}.it`;
+const spanishUrlFor = route => `${site}/${route}.es`;
 
 function metadata(route, page) {
   const url = urlFor(route);
@@ -39,6 +40,7 @@ function metadata(route, page) {
     `<link rel="alternate" hreflang="en" href="${englishUrlFor(route)}">`,
     `<link rel="alternate" hreflang="it" href="${italianUrlFor(route)}">`,
     `<link rel="alternate" hreflang="fr" href="${url}">`,
+    `<link rel="alternate" hreflang="es" href="${spanishUrlFor(route)}">`,
     `<link rel="alternate" hreflang="x-default" href="${englishUrlFor(route)}">`,
     '<meta property="og:locale" content="fr_FR">',
     '<meta property="og:type" content="website">',
