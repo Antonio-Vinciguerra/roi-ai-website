@@ -1,0 +1,50 @@
+{
+  "name": "HeadingSouth — Voice Call Records",
+  "nodes": [
+    {
+      "parameters": {"httpMethod": "POST", "path": "headingsouth-eleven-postcall", "options": {}},
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [0, 0],
+      "id": "92c4330d-b3a6-4e02-9977-bf406b94501e",
+      "name": "Post-call webhook",
+      "webhookId": "6fe6c668-1ea9-4f8f-91ad-b2abf4a4da0b"
+    },
+    {
+      "parameters": {"jsCode": "const payload = $input.first().json.body || {};\n\nif (payload.schemaVersion !== 1 || payload.source !== 'elevenlabs') throw new Error('Unsupported post-call payload');\nif (!payload.userId || !/^\\S+@\\S+\\.\\S+$/.test(payload.userId)) throw new Error('Completed call has no usable contact email');\n\nconst analysis = payload.dataCollection || {};\nconst value = (key, fallback = '') => { const item = analysis[key]; return item && typeof item === 'object' && 'value' in item ? String(item.value || fallback).trim() : String(item || fallback).trim(); };\nconst disposition = value('disposition', payload.callSuccessful ? 'follow_up' : 'no_answer');\nconst summary = payload.transcriptSummary || value('summary', 'No summary was returned.');\nconst nextStep = value('next_step', disposition === 'qualified' ? 'Arrange a human discovery conversation.' : 'Review the callback record.');\nconst escalation = value('human_escalation_needed', 'no');\nconst language = value('callback_language', 'unknown');\nconst conversationId = payload.conversationId || '';\n\nreturn [{ json: {\n  email: payload.userId.toLowerCase(),\n  conversationId,\n  disposition, summary, nextStep, escalation, language,\n  eventType: payload.type || '', callStatus: payload.status || '',\n  completedAt: payload.eventTimestamp || new Date().toISOString(),\n  noteBody: [\n    'Voice callback record',\n    'Language: ' + language,\n    'Outcome: ' + disposition,\n    'Summary: ' + summary,\n    'Next step: ' + nextStep,\n    'Human escalation: ' + escalation,\n    conversationId ? 'ElevenLabs conversation ID: ' + conversationId : '',\n    conversationId ? 'Recording / transcript: review in ElevenLabs Conversations (retained for 30 days).' : '',\n    payload.failureReason ? 'Failure reason: ' + payload.failureReason : ''\n  ].filter(Boolean).join('\\n')\n} }];"},
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [260, 0],
+      "id": "f6031102-44bb-4bc6-ad5c-9e68c74d500d",
+      "name": "Validate and prepare call record"
+    },
+    {
+      "parameters": {"authentication": "oAuth2", "email": "={{ $json.email }}", "additionalFields": {}, "options": {}},
+      "type": "n8n-nodes-base.hubspot",
+      "typeVersion": 2.2,
+      "position": [520, 0],
+      "id": "1edb478d-34aa-4366-8f83-64dd5d1ac878",
+      "name": "Find callback contact",
+      "credentials": {"hubspotOAuth2Api": {"id": "60bKePfpbGk18AbD", "name": "HubSpot account"}}
+    },
+    {
+      "parameters": {"authentication": "oAuth2", "resource": "engagement", "type": "note", "metadata": {"body": "={{ $('Validate and prepare call record').item.json.noteBody }}"}, "additionalFields": {"associations": {"contactIds": "={{ [$json.id || $json.vid] }}"}}},
+      "type": "n8n-nodes-base.hubspot",
+      "typeVersion": 2.2,
+      "position": [780, 0],
+      "id": "3e48e5ee-2cf2-42e8-a92a-a5f667179658",
+      "name": "Add callback note to HubSpot",
+      "credentials": {"hubspotOAuth2Api": {"id": "60bKePfpbGk18AbD", "name": "HubSpot account"}}
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Post-call webhook": {"main": [[{"node": "Validate and prepare call record", "type": "main", "index": 0}]]},
+    "Validate and prepare call record": {"main": [[{"node": "Find callback contact", "type": "main", "index": 0}]]},
+    "Find callback contact": {"main": [[{"node": "Add callback note to HubSpot", "type": "main", "index": 0}]]}
+  },
+  "active": false,
+  "settings": {"executionOrder": "v1", "binaryMode": "separate"},
+  "nodeGroups": [],
+  "tags": []
+}
