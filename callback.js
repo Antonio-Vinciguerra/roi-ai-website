@@ -7,7 +7,7 @@ const turnstileSiteKey = window.ROI_TURNSTILE_SITE_KEY || '';
 const copy = {
   en: {
     eyebrow: 'Heading South / Call back', title: 'Choose the next conversation.',
-    intro: 'Tell us what would be useful and when to call. We will review every request before any outbound call is made.',
+    intro: 'Tell us what would be useful and when to call. Your request is routed automatically to the right Heading South advisor.',
     reason: 'What would you like help with?', discovery: '30-minute discovery call', discoveryNote: 'Explore a business decision or opportunity.',
     support: 'Existing customer support', supportNote: 'Get help with an active Heading South engagement.',
     information: 'Product or service information', informationNote: 'Understand our approach, services or fit.',
@@ -16,13 +16,13 @@ const copy = {
     details: 'Your details', name: 'Name', email: 'Work email', phone: 'Phone number', company: 'Company (optional)',
     date: 'Preferred date', time: 'Preferred time', notes: 'Anything we should know? (optional)',
     consent: 'I agree that Heading South may call me on this number about this request.', privacy: 'Privacy Notice',
-    submit: 'Request a call back', sending: 'Sending your request…', success: 'Thank you. Your request has been received. We will confirm the next step shortly.',
+    submit: 'Request a call back', sending: 'Sending your request…', nowSuccess: 'Thank you. Your advisor will call shortly.', scheduledSuccess: 'Thank you. Your callback has been scheduled.',
     unavailable: 'Callback requests are not available at the moment. Please use the booking link or email us directly.',
     failed: 'We could not send the request. Please try again or use the booking link.', future: 'Please choose a future date and time.', close: 'Close callback request', timezone: 'Time zone',
   },
   it: {
     eyebrow: 'Heading South / Richiedi una chiamata', title: 'Scegli il prossimo confronto.',
-    intro: 'Dicci di cosa hai bisogno e quando preferisci essere chiamato. Ogni richiesta viene valutata prima di effettuare una chiamata in uscita.',
+    intro: 'Dicci di cosa hai bisogno e quando preferisci essere chiamato. La richiesta viene inoltrata automaticamente al consulente Heading South più adatto.',
     reason: 'In cosa possiamo esserti utili?', discovery: 'Confronto conoscitivo di 30 minuti', discoveryNote: 'Esplora una decisione o un’opportunità per la tua impresa.',
     support: 'Supporto per clienti esistenti', supportNote: 'Ricevi assistenza su un’attività Heading South in corso.',
     information: 'Informazioni su servizi e approccio', informationNote: 'Scopri approccio, servizi o compatibilità.',
@@ -31,13 +31,13 @@ const copy = {
     details: 'I tuoi dati', name: 'Nome e cognome', email: 'Email di lavoro', phone: 'Numero di telefono', company: 'Azienda (facoltativo)',
     date: 'Data preferita', time: 'Orario preferito', notes: 'C’è altro che dovremmo sapere? (facoltativo)',
     consent: 'Acconsento a essere contattato telefonicamente da Heading South in merito a questa richiesta.', privacy: 'Informativa sulla privacy',
-    submit: 'Richiedi una chiamata', sending: 'Invio della richiesta in corso…', success: 'Grazie. Abbiamo ricevuto la tua richiesta e ti confermeremo a breve il prossimo passo.',
+    submit: 'Richiedi una chiamata', sending: 'Invio della richiesta in corso…', nowSuccess: 'Grazie. Il tuo consulente ti chiamerà a breve.', scheduledSuccess: 'Grazie. La tua chiamata è stata programmata.',
     unavailable: 'Le richieste di chiamata non sono disponibili al momento. Puoi usare il link per prenotare o scriverci direttamente.',
     failed: 'Non siamo riusciti a inviare la richiesta. Riprova o usa il link per prenotare.', future: 'Scegli una data e un orario futuri.', close: 'Chiudi la richiesta di chiamata', timezone: 'Fuso orario',
   },
   fr: {
     eyebrow: 'Heading South / Être rappelé', title: 'Choisissez la suite de l’échange.',
-    intro: 'Indiquez-nous ce qui vous serait utile et le moment où vous appeler. Chaque demande est examinée avant tout appel sortant.',
+    intro: 'Indiquez-nous ce qui vous serait utile et le moment où vous appeler. Votre demande est automatiquement transmise à l’interlocuteur Heading South approprié.',
     reason: 'Comment pouvons-nous vous aider ?', discovery: 'Échange découverte de 30 minutes', discoveryNote: 'Explorer une décision ou une opportunité pour votre entreprise.',
     support: 'Support pour client existant', supportNote: 'Obtenir de l’aide sur une mission Heading South en cours.',
     information: 'Information sur nos services', informationNote: 'Comprendre notre approche, nos services ou leur pertinence.',
@@ -46,13 +46,13 @@ const copy = {
     details: 'Vos coordonnées', name: 'Nom complet', email: 'E-mail professionnel', phone: 'Numéro de téléphone', company: 'Entreprise (facultatif)',
     date: 'Date souhaitée', time: 'Heure souhaitée', notes: 'Y a-t-il autre chose à savoir ? (facultatif)',
     consent: 'J’accepte que Heading South m’appelle à ce numéro au sujet de cette demande.', privacy: 'Politique de confidentialité',
-    submit: 'Demander un rappel', sending: 'Envoi de votre demande…', success: 'Merci. Votre demande a bien été reçue. Nous confirmerons la prochaine étape prochainement.',
+    submit: 'Demander un rappel', sending: 'Envoi de votre demande…', nowSuccess: 'Merci. Votre interlocuteur vous appellera sous peu.', scheduledSuccess: 'Merci. Votre rappel est programmé.',
     unavailable: 'Les demandes de rappel ne sont pas disponibles pour le moment. Vous pouvez utiliser le lien de réservation ou nous écrire directement.',
     failed: 'Nous n’avons pas pu envoyer votre demande. Réessayez ou utilisez le lien de réservation.', future: 'Choisissez une date et une heure dans le futur.', close: 'Fermer la demande de rappel', timezone: 'Fuseau horaire',
   },
   es: {
     eyebrow: 'Heading South / Solicitar una llamada', title: 'Elige la siguiente conversación.',
-    intro: 'Cuéntanos qué te resultaría útil y cuándo llamarte. Revisamos cada solicitud antes de realizar cualquier llamada saliente.',
+    intro: 'Cuéntanos qué te resultaría útil y cuándo llamarte. Tu solicitud se envía automáticamente al asesor de Heading South más adecuado.',
     reason: '¿Cómo podemos ayudarte?', discovery: 'Llamada de descubrimiento de 30 minutos', discoveryNote: 'Explora una decisión u oportunidad para tu negocio.',
     support: 'Soporte para clientes actuales', supportNote: 'Recibe ayuda con un proyecto de Heading South en curso.',
     information: 'Información sobre productos o servicios', informationNote: 'Conoce nuestro enfoque, servicios o encaje.',
@@ -61,13 +61,13 @@ const copy = {
     details: 'Tus datos', name: 'Nombre completo', email: 'Correo profesional', phone: 'Número de teléfono', company: 'Empresa (opcional)',
     date: 'Fecha preferida', time: 'Hora preferida', notes: '¿Hay algo más que debamos saber? (opcional)',
     consent: 'Acepto que Heading South me llame a este número en relación con esta solicitud.', privacy: 'Aviso de privacidad',
-    submit: 'Solicitar una llamada', sending: 'Enviando tu solicitud…', success: 'Gracias. Hemos recibido tu solicitud y confirmaremos el siguiente paso en breve.',
+    submit: 'Solicitar una llamada', sending: 'Enviando tu solicitud…', nowSuccess: 'Gracias. Tu asesor te llamará en breve.', scheduledSuccess: 'Gracias. Tu llamada ha quedado programada.',
     unavailable: 'Las solicitudes de llamada no están disponibles en este momento. Puedes usar el enlace de reserva o escribirnos directamente.',
     failed: 'No hemos podido enviar la solicitud. Inténtalo de nuevo o usa el enlace de reserva.', future: 'Elige una fecha y hora futuras.', close: 'Cerrar solicitud de llamada', timezone: 'Zona horaria',
   },
   'pt-BR': {
     eyebrow: 'Heading South / Solicitar uma ligação', title: 'Escolha a próxima conversa.',
-    intro: 'Conte-nos o que seria útil e quando devemos ligar. Revisamos cada pedido antes de fazer qualquer ligação de saída.',
+    intro: 'Conte-nos o que seria útil e quando devemos ligar. Seu pedido é encaminhado automaticamente ao consultor da Heading South mais adequado.',
     reason: 'Como podemos ajudar?', discovery: 'Conversa de descoberta de 30 minutos', discoveryNote: 'Explore uma decisão ou oportunidade para a sua empresa.',
     support: 'Suporte para clientes existentes', supportNote: 'Obtenha ajuda em um trabalho da Heading South em andamento.',
     information: 'Informações sobre serviços', informationNote: 'Entenda nossa abordagem, serviços ou aderência.',
@@ -76,7 +76,7 @@ const copy = {
     details: 'Seus dados', name: 'Nome completo', email: 'E-mail profissional', phone: 'Número de telefone', company: 'Empresa (opcional)',
     date: 'Data preferida', time: 'Horário preferido', notes: 'Há algo mais que devemos saber? (opcional)',
     consent: 'Concordo que a Heading South entre em contato por telefone neste número sobre esta solicitação.', privacy: 'Aviso de privacidade',
-    submit: 'Solicitar uma ligação', sending: 'Enviando sua solicitação…', success: 'Obrigado. Recebemos sua solicitação e confirmaremos o próximo passo em breve.',
+    submit: 'Solicitar uma ligação', sending: 'Enviando sua solicitação…', nowSuccess: 'Obrigado. Seu consultor ligará em breve.', scheduledSuccess: 'Obrigado. Sua ligação foi agendada.',
     unavailable: 'As solicitações de ligação não estão disponíveis neste momento. Use o link de agendamento ou escreva para nós diretamente.',
     failed: 'Não foi possível enviar sua solicitação. Tente novamente ou use o link de agendamento.', future: 'Escolha uma data e horário no futuro.', close: 'Fechar solicitação de ligação', timezone: 'Fuso horário',
   },
@@ -223,7 +223,7 @@ async function init() {
     try {
       const response = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
       if (response.status !== 202) throw new Error('callback request unavailable');
-      setStatus(copy.success, 'success');
+      setStatus(scheduled ? copy.scheduledSuccess : copy.nowSuccess, 'success');
       form.reset(); updateTiming(); token = '';
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({ event: 'hs_callback_requested', request_type: payload.requestType, timing: payload.timing, language: locale });
