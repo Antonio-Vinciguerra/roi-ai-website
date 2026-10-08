@@ -24,6 +24,7 @@ h1,h2,h3{font-weight:500}
 em{font-family:Georgia,"Times New Roman",serif;font-weight:400}
 .skip-link{position:fixed;top:12px;left:12px;transform:translateY(-150%);z-index:1000;background:var(--paper);padding:12px 20px}
 .skip-link:focus{transform:none}
+.privacy-page{min-height:100vh}.privacy-header{max-width:1180px}.privacy-content{max-width:900px;margin:0 auto;padding:clamp(48px,8vw,120px) var(--gutter)}.privacy-content h1{font:500 clamp(3rem,7vw,6.2rem)/.98 var(--display);letter-spacing:-.065em;margin:0 0 20px}.privacy-content h2{font:500 clamp(1.5rem,2.6vw,2.2rem)/1.1 var(--display);letter-spacing:-.04em;margin:0 0 15px}.privacy-meta{font:400 .75rem var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:0 0 52px}.privacy-lede{font:500 clamp(1.25rem,2.1vw,1.7rem)/1.45 var(--display);max-width:42ch;margin:0 0 72px}.privacy-content section{border-top:1px solid var(--line);padding:28px 0}.privacy-content section p{max-width:72ch;margin:0 0 15px}.privacy-content section p:last-child{margin-bottom:0}.privacy-content a{color:inherit;text-underline-offset:4px}
 .grain{display:none}
 .site-header{position:relative;z-index:5;display:flex;align-items:center;justify-content:space-between;padding:28px var(--gutter);max-width:1800px;margin:auto;gap:24px}
 .wordmark{display:inline-flex;align-items:center;flex:none;text-decoration:none}

@@ -48,6 +48,11 @@
 
     if (type === 'share_context' || type === 'book_call') {
       const url = new URL(link.href);
+      // Tally records this hidden field so downstream automations can use the
+      // visitor's website language as the default callback language.
+      if (type === 'share_context') {
+        url.searchParams.set('journey_language', document.documentElement.lang || 'en');
+      }
       for (const key of attributionKeys) {
         if (attribution[key] && !url.searchParams.has(key)) url.searchParams.set(key, attribution[key]);
       }
