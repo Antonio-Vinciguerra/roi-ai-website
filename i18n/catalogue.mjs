@@ -8,6 +8,12 @@ export function dictionary(locale) {
  if(locale==='en')return Object.fromEntries(messages.map(s=>[s,s]));
  if(col<0)throw new Error('Unsupported locale: '+locale);
  const map=Object.fromEntries(messages.flatMap((s,i)=>translations[i]?[[s,translations[i][col]]]:[]));
+ const interfaceTranslations={
+  'Request a call':['Richiedi una chiamata','Demander un appel','Solicitar una llamada','Solicitar uma ligação'],
+  'Request a call back':['Richiedi di essere richiamato','Demander à être rappelé','Solicitar que te llamemos','Solicitar que liguemos para você'],
+  'Ask the AI advisor':['Parla con il consulente AI','Échanger avec le conseiller IA','Hablar con el asesor de IA','Fale com o consultor de IA'],
+ };
+ for(const [source,values] of Object.entries(interfaceTranslations))map[source]=values[col];
  map.Heading='Heading';
  map.South='South';
  // Keep elided articles with their noun across the designed heading line break.
