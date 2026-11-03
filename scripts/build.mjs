@@ -66,4 +66,16 @@ await applyBrazilianPortugueseSeo(out);
 await applyItalianSeo(out);
 await applyFrenchSeo(out);
 await applyEnglishSeo(out);
+// Ensure browsers don't combine updated markup with cached copies of the
+// shared interface assets during a release.
+for (const file of await readdir(out)) {
+ if (!file.endsWith('.html')) continue;
+ const path=resolve(out,file);
+ let html=await readFile(path,'utf8');
+ html=html
+  .replace(/href="(style|advisor|callback)\.css(?:\?[^\"]*)?"/g,(_,asset)=>`href="${asset}.css?v=20261103-panels"`)
+  .replace(/src="(advisor(?:\.(?:en|es|fr|it|pt-BR))?\.js)(?:\?[^\"]*)?"/g,(_,asset)=>`src="${asset}?v=20261103-panels"`)
+  .replace(/src="(callback\.js)(?:\?[^\"]*)?"/g,(_,asset)=>`src="${asset}?v=20261103-panels"`);
+ await writeFile(path,html);
+}
 console.log('Built five language editions, indexable English, Italian, French, Spanish and Brazilian Portuguese routes, and accessible advisor. No server secrets included.');
