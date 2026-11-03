@@ -29,10 +29,35 @@
  let mode='chat', active=false, recognition=null, busy=false, speaking=false, returnFocus=null, controller=null;
  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
  const supported=Boolean(SpeechRecognition && window.speechSynthesis);
+ function appendInline(parent,text) {
+  const fragment=document.createDocumentFragment();
+  const parts=String(text).split(/(\*\*[^*]+\*\*|`[^`]+`)/g);
+  for(const part of parts){
+   if(part.startsWith('**')&&part.endsWith('**')){const strong=document.createElement('strong');strong.textContent=part.slice(2,-2);fragment.append(strong);}
+   else if(part.startsWith('`')&&part.endsWith('`')){const code=document.createElement('code');code.textContent=part.slice(1,-1);fragment.append(code);}
+   else fragment.append(document.createTextNode(part));
+  }
+  parent.append(fragment);
+ }
+ function renderReply(container,text) {
+  let list=null;
+  for(const rawLine of String(text).split(/\r?\n/)){
+   const line=rawLine.trim();
+   if(!line){list=null;continue;}
+   const heading=line.match(/^#{1,3}\s+(.+)/);
+   const bullet=line.match(/^[-*]\s+(.+)/);
+   const numbered=line.match(/^\d+[.)]\s+(.+)/);
+   if(heading){list=null;const node=document.createElement('h3');appendInline(node,heading[1]);container.append(node);continue;}
+   if(bullet||numbered){const type=bullet?'ul':'ol';if(!list||list.tagName.toLowerCase()!==type){list=document.createElement(type);container.append(list);}const item=document.createElement('li');appendInline(item,(bullet||numbered)[1]);list.append(item);continue;}
+   list=null;const paragraph=document.createElement('p');appendInline(paragraph,line);container.append(paragraph);
+  }
+ }
  function addMessage(role,text) {
   const article=document.createElement('div'); article.className='advisor-message '+role;
   const speaker=document.createElement('span');speaker.className='speaker';speaker.textContent=role==='user'?"Você":'Heading South';
-  article.append(speaker,document.createTextNode(text));log.append(article);log.scrollTop=log.scrollHeight;
+  article.append(speaker);
+  if(role==='assistant')renderReply(article,text);else{const paragraph=document.createElement('p');paragraph.textContent=text;article.append(paragraph);}
+  log.append(article);log.scrollTop=log.scrollHeight;
  }
   addMessage('assistant',live ? "Olá. O que você gostaria de esclarecer sobre seu negócio ou seus planos de tecnologia?" : "Olá, prazer em conhecer você. Estou aqui para ajudar a explorar o que a Heading South pode trazer ao seu negócio. Por enquanto, esta é uma demonstração guiada. O que trouxe você aqui hoje?");
  function stopVoice() {

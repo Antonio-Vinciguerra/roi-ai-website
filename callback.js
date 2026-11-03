@@ -6,14 +6,16 @@ const turnstileSiteKey = window.ROI_TURNSTILE_SITE_KEY || '';
 
 const copy = {
   en: {
-    eyebrow: 'Heading South / Call back', title: 'Choose the next conversation.',
-    intro: 'Tell us what would be useful and when to call. Your request is routed automatically to the right Heading South advisor.',
+    eyebrow: 'Heading South / Call back', title: 'Request a call back.',
+    intro: 'Tell us when to call and what language you prefer.',
     reason: 'What would you like help with?', discovery: '30-minute discovery call', discoveryNote: 'Explore a business decision or opportunity.',
     support: 'Existing customer support', supportNote: 'Get help with an active Heading South engagement.',
     information: 'Product or service information', informationNote: 'Understand our approach, services or fit.',
     timing: 'When should we call?', soon: 'Request a call now', soonNote: 'We will aim to call as soon as possible during business hours.',
     schedule: 'Choose a day and time', scheduleNote: 'We will call in the time zone you select.',
     details: 'Your details', name: 'Name', email: 'Work email', phone: 'Phone number', company: 'Company (optional)',
+    callLanguage: 'Call language', languageNote: 'We’ll use this language for the call.',
+    optionalDetails: 'Add a little context (optional)',
     date: 'Preferred date', time: 'Preferred time', notes: 'Anything we should know? (optional)',
     consent: 'I agree that Heading South may call me on this number about this request.', privacy: 'Privacy Notice',
     submit: 'Request a call back', sending: 'Sending your request…', nowSuccess: 'Thank you. Your advisor will call shortly.', scheduledSuccess: 'Thank you. Your callback has been scheduled.',
@@ -21,14 +23,16 @@ const copy = {
     failed: 'We could not send the request. Please try again or use the booking link.', future: 'Please choose a future date and time.', close: 'Close callback request', timezone: 'Time zone',
   },
   it: {
-    eyebrow: 'Heading South / Richiedi una chiamata', title: 'Scegli il prossimo confronto.',
-    intro: 'Dicci di cosa hai bisogno e quando preferisci essere chiamato. La richiesta viene inoltrata automaticamente al consulente Heading South più adatto.',
+    eyebrow: 'Heading South / Richiedi una chiamata', title: 'Richiedi una chiamata.',
+    intro: 'Indicaci quando chiamarti e in quale lingua.',
     reason: 'In cosa possiamo esserti utili?', discovery: 'Confronto conoscitivo di 30 minuti', discoveryNote: 'Esplora una decisione o un’opportunità per la tua impresa.',
     support: 'Supporto per clienti esistenti', supportNote: 'Ricevi assistenza su un’attività Heading South in corso.',
     information: 'Informazioni su servizi e approccio', informationNote: 'Scopri approccio, servizi o compatibilità.',
     timing: 'Quando preferisci ricevere la chiamata?', soon: 'Richiedi una chiamata ora', soonNote: 'Cercheremo di chiamarti al più presto durante l’orario lavorativo.',
     schedule: 'Scegli giorno e orario', scheduleNote: 'Ti chiameremo nel fuso orario indicato.',
     details: 'I tuoi dati', name: 'Nome e cognome', email: 'Email di lavoro', phone: 'Numero di telefono', company: 'Azienda (facoltativo)',
+    callLanguage: 'Lingua della chiamata', languageNote: 'Useremo questa lingua per la chiamata.',
+    optionalDetails: 'Aggiungi qualche dettaglio (facoltativo)',
     date: 'Data preferita', time: 'Orario preferito', notes: 'C’è altro che dovremmo sapere? (facoltativo)',
     consent: 'Acconsento a essere contattato telefonicamente da Heading South in merito a questa richiesta.', privacy: 'Informativa sulla privacy',
     submit: 'Richiedi una chiamata', sending: 'Invio della richiesta in corso…', nowSuccess: 'Grazie. Il tuo consulente ti chiamerà a breve.', scheduledSuccess: 'Grazie. La tua chiamata è stata programmata.',
@@ -36,14 +40,16 @@ const copy = {
     failed: 'Non siamo riusciti a inviare la richiesta. Riprova o usa il link per prenotare.', future: 'Scegli una data e un orario futuri.', close: 'Chiudi la richiesta di chiamata', timezone: 'Fuso orario',
   },
   fr: {
-    eyebrow: 'Heading South / Être rappelé', title: 'Choisissez la suite de l’échange.',
-    intro: 'Indiquez-nous ce qui vous serait utile et le moment où vous appeler. Votre demande est automatiquement transmise à l’interlocuteur Heading South approprié.',
+    eyebrow: 'Heading South / Être rappelé', title: 'Demander un rappel.',
+    intro: 'Indiquez-nous quand vous appeler et dans quelle langue.',
     reason: 'Comment pouvons-nous vous aider ?', discovery: 'Échange découverte de 30 minutes', discoveryNote: 'Explorer une décision ou une opportunité pour votre entreprise.',
     support: 'Support pour client existant', supportNote: 'Obtenir de l’aide sur une mission Heading South en cours.',
     information: 'Information sur nos services', informationNote: 'Comprendre notre approche, nos services ou leur pertinence.',
     timing: 'Quand souhaitez-vous être appelé ?', soon: 'Demander un rappel maintenant', soonNote: 'Nous essaierons de vous appeler au plus vite pendant les heures ouvrées.',
     schedule: 'Choisir un jour et une heure', scheduleNote: 'Nous vous appellerons dans le fuseau horaire indiqué.',
     details: 'Vos coordonnées', name: 'Nom complet', email: 'E-mail professionnel', phone: 'Numéro de téléphone', company: 'Entreprise (facultatif)',
+    callLanguage: 'Langue de l’appel', languageNote: 'Nous utiliserons cette langue pour l’appel.',
+    optionalDetails: 'Ajouter un peu de contexte (facultatif)',
     date: 'Date souhaitée', time: 'Heure souhaitée', notes: 'Y a-t-il autre chose à savoir ? (facultatif)',
     consent: 'J’accepte que Heading South m’appelle à ce numéro au sujet de cette demande.', privacy: 'Politique de confidentialité',
     submit: 'Demander un rappel', sending: 'Envoi de votre demande…', nowSuccess: 'Merci. Votre interlocuteur vous appellera sous peu.', scheduledSuccess: 'Merci. Votre rappel est programmé.',
@@ -51,14 +57,16 @@ const copy = {
     failed: 'Nous n’avons pas pu envoyer votre demande. Réessayez ou utilisez le lien de réservation.', future: 'Choisissez une date et une heure dans le futur.', close: 'Fermer la demande de rappel', timezone: 'Fuseau horaire',
   },
   es: {
-    eyebrow: 'Heading South / Solicitar una llamada', title: 'Elige la siguiente conversación.',
-    intro: 'Cuéntanos qué te resultaría útil y cuándo llamarte. Tu solicitud se envía automáticamente al asesor de Heading South más adecuado.',
+    eyebrow: 'Heading South / Solicitar una llamada', title: 'Solicita que te llamemos.',
+    intro: 'Indícanos cuándo llamarte y en qué idioma.',
     reason: '¿Cómo podemos ayudarte?', discovery: 'Llamada de descubrimiento de 30 minutos', discoveryNote: 'Explora una decisión u oportunidad para tu negocio.',
     support: 'Soporte para clientes actuales', supportNote: 'Recibe ayuda con un proyecto de Heading South en curso.',
     information: 'Información sobre productos o servicios', informationNote: 'Conoce nuestro enfoque, servicios o encaje.',
     timing: '¿Cuándo quieres que te llamemos?', soon: 'Solicitar una llamada ahora', soonNote: 'Intentaremos llamarte lo antes posible en horario laboral.',
     schedule: 'Elegir día y hora', scheduleNote: 'Te llamaremos en la zona horaria que indiques.',
     details: 'Tus datos', name: 'Nombre completo', email: 'Correo profesional', phone: 'Número de teléfono', company: 'Empresa (opcional)',
+    callLanguage: 'Idioma de la llamada', languageNote: 'Usaremos este idioma durante la llamada.',
+    optionalDetails: 'Añade algo de contexto (opcional)',
     date: 'Fecha preferida', time: 'Hora preferida', notes: '¿Hay algo más que debamos saber? (opcional)',
     consent: 'Acepto que Heading South me llame a este número en relación con esta solicitud.', privacy: 'Aviso de privacidad',
     submit: 'Solicitar una llamada', sending: 'Enviando tu solicitud…', nowSuccess: 'Gracias. Tu asesor te llamará en breve.', scheduledSuccess: 'Gracias. Tu llamada ha quedado programada.',
@@ -66,14 +74,16 @@ const copy = {
     failed: 'No hemos podido enviar la solicitud. Inténtalo de nuevo o usa el enlace de reserva.', future: 'Elige una fecha y hora futuras.', close: 'Cerrar solicitud de llamada', timezone: 'Zona horaria',
   },
   'pt-BR': {
-    eyebrow: 'Heading South / Solicitar uma ligação', title: 'Escolha a próxima conversa.',
-    intro: 'Conte-nos o que seria útil e quando devemos ligar. Seu pedido é encaminhado automaticamente ao consultor da Heading South mais adequado.',
+    eyebrow: 'Heading South / Solicitar uma ligação', title: 'Solicite uma ligação.',
+    intro: 'Diga-nos quando ligar e em qual idioma.',
     reason: 'Como podemos ajudar?', discovery: 'Conversa de descoberta de 30 minutos', discoveryNote: 'Explore uma decisão ou oportunidade para a sua empresa.',
     support: 'Suporte para clientes existentes', supportNote: 'Obtenha ajuda em um trabalho da Heading South em andamento.',
     information: 'Informações sobre serviços', informationNote: 'Entenda nossa abordagem, serviços ou aderência.',
     timing: 'Quando devemos ligar?', soon: 'Solicitar uma ligação agora', soonNote: 'Tentaremos ligar o mais rápido possível, em horário comercial.',
     schedule: 'Escolher dia e horário', scheduleNote: 'Ligaremos no fuso horário que você indicar.',
     details: 'Seus dados', name: 'Nome completo', email: 'E-mail profissional', phone: 'Número de telefone', company: 'Empresa (opcional)',
+    callLanguage: 'Idioma da ligação', languageNote: 'Usaremos este idioma durante a ligação.',
+    optionalDetails: 'Adicione um pouco de contexto (opcional)',
     date: 'Data preferida', time: 'Horário preferido', notes: 'Há algo mais que devemos saber? (opcional)',
     consent: 'Concordo que a Heading South entre em contato por telefone neste número sobre esta solicitação.', privacy: 'Aviso de privacidade',
     submit: 'Solicitar uma ligação', sending: 'Enviando sua solicitação…', nowSuccess: 'Obrigado. Seu consultor ligará em breve.', scheduledSuccess: 'Obrigado. Sua ligação foi agendada.',
@@ -99,14 +109,10 @@ function createDialog() {
     <h2 id="callback-title">${escape(copy.title)}</h2>
     <p class="callback-intro">${escape(copy.intro)}</p>
     <form class="callback-form" novalidate>
-      <fieldset class="callback-set"><legend>${escape(copy.reason)}</legend><div class="callback-options">
-        <label class="callback-option"><input type="radio" name="requestType" value="discovery" checked><strong>${escape(copy.discovery)}</strong><small>${escape(copy.discoveryNote)}</small></label>
-        <label class="callback-option"><input type="radio" name="requestType" value="support"><strong>${escape(copy.support)}</strong><small>${escape(copy.supportNote)}</small></label>
-        <label class="callback-option"><input type="radio" name="requestType" value="information"><strong>${escape(copy.information)}</strong><small>${escape(copy.informationNote)}</small></label>
-      </div></fieldset>
-      <fieldset class="callback-set"><legend>${escape(copy.timing)}</legend><div class="callback-options">
-        <label class="callback-option"><input type="radio" name="timing" value="now" checked><strong>${escape(copy.soon)}</strong><small>${escape(copy.soonNote)}</small></label>
-        <label class="callback-option"><input type="radio" name="timing" value="scheduled"><strong>${escape(copy.schedule)}</strong><small>${escape(copy.scheduleNote)}</small></label>
+      <label class="callback-field callback-topic"><span>${escape(copy.reason)}</span><select name="requestType"><option value="discovery" selected>${escape(copy.discovery)}</option><option value="support">${escape(copy.support)}</option><option value="information">${escape(copy.information)}</option></select></label>
+      <fieldset class="callback-set callback-timing"><legend>${escape(copy.timing)}</legend><div class="callback-segmented">
+        <label><input type="radio" name="timing" value="now" checked><span>${escape(copy.soon)}</span></label>
+        <label><input type="radio" name="timing" value="scheduled"><span>${escape(copy.schedule)}</span></label>
       </div></fieldset>
       <div class="callback-schedule" hidden><div class="callback-grid">
         <label class="callback-field"><span>${escape(copy.date)}</span><input name="date" type="date"></label>
@@ -117,9 +123,12 @@ function createDialog() {
         <label class="callback-field"><span>${escape(copy.name)}</span><input name="name" autocomplete="name" maxlength="120" required></label>
         <label class="callback-field"><span>${escape(copy.email)}</span><input name="email" autocomplete="email" type="email" maxlength="160" required></label>
         <label class="callback-field"><span>${escape(copy.phone)}</span><input name="phone" autocomplete="tel" type="tel" inputmode="tel" maxlength="32" required></label>
-        <label class="callback-field"><span>${escape(copy.company)}</span><input name="company" autocomplete="organization" maxlength="160"></label>
-        <label class="callback-field full"><span>${escape(copy.notes)}</span><textarea name="notes" maxlength="1000"></textarea></label>
+        <label class="callback-field"><span>${escape(copy.callLanguage)}</span><select name="callLanguage" required><option value="en">English</option><option value="it">Italiano</option><option value="fr">Français</option><option value="es">Español</option><option value="pt-BR">Português (Brasil)</option></select><small>${escape(copy.languageNote)}</small></label>
       </div></fieldset>
+      <details class="callback-more"><summary>${escape(copy.optionalDetails)}</summary><div class="callback-more-fields">
+        <label class="callback-field"><span>${escape(copy.company)}</span><input name="company" autocomplete="organization" maxlength="160"></label>
+        <label class="callback-field"><span>${escape(copy.notes)}</span><textarea name="notes" maxlength="1000"></textarea></label>
+      </div></details>
       <label class="callback-consent"><input name="consent" type="checkbox" required><span>${escape(copy.consent)}</span></label>
       <p class="callback-privacy"><a href="privacy.html">${escape(copy.privacy)}</a></p>
       <div class="callback-turnstile" aria-live="polite"></div>
@@ -163,6 +172,7 @@ async function init() {
   const time = form.elements.time;
   const timezone = form.elements.timezone;
   timezone.value = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
+  form.elements.callLanguage.value = locale;
   date.min = new Date().toISOString().slice(0, 10);
   let returnFocus = null;
   let token = '';
@@ -213,7 +223,7 @@ async function init() {
     const payload = {
       schemaVersion: 1, source: 'website', requestType: form.elements.requestType.value,
       timing: form.elements.timing.value, scheduledFor: scheduledAt?.toISOString() || null,
-      timezone: timezone.value, locale, name: safeText(form.elements.name.value, 120),
+      timezone: timezone.value, locale: form.elements.callLanguage.value, name: safeText(form.elements.name.value, 120),
       email: safeText(form.elements.email.value, 160).toLowerCase(), phone: safeText(form.elements.phone.value, 32),
       company: safeText(form.elements.company.value, 160), notes: safeText(form.elements.notes.value, 1000),
       consent: { call: true, capturedAt: new Date().toISOString(), wordingVersion: 'callback-v1' },
@@ -224,9 +234,9 @@ async function init() {
       const response = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
       if (response.status !== 202) throw new Error('callback request unavailable');
       setStatus(scheduled ? copy.scheduledSuccess : copy.nowSuccess, 'success');
-      form.reset(); updateTiming(); token = '';
+      form.reset(); form.elements.callLanguage.value = locale; updateTiming(); token = '';
       window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({ event: 'hs_callback_requested', request_type: payload.requestType, timing: payload.timing, language: locale });
+      window.dataLayer.push({ event: 'hs_callback_requested', request_type: payload.requestType, timing: payload.timing, language: locale, call_language: payload.locale });
     } catch { setStatus(copy.failed, 'error'); }
     finally { submit.disabled = false; }
   });
