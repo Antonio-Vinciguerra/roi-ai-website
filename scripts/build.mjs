@@ -73,9 +73,9 @@ for (const file of await readdir(out)) {
  const path=resolve(out,file);
  let html=await readFile(path,'utf8');
  html=html
-  .replace(/href="(style|advisor|callback)\.css(?:\?[^\"]*)?"/g,(_,asset)=>`href="${asset}.css?v=20261104-phone-code"`)
-  .replace(/src="(advisor(?:\.(?:en|es|fr|it|pt-BR))?\.js)(?:\?[^\"]*)?"/g,(_,asset)=>`src="${asset}?v=20261104-phone-code"`)
-  .replace(/src="(callback\.js)(?:\?[^\"]*)?"/g,(_,asset)=>`src="${asset}?v=20261104-phone-code"`);
+  .replace(/href="(style|advisor|callback)\.css(?:\?[^\"]*)?"/g,(_,asset)=>`href="${asset}.css?v=20261104-phone-selector"`)
+  .replace(/src="(advisor(?:\.(?:en|es|fr|it|pt-BR))?\.js)(?:\?[^\"]*)?"/g,(_,asset)=>`src="${asset}?v=20261104-phone-selector"`)
+  .replace(/src="(callback\.js)(?:\?[^\"]*)?"/g,(_,asset)=>`src="${asset}?v=20261104-phone-selector"`);
  await writeFile(path,html);
 }
 console.log('Built five language editions, indexable English, Italian, French, Spanish and Brazilian Portuguese routes, and accessible advisor. No server secrets included.');
