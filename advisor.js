@@ -97,7 +97,7 @@
 
    $('.advisor-prompts').hidden=true;
   }
-  dialog.showModal();(matchMedia('(pointer:coarse)').matches?$('.advisor-close'):(mode==='chat'?input:voiceButton)).focus();
+  dialog.show();(matchMedia('(pointer:coarse)').matches?$('.advisor-close'):(mode==='chat'?input:voiceButton)).focus();
  };
  launcher.addEventListener('click',()=>open(launcher));
  document.addEventListener('click',event=>{const button=event.target.closest('[data-advisor-open]');if(button)open(button);});
@@ -162,6 +162,7 @@
    if(live){
     const url=new URL(endpoint,location.href);
     if(url.origin!==location.origin)throw new Error('Invalid endpoint');
+    if(location.hostname==='www.headingsouth.ai')url.hostname='headingsouth.ai';
     controller=new AbortController();const timeout=setTimeout(()=>controller.abort(),30000);
     try {
      const response=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:turn.slice(-20),locale:conversationLocale,stream:true}),signal:controller.signal});
@@ -201,8 +202,7 @@
   } catch(error) {
    if(replyArticle)replyArticle.remove();
    failedTurn={text};
-   if(!input.value)input.value=sentDraft;
-   if(dialog.open){status.textContent=stopRequested?copy.stopped:copy.error;retryButton.hidden=stopRequested;}
+   if(dialog.open){status.textContent=stopRequested?copy.stopped:copy.error;retryButton.hidden=false;}
    stopVoice();
   } finally {pending.hidden=true;stopButton.hidden=true;busy=false;$('.advisor-send').disabled=false;}
  }
