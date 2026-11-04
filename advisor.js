@@ -171,7 +171,7 @@
       const reader=response.body.getReader(),decoder=new TextDecoder();let buffer='',complete=false;
       let shown=0, frame=null, lastTime=performance.now();
       const reducedMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const animate=now=>{frame=null;const elapsed=Math.min(now-lastTime,100);lastTime=now;shown=Math.min(reply.length,shown+Math.max(1,elapsed*.075));const paragraph=replyArticle?.querySelector('.advisor-streaming');if(paragraph)paragraph.textContent=reply.slice(0,Math.floor(shown)).replace(/\*\*/g,'');if(shown<reply.length){scrollLatest();frame=requestAnimationFrame(animate);}};
+      const animate=now=>{frame=null;const elapsed=Math.min(now-lastTime,100);lastTime=now;shown=Math.min(reply.length,shown+Math.max(1,elapsed*.025));const paragraph=replyArticle?.querySelector('.advisor-streaming');if(paragraph)paragraph.textContent=reply.slice(0,Math.floor(shown)).replace(/\*\*/g,'');if(shown<reply.length){scrollLatest();frame=requestAnimationFrame(animate);}};
       const pace=()=>{if(reducedMotion){shown=reply.length;const p=replyArticle?.querySelector('.advisor-streaming');if(p)p.textContent=reply.replace(/\*\*/g,'');return;}if(frame===null){lastTime=performance.now();frame=requestAnimationFrame(animate);}};
       const processLine=line=>{
        if(!line.trim())return;

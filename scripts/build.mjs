@@ -73,9 +73,9 @@ for (const file of await readdir(out)) {
  const path=resolve(out,file);
  let html=await readFile(path,'utf8');
  html=html
-  .replace(/href="(style|advisor|callback)\.css(?:\?[^\"]*)?"/g,(_,asset)=>`href="${asset}.css?v=20261104-chat-paced"`)
-  .replace(/src="(advisor(?:\.(?:en|es|fr|it|pt-BR))?\.js)(?:\?[^\"]*)?"/g,(_,asset)=>`src="${asset}?v=20261104-chat-paced"`)
-  .replace(/src="(callback\.js)(?:\?[^\"]*)?"/g,(_,asset)=>`src="${asset}?v=20261104-chat-paced"`);
+  .replace(/href="(style|advisor|callback)\.css(?:\?[^\"]*)?"/g,(_,asset)=>`href="${asset}.css?v=20261104-chat-gentle"`)
+  .replace(/src="(advisor(?:\.(?:en|es|fr|it|pt-BR))?\.js)(?:\?[^\"]*)?"/g,(_,asset)=>`src="${asset}?v=20261104-chat-gentle"`)
+  .replace(/src="(callback\.js)(?:\?[^\"]*)?"/g,(_,asset)=>`src="${asset}?v=20261104-chat-gentle"`);
  await writeFile(path,html);
 }
 console.log('Built five language editions, indexable English, Italian, French, Spanish and Brazilian Portuguese routes, and accessible advisor. No server secrets included.');
