@@ -31,5 +31,5 @@
 .callback-submit{justify-content:space-between;max-width:none;width:100%;min-height:52px;padding:15px 18px;background:var(--ink);color:var(--paper);border-radius:4px;font-size:.9rem}
 .callback-submit:hover{background:#2c3935;transform:none}
 .callback-status{min-height:1.45em;margin:-8px 0 0;font-size:.83rem;color:var(--muted)}.callback-status[data-state=error]{color:#a12020}.callback-status[data-state=success]{color:#254e35}
-@media(max-width:560px){.callback-dialog{width:100vw;border-left:0}.callback-shell{padding:24px 20px calc(30px + env(safe-area-inset-bottom))}.callback-grid{grid-template-columns:1fr}.callback-field.full{grid-column:auto}.callback-intro{margin-bottom:20px}.callback-form{gap:16px}}
+@media(max-width:560px){.callback-dialog{width:100vw;max-width:100vw;border-left:0}.callback-shell{padding:70px 20px calc(30px + env(safe-area-inset-bottom))}.callback-close{position:fixed;top:calc(14px + env(safe-area-inset-top));right:16px;float:none;margin:0}.callback-grid{grid-template-columns:1fr}.callback-field.full{grid-column:auto}.callback-intro{margin-bottom:20px}.callback-form{gap:16px}}
 @media(prefers-reduced-motion:reduce){.callback-dialog[open]{animation:none}}
