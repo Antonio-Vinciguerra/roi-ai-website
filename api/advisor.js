@@ -1,5 +1,6 @@
 import persona from '../advisor-persona.js';
 import knowledgeBase from '../advisor-knowledge-base.js';
+import {streamAdvisorResult} from './advisor-stream.js';
 
 const supportedLocales={
  en:'English (UK)',
@@ -22,27 +23,29 @@ export async function handleAdvisor(request, env = {}, fetcher = fetch) {
  // Fail closed until the deployment supplies a real, shared rate limiter.
  if(typeof env.allowRequest !== 'function' || !await env.allowRequest(request))
   return json({error:'Please try again later.'},429);
- if(Number(request.headers.get('content-length')||0)>20000) return json({error:'Message too large'},413);
+ if(Number(request.headers.get('content-length')||0)>40000) return json({error:'Message too large'},413);
  let body;
  try {
   const reader=request.body?.getReader();if(!reader)return json({error:'A message is required'},400);
   const chunks=[];let bytes=0;
-  while(true){const {value,done}=await reader.read();if(done)break;bytes+=value.byteLength;if(bytes>20000){await reader.cancel();return json({error:'Message too large'},413);}chunks.push(value);}
+  while(true){const {value,done}=await reader.read();if(done)break;bytes+=value.byteLength;if(bytes>40000){await reader.cancel();return json({error:'Message too large'},413);}chunks.push(value);}
   const joined=new Uint8Array(bytes);let offset=0;for(const chunk of chunks){joined.set(chunk,offset);offset+=chunk.length;}
   body=JSON.parse(new TextDecoder().decode(joined));
  } catch {return json({error:'Invalid JSON'},400);}
  const messages=body?.messages;
  const locale=Object.hasOwn(supportedLocales,body?.locale)?body.locale:'en';
- if(!Array.isArray(messages)||!messages.length||messages.length>8||
+ if(!Array.isArray(messages)||!messages.length||messages.length>20||
   messages.some(m=>!m||!['user','assistant'].includes(m.role)||typeof m.content!=='string'||!m.content.trim()||m.content.length>2000)||
   messages.at(-1).role!=='user') return json({error:'Invalid conversation'},400);
  try {
+  const streaming=body.stream===true;
   const result=await fetcher('https://api.openai.com/v1/responses',{
    method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+env.OPENAI_API_KEY},
-   body:JSON.stringify({model:env.OPENAI_MODEL,instructions:`${persona}\n\nAuthoritative Heading South knowledge base:\n${knowledgeBase}\n\nConversation language: Reply in ${supportedLocales[locale]}. Continue in that language unless the visitor explicitly asks you to change language. Keep the response professional, natural and concise.`,input:messages.map(({role,content})=>({role,content})),store:false,max_output_tokens:600}),
+   body:JSON.stringify({model:env.OPENAI_MODEL,instructions:`${persona}\n\nAuthoritative Heading South knowledge base:\n${knowledgeBase}\n\nConversation language: Reply in ${supportedLocales[locale]}. Continue in that language unless the visitor explicitly asks you to change language. Keep the response professional, natural and concise.`,input:messages.map(({role,content})=>({role,content})),store:false,max_output_tokens:600,...(streaming?{stream:true}:{})}),
    signal:AbortSignal.timeout(20000)
   });
   if(!result.ok)return json({error:'The advisor is temporarily unavailable.'},502);
+  if(streaming) return streamAdvisorResult(result,request.signal);
   const data=await result.json();
   const reply=(data.output||[]).filter(item=>item.type==='message').flatMap(item=>item.content||[]).filter(item=>item.type==='output_text').map(item=>item.text).join('\n').trim();
   if(!reply)return json({error:'The advisor could not form a response.'},502);

@@ -35,3 +35,11 @@
 .advisor-voice[hidden],#chat-panel[hidden],.advisor-prompts[hidden]{display:none}
 @media(max-width:560px){.advisor-dialog{width:100vw;border-left:0}.advisor-head{padding:22px 20px 16px}.advisor-log{padding:20px 20px 10px}.advisor-prompts,.advisor-routes{padding-left:20px;padding-right:20px}.advisor-compose{padding:10px 14px}.advisor-foot,.advisor-status{padding-left:20px;padding-right:20px}.advisor-launcher{right:16px;bottom:16px}}
 @media(prefers-reduced-motion:reduce){.advisor-dialog[open]{animation:none}.advisor-launcher:hover{transform:none}}
+
+/* Conversation feedback: real pending state and progressive answer delivery. */
+.advisor-pending{display:flex;gap:5px;padding:8px 28px}.advisor-pending[hidden],.advisor-response-controls button[hidden],.advisor-latest[hidden]{display:none}
+.advisor-pending span{width:5px;height:5px;border-radius:50%;background:var(--muted);animation:advisor-dot 1.1s ease-in-out infinite}.advisor-pending span:nth-child(2){animation-delay:.15s}.advisor-pending span:nth-child(3){animation-delay:.3s}
+@keyframes advisor-dot{0%,70%,100%{opacity:.3;transform:none}35%{opacity:1;transform:translateY(-3px)}}
+.advisor-streaming{white-space:pre-wrap;overflow-wrap:anywhere}.advisor-response-controls{display:flex;gap:12px;padding:0 28px}.advisor-response-controls:has(button:not([hidden])){padding-bottom:8px}.advisor-response-controls button,.advisor-latest{border:1px solid var(--line);border-radius:999px;background:var(--paper);color:var(--ink);font:inherit;font-size:.75rem;min-height:36px;padding:6px 12px;cursor:pointer}
+.advisor-latest{align-self:center;margin:0 0 8px}.advisor-log{scroll-behavior:auto}.advisor-compose textarea{font-size:max(16px,.9rem)}
+@media(prefers-reduced-motion:reduce){.advisor-pending span,.voice-action[aria-pressed=true] .voice-indicator{animation:none}.advisor-log{scroll-behavior:auto}}

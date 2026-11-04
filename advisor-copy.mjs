@@ -1,0 +1,72 @@
+export const advisorCopy = {
+ "en": {
+  "greeting": "Hello. I’m Heading South’s AI assistant. We help businesses put AI to practical use, alongside expertise in business, international growth and finance. What would you like help with in your business?",
+  "thinking": "Preparing a reply",
+  "stop": "Stop response",
+  "stopped": "Response stopped. You can continue when you’re ready.",
+  "latest": "Latest messages",
+  "you": "You",
+  "error": "The reply could not be completed. Your message is still here. Please retry or use the contact options.",
+  "retry": "Retry reply",
+  "complete": "Reply ready",
+  "context": "You were exploring",
+  "contextQuestion": "Is there a current issue or project where you would like help?",
+  "foot": "AI assistant · Please don’t share confidential information."
+ },
+ "it": {
+  "greeting": "Buongiorno, sono l’assistente AI di Heading South. Aiutiamo le imprese a mettere a frutto l’AI, affiancando competenze di business, sviluppo internazionale e finanza. Su cosa vorrebbe un aiuto per la sua attività?",
+  "thinking": "Sto preparando una risposta",
+  "stop": "Interrompi la risposta",
+  "stopped": "Risposta interrotta. Può continuare quando desidera.",
+  "latest": "Ultimi messaggi",
+  "you": "Lei",
+  "error": "Non è stato possibile completare la risposta. Il suo messaggio è ancora qui. Può riprovare o usare le opzioni di contatto.",
+  "retry": "Riprova",
+  "complete": "Risposta pronta",
+  "context": "Stava esplorando",
+  "contextQuestion": "C’è un problema attuale o un progetto su cui vorrebbe un aiuto?",
+  "foot": "Assistente AI · Non condivida informazioni riservate."
+ },
+ "fr": {
+  "greeting": "Bonjour, je suis l’assistant IA de Heading South. Nous aidons les entreprises à utiliser concrètement l’IA, avec un appui en développement d’entreprise, à l’international et en finance. Sur quel sujet souhaiteriez-vous être accompagné ?",
+  "thinking": "Préparation de la réponse",
+  "stop": "Arrêter la réponse",
+  "stopped": "Réponse interrompue. Vous pouvez continuer quand vous le souhaitez.",
+  "latest": "Derniers messages",
+  "you": "Vous",
+  "error": "La réponse n’a pas pu être terminée. Votre message est conservé. Vous pouvez réessayer ou utiliser les options de contact.",
+  "retry": "Réessayer",
+  "complete": "Réponse prête",
+  "context": "Vous consultiez",
+  "contextQuestion": "Y a-t-il un problème actuel ou un projet pour lequel vous souhaiteriez de l’aide ?",
+  "foot": "Assistant IA · Ne partagez pas d’informations confidentielles."
+ },
+ "es": {
+  "greeting": "Hola, soy el asistente de IA de Heading South. Ayudamos a las empresas a aplicar la IA, con apoyo especializado en desarrollo empresarial, expansión internacional y finanzas. ¿En qué aspecto de su negocio le gustaría recibir ayuda?",
+  "thinking": "Preparando una respuesta",
+  "stop": "Detener la respuesta",
+  "stopped": "Respuesta detenida. Puede continuar cuando quiera.",
+  "latest": "Últimos mensajes",
+  "you": "Usted",
+  "error": "No se ha podido completar la respuesta. Su mensaje sigue aquí. Puede reintentarlo o utilizar las opciones de contacto.",
+  "retry": "Reintentar",
+  "complete": "Respuesta lista",
+  "context": "Estaba consultando",
+  "contextQuestion": "¿Hay algún problema actual o proyecto en el que le gustaría recibir ayuda?",
+  "foot": "Asistente de IA · No comparta información confidencial."
+ },
+ "pt-BR": {
+  "greeting": "Olá, sou o assistente de IA da Heading South. Ajudamos empresas a aplicar a IA, com apoio especializado em negócios, expansão internacional e finanças. Em que aspecto do seu negócio você gostaria de receber ajuda?",
+  "thinking": "Preparando uma resposta",
+  "stop": "Parar a resposta",
+  "stopped": "Resposta interrompida. Você pode continuar quando quiser.",
+  "latest": "Mensagens recentes",
+  "you": "Você",
+  "error": "Não foi possível concluir a resposta. Sua mensagem continua aqui. Tente novamente ou use as opções de contato.",
+  "retry": "Tentar novamente",
+  "complete": "Resposta pronta",
+  "context": "Você estava explorando",
+  "contextQuestion": "Há algum problema atual ou projeto em que você gostaria de receber ajuda?",
+  "foot": "Assistente de IA · Não compartilhe informações confidenciais."
+ }
+};
