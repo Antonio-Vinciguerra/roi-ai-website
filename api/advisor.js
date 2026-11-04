@@ -16,7 +16,9 @@ export async function handleAdvisor(request, env = {}, fetcher = fetch) {
  const json = (body,status=200) => Response.json(body,{status,headers:{'Cache-Control':'no-store'}});
  if(request.method !== 'POST') return json({error:'Method not allowed'},405);
  const origin=request.headers.get('origin');
- if(!origin || origin !== new URL(request.url).origin) return json({error:'Origin not permitted'},403);
+ const sameOrigin = origin && origin === new URL(request.url).origin;
+ const trustedAlias = origin === 'https://www.headingsouth.ai' && new URL(request.url).origin === 'https://headingsouth.ai';
+ if(!sameOrigin && !trustedAlias) return json({error:'Origin not permitted'},403);
  if(!request.headers.get('content-type')?.startsWith('application/json')) return json({error:'Expected JSON'},415);
  if(env.ADVISOR_ENABLED !== 'true' || !env.OPENAI_API_KEY || !env.OPENAI_MODEL)
   return json({error:'The live advisor is not configured.'},503);

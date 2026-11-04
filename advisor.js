@@ -1,7 +1,7 @@
 (async () => {
  const { advisorLocale, advisorSpeechLocale, advisorLanguageChangedMessage, requestedAdvisorLocale } = await import('./advisor-language.mjs');
- const { advisorCopy } = await import('./advisor-copy.mjs?v=20261104-discovery');
- const {installHandoff}=await import('./advisor-handoff.mjs?v=20261104-crm');
+ const { advisorCopy } = await import('./advisor-copy.mjs?v=20261104-chat-clean');
+ const {installHandoff}=await import('./advisor-handoff.mjs?v=20261104-chat-clean');
  const endpoint = window.ROI_ADVISOR_API_URL || '';
  const live = Boolean(endpoint);
  const language = advisorLocale(document.documentElement.lang);
@@ -195,7 +195,7 @@
    } else if(requestedLocale)reply=advisorLanguageChangedMessage(conversationLocale);
    else {const demo=await import('./advisor-demo.'+conversationLocale+'.mjs');reply=demo.demoReply(text,selectedContext);}
    if(replyArticle){replyArticle.querySelector('.advisor-streaming')?.remove();renderReply(replyArticle,reply);scrollLatest();}else addMessage('assistant',reply);
-   messages.push(...contextMessage,{role:'user',content:text},{role:'assistant',content:reply});pendingContext='';failedTurn=null;
+   dialog.classList.add('has-conversation');messages.push(...contextMessage,{role:'user',content:text},{role:'assistant',content:reply});pendingContext='';failedTurn=null;
    status.textContent=copy.complete;
    if(handoff.hasReceipt())void handoff.update();
    busy=false;if(mode==='voice'&&active)speak(reply);
