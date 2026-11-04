@@ -8,7 +8,8 @@ export async function createReceipt(data,secret){const encoded=btoa(unescape(enc
 export async function readReceipt(receipt,secret){try{if(typeof receipt!=='string'||receipt.length>4000)return null;const [encoded,sig,...extra]=receipt.split('.');if(extra.length||!sig||sig!==await receiptSignature(secret,encoded))return null;const data=JSON.parse(decodeURIComponent(escape(atob(encoded))));return data.exp>Date.now()?data:null;}catch{return null;}}
 export async function handleChatIntake(request,env={},fetcher=fetch){
  if(request.method!=='POST')return crmJson({error:'Method not allowed'},405);
- if(request.headers.get('origin')!==new URL(request.url).origin)return crmJson({error:'Origin not permitted'},403);
+ const origin=request.headers.get('origin'); const ownOrigin=new URL(request.url).origin;
+ if(!origin || (origin!==ownOrigin && !(origin==='https://www.headingsouth.ai' && ownOrigin==='https://headingsouth.ai')))return crmJson({error:'Origin not permitted'},403);
  if(!request.headers.get('content-type')?.startsWith('application/json'))return crmJson({error:'Expected JSON'},415);
  if(env.CALLBACK_ENABLED!=='true'||!env.CALLBACK_WEBHOOK_URL||!env.CALLBACK_WEBHOOK_TOKEN||!env.TURNSTILE_SECRET)return crmJson({error:'Contact handoff unavailable'},503);
  if(!env.allowCallbackRequest||!await env.allowCallbackRequest(request))return crmJson({error:'Please try again later'},429);

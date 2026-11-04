@@ -25,7 +25,16 @@ export default {async fetch(request,env,context){
  const path=new URL(request.url).pathname;
  const configured={...env,allowCallbackRequest:()=>withinRateLimit(request,context)};
  if(path==='/api/callback')return handleCallback(request,configured);
- if(path==='/api/callback/chat')return handleChatIntake(request,configured);
+ if(path==='/api/callback/chat'){
+  const origin=request.headers.get('Origin')||'';
+  const allowed=origin==='https://headingsouth.ai'||origin==='https://www.headingsouth.ai';
+  if(!allowed)return new Response('Origin not permitted',{status:403});
+  const headers={'Access-Control-Allow-Origin':origin,'Access-Control-Allow-Methods':'POST, OPTIONS','Access-Control-Allow-Headers':'Content-Type','Vary':'Origin'};
+  if(request.method==='OPTIONS')return new Response(null,{status:204,headers});
+  const result=await handleChatIntake(request,configured);const merged=new Headers(result.headers);
+  for(const [key,value] of Object.entries(headers))merged.set(key,value);
+  return new Response(result.body,{status:result.status,headers:merged});
+ }
  if(path==='/api/callback/post-call')return handlePostCall(request,configured);
  return new Response('Not found',{status:404});
 }};
