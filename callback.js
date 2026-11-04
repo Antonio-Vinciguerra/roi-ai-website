@@ -206,7 +206,7 @@ async function init() {
     returnFocus = trigger;
     setStatus('');
     dialog.showModal();
-    form.elements.name.focus();
+    if (!window.matchMedia('(max-width: 560px)').matches) form.elements.name.focus();
   });
 
   form.addEventListener('submit', async event => {
