@@ -45,7 +45,7 @@ export async function handleCallback(request, env = {}, fetcher = fetch) {
   if (!await verify(body.turnstileToken)) return json({ error: 'Verification failed' }, 403);
 
   const payload = {
-    schemaVersion: 1, source: 'headingsouth.ai', requestType: body.requestType, timing: body.timing,
+    schemaVersion: 1, source: 'headingsouth.ai', channel: 'voice', requestId: /^[a-zA-Z0-9_-]{8,80}$/.test(body.requestId || '') ? body.requestId : crypto.randomUUID(), requestType: body.requestType, timing: body.timing,
     scheduledFor: scheduledFor?.toISOString() || null, timezone: text(body.timezone, 100) || 'UTC', locale: body.locale,
     contact: { name, email, phone, company: text(body.company, 160) }, notes: text(body.notes, 1000),
     consent: { call: true, capturedAt: new Date().toISOString(), wordingVersion: 'callback-v1' },
@@ -55,9 +55,11 @@ export async function handleCallback(request, env = {}, fetcher = fetch) {
   try {
     const result = await fetcher(env.CALLBACK_WEBHOOK_URL, {
       method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${env.CALLBACK_WEBHOOK_TOKEN}` },
-      body: JSON.stringify(payload), signal: AbortSignal.timeout(10000),
+      body: JSON.stringify(payload), signal: AbortSignal.timeout(45000),
     });
     if (!result.ok) return json({ error: 'Callback request unavailable' }, 502);
+    const saved=await result.json();
+    if(saved.accepted!==true||!saved.contactId||!saved.dealId) return json({error:'Callback request was not confirmed'},502);
   } catch { return json({ error: 'Callback request unavailable' }, 502); }
   return json({ accepted: true }, 202);
 }
@@ -99,15 +101,19 @@ export async function handlePostCall(request, env = {}, fetcher = fetch, now = D
   const data = event.data;
   const analysis = data.analysis || {};
   const metadata = data.metadata || {};
+  const vars=data.conversation_initiation_client_data?.dynamic_variables || {};
   const payload = {
     schemaVersion: 1,
     source: 'elevenlabs',
+    requestId: text(vars.hs_request_id,80), locale: text(vars.journey_language,12),
+    crm: {contactId:text(String(vars.hs_contact_id||''),32),dealId:text(String(vars.hs_deal_id||''),32)},
+    transcript: Array.isArray(data.transcript)?data.transcript.filter(t=>['user','agent'].includes(t.role)&&typeof t.message==='string').slice(0,300).map(t=>({role:t.role,message:text(t.message,4000)})):[],
     type: event.type,
     eventTimestamp: event.event_timestamp || '',
     conversationId: data.conversation_id || '',
     agentId: data.agent_id || '',
     status: data.status || '',
-    userId: metadata.user_id || data.user_id || '',
+    userId: data.conversation_initiation_client_data?.user_id || metadata.user_id || data.user_id || '',
     phone: metadata.phone_call?.external_number || metadata.phone_number || '',
     transcriptSummary: analysis.transcript_summary || analysis.summary || '',
     callSuccessful: analysis.call_successful,
@@ -118,7 +124,7 @@ export async function handlePostCall(request, env = {}, fetcher = fetch, now = D
     const result = await fetcher(env.CALLBACK_POSTCALL_WEBHOOK_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${env.CALLBACK_WEBHOOK_TOKEN}` },
-      body: JSON.stringify(payload), signal: AbortSignal.timeout(10000),
+      body: JSON.stringify(payload), signal: AbortSignal.timeout(45000),
     });
     if (!result.ok) return json({ error: 'Post-call processing unavailable' }, 502);
   } catch { return json({ error: 'Post-call processing unavailable' }, 502); }

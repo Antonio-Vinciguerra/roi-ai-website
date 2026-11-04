@@ -176,6 +176,7 @@ async function init() {
   date.min = new Date().toISOString().slice(0, 10);
   let returnFocus = null;
   let token = '';
+  let requestId = crypto.randomUUID();
 
   const setStatus = (message, state = '') => { status.textContent = message; status.dataset.state = state; };
   const updateTiming = () => {
@@ -221,7 +222,7 @@ async function init() {
       setStatus(copy.unavailable, 'error'); return;
     }
     const payload = {
-      schemaVersion: 1, source: 'website', requestType: form.elements.requestType.value,
+      schemaVersion: 1, requestId, source: 'website', requestType: form.elements.requestType.value,
       timing: form.elements.timing.value, scheduledFor: scheduledAt?.toISOString() || null,
       timezone: timezone.value, locale: form.elements.callLanguage.value, name: safeText(form.elements.name.value, 120),
       email: safeText(form.elements.email.value, 160).toLowerCase(), phone: safeText(form.elements.phone.value, 32),
@@ -234,7 +235,7 @@ async function init() {
       const response = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
       if (response.status !== 202) throw new Error('callback request unavailable');
       setStatus(scheduled ? copy.scheduledSuccess : copy.nowSuccess, 'success');
-      form.reset(); form.elements.callLanguage.value = locale; updateTiming(); token = '';
+      requestId=crypto.randomUUID(); form.reset(); form.elements.callLanguage.value = locale; updateTiming(); token = '';
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({ event: 'hs_callback_requested', request_type: payload.requestType, timing: payload.timing, language: locale, call_language: payload.locale });
     } catch { setStatus(copy.failed, 'error'); }

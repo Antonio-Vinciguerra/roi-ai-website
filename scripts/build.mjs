@@ -47,7 +47,7 @@ await writeFile(resolve(out,'detail.html'),legacy);
 await writeFile(resolve(out,'legacy-route.js'),"const topic = new URLSearchParams(location.search).get('topic'); if ("+JSON.stringify(Object.keys(names))+".includes(topic)) location.replace(topic + '.html');");
 await writeFile(resolve(out,'404.html'), head('Page not found','Return to Heading South.')+'<main id="main" class="section"><p class="eyebrow">404 / A different direction</p><h1>Let’s find your<br>starting point.</h1><p><a class="text-link" href="index.html">Return to Heading South →</a></p></main>'+footer+scripts+'</body></html>');
 await copyFile(resolve(root,'privacy.html'),resolve(out,'privacy.html'));
-for (const file of ['scene-math.mjs','motion.css','motion.js','experience.css','experience.js','experience-data.mjs','experience-render.mjs','style.css','analytics.css','analytics.js','measurement.js','script.js','advisor.css','advisor.js','advisor-demo.mjs','advisor-language.mjs','advisor-copy.mjs','advisor-config.js','callback.css','callback.js']) await copyFile(resolve(root,file),resolve(out,file));
+for (const file of ['scene-math.mjs','motion.css','motion.js','experience.css','experience.js','experience-data.mjs','experience-render.mjs','style.css','analytics.css','analytics.js','measurement.js','script.js','advisor.css','advisor.js','advisor-demo.mjs','advisor-language.mjs','advisor-copy.mjs','advisor-handoff.mjs','advisor-config.js','callback.css','callback.js']) await copyFile(resolve(root,file),resolve(out,file));
 await mkdir(resolve(out,'assets/fonts'),{recursive:true});
 await copyFile(resolve(root,'narrative.css'),resolve(out,'narrative.css'));
 for (const file of ['reveal.css','reveal.js','reveal-timing.mjs','page-entry.css','page-entry.js','detail-hero.css','detail-hero.js']) await copyFile(resolve(root,file),resolve(out,file));
@@ -73,9 +73,9 @@ for (const file of await readdir(out)) {
  const path=resolve(out,file);
  let html=await readFile(path,'utf8');
  html=html
-  .replace(/href="(style|advisor|callback)\.css(?:\?[^\"]*)?"/g,(_,asset)=>`href="${asset}.css?v=20261104-discovery"`)
-  .replace(/src="(advisor(?:\.(?:en|es|fr|it|pt-BR))?\.js)(?:\?[^\"]*)?"/g,(_,asset)=>`src="${asset}?v=20261104-discovery"`)
-  .replace(/src="(callback\.js)(?:\?[^\"]*)?"/g,(_,asset)=>`src="${asset}?v=20261104-mobile-callback"`);
+  .replace(/href="(style|advisor|callback)\.css(?:\?[^\"]*)?"/g,(_,asset)=>`href="${asset}.css?v=20261104-crm"`)
+  .replace(/src="(advisor(?:\.(?:en|es|fr|it|pt-BR))?\.js)(?:\?[^\"]*)?"/g,(_,asset)=>`src="${asset}?v=20261104-crm"`)
+  .replace(/src="(callback\.js)(?:\?[^\"]*)?"/g,(_,asset)=>`src="${asset}?v=20261104-crm"`);
  await writeFile(path,html);
 }
 console.log('Built five language editions, indexable English, Italian, French, Spanish and Brazilian Portuguese routes, and accessible advisor. No server secrets included.');

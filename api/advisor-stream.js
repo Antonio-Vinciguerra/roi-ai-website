@@ -18,7 +18,7 @@ export function streamAdvisorResult(upstream, clientSignal) {
      text+=event.delta;if(text.length>12000)throw new Error('Output limit');
      emit({type:'delta',text:event.delta});
     }else if(event.type==='response.completed')completed=true;
-    else if(['error','response.failed','response.incomplete'].includes(event.type))throw new Error('Incomplete output');
+    else if(['error','response.failed','response.incomplete'].includes(event.type)){const code=event.code||event.error?.code||event.response?.error?.code;throw new Error(typeof code==='string'&&/^[a-z_]{1,80}$/.test(code)?'provider_'+code:event.type==='response.incomplete'?'provider_incomplete':'provider_error');}
    };
    clientSignal?.addEventListener('abort',cancel,{once:true});
    try{
@@ -35,8 +35,9 @@ export function streamAdvisorResult(upstream, clientSignal) {
      if(!completed||!text.trim())throw new Error('Missing completion');
      emit({type:'done'});
     }
-   }catch{
-    if(!aborted)emit({type:'error'});
+   }catch(error){
+    const code=['Missing completion','Output limit','Event limit','provider_incomplete','provider_error','insufficient_quota','rate_limit_exceeded','invalid_api_key','model_not_found','billing_hard_limit_reached'].includes(error.message)||/^provider_[a-z_]{1,80}$/.test(error.message)?error.message:'stream_read_error';
+    if(!aborted)emit({type:'error',code});
    }finally{
     clientSignal?.removeEventListener('abort',cancel);
     await reader.cancel().catch(()=>{});

@@ -44,7 +44,7 @@ export async function handleAdvisor(request, env = {}, fetcher = fetch) {
    body:JSON.stringify({model:env.OPENAI_MODEL,instructions:`${persona}\n\nAuthoritative Heading South knowledge base:\n${knowledgeBase}\n\nConversation language: Reply in ${supportedLocales[locale]}. Continue in that language unless the visitor explicitly asks you to change language. Keep the response professional, natural and concise.`,input:messages.map(({role,content})=>({role,content})),store:false,max_output_tokens:600,...(streaming?{stream:true}:{})}),
    signal:AbortSignal.timeout(20000)
   });
-  if(!result.ok)return json({error:'The advisor is temporarily unavailable.'},502);
+  if(!result.ok){let code='provider_unavailable';try{const problem=await result.json();if(['insufficient_quota','rate_limit_exceeded','invalid_api_key','model_not_found','billing_hard_limit_reached','invalid_request_error'].includes(problem.error?.code))code=problem.error.code;}catch{}return json({error:'The advisor is temporarily unavailable.',code},502);}
   if(streaming) return streamAdvisorResult(result,request.signal);
   const data=await result.json();
   const reply=(data.output||[]).filter(item=>item.type==='message').flatMap(item=>item.content||[]).filter(item=>item.type==='output_text').map(item=>item.text).join('\n').trim();

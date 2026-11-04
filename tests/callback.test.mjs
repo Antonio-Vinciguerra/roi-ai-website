@@ -25,7 +25,7 @@ test('callback endpoint forwards only validated consent-led payloads to the prot
     assert.equal(url, env.CALLBACK_WEBHOOK_URL);
     assert.equal(init.headers.Authorization, 'Bearer test-token');
     sent = JSON.parse(init.body);
-    return new Response(null, { status: 204 });
+    return Response.json({accepted:true,contactId:'123',dealId:'456'});
   });
   assert.equal(response.status, 202);
   assert.equal(sent.contact.email, 'alex@example.com');
@@ -41,6 +41,8 @@ test('scheduled callbacks must have a future time', async () => {
 test('post-call events require a fresh valid ElevenLabs HMAC and forward a minimised record', async () => {
   const raw = JSON.stringify({ type: 'post_call_transcription', event_timestamp: 123, data: {
     conversation_id: 'conv_1', agent_id: 'agent_1', status: 'done',
+    conversation_initiation_client_data:{user_id:'alex@example.com',dynamic_variables:{hs_request_id:'request-123',hs_contact_id:'123',hs_deal_id:'456',journey_language:'it'}},
+    transcript:[{role:'user',message:'I need help with follow-up.'},{role:'agent',message:'Which step takes the most time?'}],
     metadata: { user_id: 'alex@example.com', phone_call: { external_number: '+447700900123' } },
     analysis: { transcript_summary: 'Interested in a discovery call.', data_collection_results: { disposition: 'qualified' } },
   } });
@@ -55,12 +57,13 @@ test('post-call events require a fresh valid ElevenLabs HMAC and forward a minim
     assert.equal(url, 'https://n8n.example/webhook/post-call');
     assert.equal(init.headers.Authorization, 'Bearer post-token');
     sent = JSON.parse(init.body);
-    return new Response(null, { status: 204 });
+    return Response.json({accepted:true,contactId:'123',dealId:'456'});
   });
   assert.equal(response.status, 200);
   assert.equal(sent.userId, 'alex@example.com');
   assert.equal(sent.transcriptSummary, 'Interested in a discovery call.');
   assert.equal(sent.conversationId, 'conv_1');
+  assert.equal(sent.crm.dealId,'456');assert.equal(sent.transcript.length,2);assert.equal(sent.locale,'it');
 });
 
 test('post-call events reject invalid signatures', async () => {

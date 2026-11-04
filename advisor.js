@@ -1,6 +1,7 @@
 (async () => {
  const { advisorLocale, advisorSpeechLocale, advisorLanguageChangedMessage, requestedAdvisorLocale } = await import('./advisor-language.mjs');
  const { advisorCopy } = await import('./advisor-copy.mjs?v=20261104-discovery');
+ const {installHandoff}=await import('./advisor-handoff.mjs?v=20261104-crm');
  const endpoint = window.ROI_ADVISOR_API_URL || '';
  const live = Boolean(endpoint);
  const language = advisorLocale(document.documentElement.lang);
@@ -68,6 +69,7 @@
  latest.addEventListener('click',()=>{followLatest=true;scrollLatest();});
  stopButton.addEventListener('click',()=>{stopRequested=true;controller?.abort();});
  retryButton.addEventListener('click',()=>{if(failedTurn)void send(failedTurn.text);});
+ const handoff=installHandoff(dialog,{language,getMessages:()=>messages,getLocale:()=>conversationLocale});
  addMessage('assistant',live ? copy.greeting : 'Hello—good to meet you. This is a guided demo, not a live assistant.');
 
  function stopVoice() {
@@ -194,6 +196,7 @@
    if(replyArticle){replyArticle.querySelector('.advisor-streaming')?.remove();renderReply(replyArticle,reply);scrollLatest();}else addMessage('assistant',reply);
    messages.push(...contextMessage,{role:'user',content:text},{role:'assistant',content:reply});pendingContext='';failedTurn=null;
    status.textContent=copy.complete;
+   if(handoff.hasReceipt())void handoff.update();
    busy=false;if(mode==='voice'&&active)speak(reply);
   } catch(error) {
    if(replyArticle)replyArticle.remove();
