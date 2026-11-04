@@ -176,6 +176,7 @@ async function init() {
   date.min = new Date().toISOString().slice(0, 10);
   let returnFocus = null;
   let token = '';
+  let verificationWidget = null;
   let requestId = crypto.randomUUID();
 
   const setStatus = (message, state = '') => { status.textContent = message; status.dataset.state = state; };
@@ -193,7 +194,7 @@ async function init() {
   dialog.addEventListener('close', () => returnFocus?.focus());
 
   if (await loadTurnstile()) {
-    window.turnstile.render(dialog.querySelector('.callback-turnstile'), {
+    verificationWidget = window.turnstile.render(dialog.querySelector('.callback-turnstile'), {
       sitekey: turnstileSiteKey,
       callback: value => { token = value; },
       'expired-callback': () => { token = ''; },
@@ -239,7 +240,12 @@ async function init() {
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({ event: 'hs_callback_requested', request_type: payload.requestType, timing: payload.timing, language: locale, call_language: payload.locale });
     } catch { setStatus(copy.failed, 'error'); }
-    finally { submit.disabled = false; }
+    finally {
+      // Tokens are single-use even when the downstream workflow fails.
+      token = '';
+      if (verificationWidget !== null) window.turnstile?.reset(verificationWidget);
+      submit.disabled = false;
+    }
   });
 }
 
