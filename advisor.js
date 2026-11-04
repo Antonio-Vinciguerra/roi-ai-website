@@ -169,6 +169,10 @@
      if(!response.ok)throw new Error('Advisor unavailable');
      if(response.headers.get('content-type')?.includes('application/x-ndjson')){
       const reader=response.body.getReader(),decoder=new TextDecoder();let buffer='',complete=false;
+      let shown=0, frame=null, lastTime=performance.now();
+      const reducedMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const animate=now=>{frame=null;const elapsed=Math.min(now-lastTime,100);lastTime=now;shown=Math.min(reply.length,shown+Math.max(1,elapsed*.075));const paragraph=replyArticle?.querySelector('.advisor-streaming');if(paragraph)paragraph.textContent=reply.slice(0,Math.floor(shown)).replace(/\*\*/g,'');if(shown<reply.length){scrollLatest();frame=requestAnimationFrame(animate);}};
+      const pace=()=>{if(reducedMotion){shown=reply.length;const p=replyArticle?.querySelector('.advisor-streaming');if(p)p.textContent=reply.replace(/\*\*/g,'');return;}if(frame===null){lastTime=performance.now();frame=requestAnimationFrame(animate);}};
       const processLine=line=>{
        if(!line.trim())return;
        const event=JSON.parse(line);
@@ -180,12 +184,16 @@
        if(!replyArticle)replyArticle=addMessage('assistant','');
        let paragraph=replyArticle.querySelector('.advisor-streaming');
        if(!paragraph){paragraph=document.createElement('div');paragraph.className='advisor-streaming';replyArticle.append(paragraph);}
-       paragraph.textContent=reply.replace(/\*\*/g,'');scrollLatest();
+       pace();
       };
       try{
        while(true){const {value,done}=await reader.read();buffer+=decoder.decode(value||new Uint8Array(),{stream:!done});let boundary;while((boundary=buffer.indexOf('\n'))!==-1){processLine(buffer.slice(0,boundary));buffer=buffer.slice(boundary+1);}if(done){if(buffer.trim())processLine(buffer);break;}}
       }finally{await reader.cancel().catch(()=>{});}
-      if(!complete)throw new Error('Missing completion');
+      if(!complete){if(frame!==null)cancelAnimationFrame(frame);throw new Error('Missing completion');}
+      clearTimeout(timeout);
+      while(shown<reply.length && !controller?.signal.aborted)await new Promise(resolve=>setTimeout(resolve,40));
+      if(frame!==null)cancelAnimationFrame(frame);
+      if(controller?.signal.aborted)throw new Error('Response stopped');
      }else{
       // Compatible with the previous backend during an atomic rolling release.
       const body=await response.json();reply=body.reply;
