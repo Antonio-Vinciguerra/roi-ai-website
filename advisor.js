@@ -70,7 +70,26 @@
  stopButton.addEventListener('click',()=>{stopRequested=true;controller?.abort();});
  retryButton.addEventListener('click',()=>{if(failedTurn)void send(failedTurn.text);});
  const handoff=installHandoff(dialog,{language,getMessages:()=>messages,getLocale:()=>conversationLocale});
- addMessage('assistant',live ? copy.greeting : 'Hello—good to meet you. This is a guided demo, not a live assistant.');
+ const greeting=live ? copy.greeting : 'Hello—good to meet you. This is a guided demo, not a live assistant.';
+ let greetingStarted=false,greetingComplete=false,greetingTimer=null,greetingArticle=null;
+ function finishGreeting(){
+  if(!greetingStarted||greetingComplete)return;
+  clearTimeout(greetingTimer);greetingComplete=true;pending.hidden=true;
+  if(!greetingArticle)greetingArticle=addMessage('assistant','');
+  greetingArticle.querySelector('.advisor-streaming')?.remove();
+  renderReply(greetingArticle,greeting);scrollLatest();
+ }
+ function startGreeting(){
+  if(greetingStarted)return;
+  greetingStarted=true;pending.hidden=false;
+  greetingTimer=setTimeout(()=>{
+   pending.hidden=true;greetingArticle=addMessage('assistant','');
+   const text=document.createElement('div');text.className='advisor-streaming';greetingArticle.append(text);
+   if(matchMedia('(prefers-reduced-motion: reduce)').matches){finishGreeting();return;}
+   let position=0;const type=()=>{position++;text.textContent=greeting.slice(0,position);scrollLatest();if(position<greeting.length)greetingTimer=setTimeout(type,40);else finishGreeting();};type();
+  },700);
+ }
+
 
  function stopVoice() {
   active=false;speaking=false;
@@ -97,13 +116,13 @@
 
    $('.advisor-prompts').hidden=true;
   }
-  dialog.show();(matchMedia('(pointer:coarse)').matches?$('.advisor-close'):(mode==='chat'?input:voiceButton)).focus();
+  dialog.show();startGreeting();(matchMedia('(pointer:coarse)').matches?$('.advisor-close'):(mode==='chat'?input:voiceButton)).focus();
  };
  launcher.addEventListener('click',()=>open(launcher));
  document.addEventListener('click',event=>{const button=event.target.closest('[data-advisor-open]');if(button)open(button);});
  $('.advisor-close').addEventListener('click',()=>dialog.close());
  dialog.addEventListener('click',event=>{if(event.target===dialog){const r=dialog.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)dialog.close();}});
- dialog.addEventListener('close',()=>{stopVoice();controller?.abort();status.textContent='';returnFocus?.focus();});
+ dialog.addEventListener('close',()=>{finishGreeting();stopVoice();controller?.abort();status.textContent='';returnFocus?.focus();});
  addEventListener('pagehide',()=>{stopVoice();controller?.abort();});
  function listen() {
   if(!active||!dialog.open||busy||speaking)return;
@@ -147,6 +166,7 @@
  });
  async function send(raw) {
   const text=raw.trim().slice(0,2000);if(!text||busy)return;
+  finishGreeting();
   const retry=failedTurn?.text===text;
   busy=true;stopRequested=false;$('.advisor-send').disabled=true;$('.advisor-prompts').hidden=true;retryButton.hidden=true;
   recognition?.abort();recognition=null;
