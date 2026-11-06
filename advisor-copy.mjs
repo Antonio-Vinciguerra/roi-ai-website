@@ -1,6 +1,7 @@
+
 export const advisorCopy = {
  "en": {
-  "greeting": "Hello. I’m Heading South’s AI assistant. We help businesses put AI to practical use, alongside expertise in business, international growth and finance. What would you like help with in your business?",
+  "greeting": "Hello, I’m Heading South’s AI assistant. I’m here to help you explore how we could support your business. How can we help you today?",
   "thinking": "Preparing a reply",
   "stop": "Stop response",
   "stopped": "Response stopped. You can continue when you’re ready.",
@@ -14,7 +15,7 @@ export const advisorCopy = {
   "foot": "AI assistant · Please don’t share confidential information."
  },
  "it": {
-  "greeting": "Buongiorno, sono l’assistente AI di Heading South. Aiutiamo le imprese a mettere a frutto l’AI, affiancando competenze di business, sviluppo internazionale e finanza. Su cosa vorrebbe un aiuto per la sua attività?",
+  "greeting": "Buongiorno, sono l’assistente AI di Heading South. Sono qui per aiutarla a capire come possiamo supportare la sua attività. Come possiamo esserle utili oggi?",
   "thinking": "Sto preparando una risposta",
   "stop": "Interrompi la risposta",
   "stopped": "Risposta interrotta. Può continuare quando desidera.",
@@ -28,7 +29,7 @@ export const advisorCopy = {
   "foot": "Assistente AI · Non condivida informazioni riservate."
  },
  "fr": {
-  "greeting": "Bonjour, je suis l’assistant IA de Heading South. Nous aidons les entreprises à utiliser concrètement l’IA, avec un appui en développement d’entreprise, à l’international et en finance. Sur quel sujet souhaiteriez-vous être accompagné ?",
+  "greeting": "Bonjour, je suis l’assistant IA de Heading South. Je suis là pour vous aider à découvrir comment nous pouvons accompagner votre activité. Comment pouvons-nous vous aider aujourd’hui ?",
   "thinking": "Préparation de la réponse",
   "stop": "Arrêter la réponse",
   "stopped": "Réponse interrompue. Vous pouvez continuer quand vous le souhaitez.",
@@ -42,7 +43,7 @@ export const advisorCopy = {
   "foot": "Assistant IA · Ne partagez pas d’informations confidentielles."
  },
  "es": {
-  "greeting": "Hola, soy el asistente de IA de Heading South. Ayudamos a las empresas a aplicar la IA, con apoyo especializado en desarrollo empresarial, expansión internacional y finanzas. ¿En qué aspecto de su negocio le gustaría recibir ayuda?",
+  "greeting": "Hola, soy el asistente de IA de Heading South. Estoy aquí para ayudarle a descubrir cómo podemos apoyar su negocio. ¿En qué podemos ayudarle hoy?",
   "thinking": "Preparando una respuesta",
   "stop": "Detener la respuesta",
   "stopped": "Respuesta detenida. Puede continuar cuando quiera.",
@@ -56,7 +57,7 @@ export const advisorCopy = {
   "foot": "Asistente de IA · No comparta información confidencial."
  },
  "pt-BR": {
-  "greeting": "Olá, sou o assistente de IA da Heading South. Ajudamos empresas a aplicar a IA, com apoio especializado em negócios, expansão internacional e finanças. Em que aspecto do seu negócio você gostaria de receber ajuda?",
+  "greeting": "Olá, sou o assistente de IA da Heading South. Estou aqui para ajudar você a descobrir como podemos apoiar seu negócio. Como podemos ajudar hoje?",
   "thinking": "Preparando uma resposta",
   "stop": "Parar a resposta",
   "stopped": "Resposta interrompida. Você pode continuar quando quiser.",
